@@ -1,0 +1,215 @@
+/* Small circles animations */
+.sm-circle-one {
+    animation: sm-circle-one 2s infinite;
+}
+
+@keyframes sm-circle-one {
+
+    0%,
+    100% {
+        transform: rotate(100deg);
+    }
+
+    50% {
+        transform: rotate(190deg);
+    }
+}
+
+.sm-circle-two {
+    animation: sm-circle-two 2s infinite;
+}
+
+@keyframes sm-circle-two {
+
+    0%,
+    100% {
+        transform: rotate(120deg);
+    }
+
+    50% {
+        transform: rotate(200deg);
+    }
+}
+
+/* DecorationElementUsers - lines and cart animations */
+.user-blue-line-one {
+    animation: user-blue-line-one 2s infinite;
+}
+
+@keyframes user-blue-line-one {
+
+    0%,
+    100% {
+        width: 30%;
+    }
+
+    50% {
+        width: 50%;
+    }
+}
+
+.user-blue-line-two {
+    animation: user-blue-line-two 2s infinite;
+}
+
+@keyframes user-blue-line-two {
+
+    0%,
+    100% {
+        width: 45%;
+    }
+
+    50% {
+        width: 33%;
+    }
+}
+
+.user-blue-line-three {
+    animation: user-blue-line-three 2s infinite;
+}
+
+@keyframes user-blue-line-three {
+
+    0%,
+    100% {
+        width: 48%;
+    }
+
+    50% {
+        width: 85%;
+    }
+}
+
+.cart {
+    animation: cart 2s infinite;
+
+}
+
+@keyframes cart {
+
+    0%,
+    100% {
+        rotate: -7deg;
+        scale: 1;
+    }
+
+    50% {
+        rotate: 10deg;
+        scale: 1.09;
+    }
+}
+
+/* DecorationElementCalendar - lines and chart animations */
+.calendar-white-line-one {
+    animation: calendar-white-line-one 2s infinite;
+}
+
+@keyframes calendar-white-line-one {
+
+    0%,
+    100% {
+        width: 50%;
+    }
+
+    50% {
+        width: 100%;
+    }
+}
+
+.calendar-white-line-two {
+    animation: calendar-white-line-two 2s infinite;
+}
+
+@keyframes calendar-white-line-two {
+
+    0%,
+    100% {
+        width: 25%;
+    }
+
+    50% {
+        width: 50%;
+    }
+}
+
+.calendar-chart {
+    animation: calendar-chart 2s infinite;
+}
+
+@keyframes calendar-chart {
+
+    0%,
+    100% {
+        transform: scaleY(1.4);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+/* DecorationElementLevel - level animation */
+.level {
+    animation: level 2s infinite;
+}
+
+@keyframes level {
+
+    0%,
+    100% {
+        transform: scaleY(1.2);
+    }
+
+    50% {
+        transform: scaleY(0.9);
+    }
+}
+
+/* DecorationElementWeek - lines animation */
+.week-line-one {
+    animation: week-line-one 2s ease-in infinite;
+}
+
+@keyframes week-line-one {
+
+    0%,
+    100% {
+        height: 50%;
+    }
+
+    50% {
+        height: 70%;
+    }
+}
+
+.week-line-two {
+    animation: week-line-two 2s ease-in infinite;
+}
+
+@keyframes week-line-two {
+
+    0%,
+    100% {
+        height: 40%;
+    }
+
+    50% {
+        height: 75%;
+    }
+}
+
+.week-line-three {
+    animation: week-line-three 2s ease-in infinite;
+}
+
+@keyframes week-line-three {
+
+    0%,
+    100% {
+        height: 60%;
+    }
+
+    50% {
+        height: 75%;
+    }
+}

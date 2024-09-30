@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-size: 16px;
+}
+
+@layer components {
+
+    /* Scrollbar styles */
+    .hide-scrollbar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        /* Internet Explorer 10+ */
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+        /* Safari and Chrome */
+    }
+
+    /* Scroll-bar settings*/
+    ::-webkit-scrollbar {
+        width: 5px;
+        border-radius: 50%;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: #AEB1BA20;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #AEB1BA40;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #AEB1BA50;
+    }
+
+    .fade-bottom {
+        position: relative;
+    }
+
+    .fade-bottom::after {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 20px;
+        background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
+        pointer-events: none;
+    }
+
+    /* The typing effect */
+    .cursor {
+        display: inline-block;
+        color: #3372F9;
+        font-size: 45px;
+        animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+    }
+
+    .typewriter-wrapper div {
+        display: inline;
+    }
+
+    /* Loader animations */
+    .loader-left {
+        animation: loader-left-spin 2s infinite;
+    }
+
+    @keyframes loader-left-spin {
+
+        0% {
+            transform: rotateZ(0);
+            left: 0;
+        }
+
+        33% {
+            transform: rotateZ(-180deg);
+            left: 0;
+        }
+
+        66% {
+            transform: rotateZ(-270deg);
+            left: 55%;
+        }
+
+        100% {
+            transform: rotateZ(-360deg);
+            left: 0;
+        }
+    }
+
+    .loader-right {
+        animation: loader-right-spin 2s infinite;
+    }
+
+    @keyframes loader-right-spin {
+        0% {
+            transform: rotateZ(0);
+            opacity: 1;
+        }
+
+        33% {
+            transform: rotateZ(-70deg);
+            opacity: 1;
+        }
+
+        53% {
+            opacity: 0;
+        }
+
+        66% {
+            transform: rotateZ(-180deg);
+            opacity: 0;
+        }
+
+        86% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: rotateZ(-360deg);
+        }
+    }
+
+    .loader-right-opacity {
+        animation: loader-right-opacity 2s infinite;
+    }
+
+    @keyframes loader-right-opacity {
+        0% {
+            transform: rotateZ(0);
+            opacity: 0;
+        }
+
+        33% {
+            transform: rotateZ(-70deg);
+            opacity: 0;
+        }
+
+        53% {
+            opacity: 1;
+        }
+
+        66% {
+            transform: rotateZ(-180deg);
+            opacity: 1;
+        }
+
+        86% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 0;
+            transform: rotateZ(-360deg);
+        }
+    }
+}
