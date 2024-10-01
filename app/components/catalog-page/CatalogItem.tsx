@@ -25,12 +25,10 @@ export default function CatalogItem({ productItem }: IProps) {
             collection,
             color,
             composition,
-            darkness,
             description,
             fabric_texture,
             roll_width,
             tape_width,
-            system,
             transparency,
             warranty,
             water_resistance
