@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { DropdownFilterMultiple } from "../ui/catalog-filters/DropdownFilterMultiple"
 import { DropdownFilterSingle } from "../ui/catalog-filters/DropdownFilterSingle"
-import { FilterByLevelPrice, PriceOrder } from "../ui/catalog-filters/FilterByLevelPrice"
+import { PriceOrder } from "../ui/catalog-filters/FilterByLevelPrice"
 import { IFilterOption } from "@/app/lib/types"
 
 interface IProps {
@@ -62,7 +62,9 @@ export function Filters({ filterOptions, filtersHandler, sortByPriceHandler }: I
                     )
                 }
             })}
-            <FilterByLevelPrice sortByPriceHandler={sortByPriceHandler} />
+
+            {/* TO DO - price filter */}
+            {/* <FilterByLevelPrice sortByPriceHandler={sortByPriceHandler} /> */}
         </div>
     )
 }

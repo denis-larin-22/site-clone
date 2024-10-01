@@ -17,26 +17,20 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
             const productItem: IProductItem = {
                 id: item.id,
                 name: item.name,
-                description: item.description,
-                price_1: item.price_1,
-                price_2: item.price_2,
-                price_3: item.price_3,
-                price_4: item.price_4,
-                price_5: item.price_5,
-                primary_price_index: item.primary_price_index,
-                promo_offer: item.promo_offer,
+                category_id: item.category_id,
                 availability: item.availability,
-                stock_quantity: item.stock_quantity,
+                price: {
+                    price_1: item.price.price_1,
+                    price_2: item.price.price_2,
+                    price_3: item.price.price_3,
+                    price_4: item.price.price_4,
+                    price_5: item.price.price_5,
+                    sale_tk: item.price.sale_tk
+                },
                 category: {
                     id: item.category.id,
                     name: item.category.name
                 },
-                collection_id: item.collection_id,
-                design_id: item.design_id,
-                transparency_id: item.transparency_id,
-                color_id: item.color_id,
-                discount_id: item.discount_id,
-                availability_id: item.availability_id,
                 images_url: [
                     item.image.image_url_1 ? formatImagePathFromApi(item.image.image_url_1) : null,
                     item.image.image_url_2 ? formatImagePathFromApi(item.image.image_url_2) : null,
@@ -44,95 +38,26 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
                     item.image.image_url_4 ? formatImagePathFromApi(item.image.image_url_4) : null,
                 ],
                 technical_info: {
-                    collection: item.technical_info.collection,
-                    color: item.technical_info.color,
-                    composition: item.technical_info.composition,
-                    darkness: item.technical_info.darkness,
-                    description: item.technical_info.description,
+                    name: item.technical_info.name,
+                    blackout: item.technical_info.blackout,
+                    water_resistance: item.technical_info.water_resistance,
                     fabric_texture: item.technical_info.fabric_texture,
+                    composition: item.technical_info.composition,
+                    warranty: item.technical_info.warranty,
                     roll_width: item.technical_info.roll_width,
                     tape_width: item.technical_info.tape_width,
-                    system: item.technical_info.system,
+                    collection: item.technical_info.collection,
                     transparency: item.technical_info.transparency,
-                    warranty: item.technical_info.warranty,
-                    water_resistance: item.technical_info.water_resistance
+                    color: item.technical_info.color,
+                    description: item.technical_info.description,
+                    max_width: item.technical_info.max_width,
+                    max_height: item.technical_info.max_height,
+                    max_area: item.technical_info.max_area,
                 }
             };
 
             return productItem;
         });
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return [];
-    }
-}
-
-// Filters
-export async function fetchColors(): Promise<IColor[]> {
-    try {
-        const response = await fetch(`${BASE_URL}api/cms/jaluji/colors`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status} `);
-        }
-        const data = await response.json();
-        return data.map((item: any) => ({
-            id: item.id,
-            name: item.name
-        }))
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return [];
-    }
-}
-
-// Designs
-export async function fetchDesigns(): Promise<IDesign[]> {
-    try {
-        const response = await fetch(`${BASE_URL}api/cms/jaluji/designs`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status} `);
-        }
-        const data = await response.json();
-        return data.map((item: any) => ({
-            id: item.id,
-            name: item.name
-        }))
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return [];
-    }
-}
-
-// Transparencies
-export async function fetchTransparencies(): Promise<IDesign[]> {
-    try {
-        const response = await fetch(`${BASE_URL}api/cms/jaluji/transparencies`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status} `);
-        }
-        const data = await response.json();
-        return data.map((item: any) => ({
-            id: item.id,
-            name: item.name
-        }))
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return [];
-    }
-}
-
-// Collections
-export async function fetchCollections(): Promise<IDesign[]> {
-    try {
-        const response = await fetch(`${BASE_URL}api/cms/jaluji/collections`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status} `);
-        }
-        const data = await response.json();
-        return data.map((item: any) => ({
-            id: item.id,
-            name: item.name
-        }))
     } catch (error) {
         console.error('Error fetching data:', error);
         return [];
@@ -155,4 +80,78 @@ export async function fetchCategories(): Promise<ICategory[]> {
         console.error('Error fetching data:', error);
         return [];
     }
-}
+};
+
+
+// OLD API
+// Filters
+// export async function fetchColors(): Promise<IColor[]> {
+//     try {
+//         const response = await fetch(`${BASE_URL}api/cms/jaluji/colors`);
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status} `);
+//         }
+//         const data = await response.json();
+//         return data.map((item: any) => ({
+//             id: item.id,
+//             name: item.name
+//         }))
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//         return [];
+//     }
+// }
+
+// // Designs
+// export async function fetchDesigns(): Promise<IDesign[]> {
+//     try {
+//         const response = await fetch(`${BASE_URL}api/cms/jaluji/designs`);
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status} `);
+//         }
+//         const data = await response.json();
+//         return data.map((item: any) => ({
+//             id: item.id,
+//             name: item.name
+//         }))
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//         return [];
+//     }
+// }
+
+// // Transparencies
+// export async function fetchTransparencies(): Promise<IDesign[]> {
+//     try {
+//         const response = await fetch(`${BASE_URL}api/cms/jaluji/transparencies`);
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status} `);
+//         }
+//         const data = await response.json();
+//         return data.map((item: any) => ({
+//             id: item.id,
+//             name: item.name
+//         }))
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//         return [];
+//     }
+// }
+
+// // Collections
+// export async function fetchCollections(): Promise<IDesign[]> {
+//     try {
+//         const response = await fetch(`${BASE_URL}api/cms/jaluji/collections`);
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status} `);
+//         }
+//         const data = await response.json();
+//         return data.map((item: any) => ({
+//             id: item.id,
+//             name: item.name
+//         }))
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//         return [];
+//     }
+// }

@@ -3,29 +3,67 @@ type NumberOrNull = number | null;
 
 // Product item from catalog
 export interface IProductItem {
+    // id: number,
+    // name: string,
+    // description: StringOrNull,
+    // category_id: number,
+    // price: {
+    //     price_1: StringOrNull,
+    //     price_2: StringOrNull,
+    //     price_3: StringOrNull,
+    //     price_4: StringOrNull,
+    //     price_5: StringOrNull,
+    //     sale_tk: StringOrNull
+    // },
+    // primary_price_index: number,
+    // promo_offer: number,
+    // availability: string,
+    // stock_quantity: string,
+    // category: ICategory,
+    // collection_id: NumberOrNull,
+    // design_id: NumberOrNull,
+    // transparency_id: NumberOrNull,
+    // // color_id: NumberOrNull,
+    // discount_id: NumberOrNull,
+    // availability_id: NumberOrNull,
+    // technical_info: ITechnicalInfo
+    // // image_url: StringOrNull
+    // images_url: Array<string | null>
+    // 
     id: number,
     name: string,
-    description: StringOrNull,
-    // price: number,
-    price_1: StringOrNull,
-    price_2: StringOrNull,
-    price_3: StringOrNull,
-    price_4: StringOrNull,
-    price_5: StringOrNull,
-    primary_price_index: number,
-    promo_offer: number,
+    category_id: number,
     availability: string,
-    stock_quantity: string,
-    category: ICategory,
-    collection_id: NumberOrNull,
-    design_id: NumberOrNull,
-    transparency_id: NumberOrNull,
-    color_id: NumberOrNull,
-    discount_id: NumberOrNull,
-    availability_id: NumberOrNull,
-    technical_info: ITechnicalInfo
-    // image_url: StringOrNull
-    images_url: Array<string | null>
+    price: {
+        price_1: StringOrNull,
+        price_2: StringOrNull,
+        price_3: StringOrNull,
+        price_4: StringOrNull,
+        price_5: StringOrNull,
+        sale_tk: StringOrNull
+    },
+    category: {
+        id: number,
+        name: string
+    },
+    images_url: Array<string | null>,
+    technical_info: {
+        name: string,
+        blackout: StringOrNull,
+        water_resistance: StringOrNull
+        fabric_texture: StringOrNull,
+        composition: StringOrNull,
+        warranty: StringOrNull,
+        roll_width: NumberOrNull,
+        tape_width: NumberOrNull,
+        collection: StringOrNull,
+        transparency: StringOrNull,
+        color: StringOrNull,
+        description: StringOrNull,
+        max_width: NumberOrNull,
+        max_height: NumberOrNull,
+        max_area: NumberOrNull,
+    }
 }
 // Product attributes
 export interface ITechnicalInfo {

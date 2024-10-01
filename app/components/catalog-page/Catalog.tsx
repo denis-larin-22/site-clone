@@ -50,7 +50,7 @@ export default function Catalog() {
             // Fetch data (product list, category list, filters list)
             const listProduct = await fetchProductsList();
             const categoriesList = await fetchCategories();
-            const optionsFilter = await getFilterOptions();
+            const optionsFilter = getFilterOptions(listProduct);
 
             // Filters collection
             const activeFilters: IActiveFilters = optionsFilter
@@ -83,16 +83,17 @@ export default function Catalog() {
         const activeCategory = activeCategoryId ?? categories.activeCategory; // Return null if activeCategoryId = undefined and categories.activeCategory = null
 
         // Search for matches of product attributes with corresponding values ​​of activeFilters attributes
-        const { color, design, transparency, collection } = activeFilters;
+        const { color, collection, transparency, price } = activeFilters;
         const updatedList = productList.initList.filter((product) => {
-            const categoryMatch = activeCategory === null || product.category.id === activeCategory;
-            const colorMatch = color.length === 0 || color.includes(product.color_id);
-            const designMatch = design.length === 0 || design.includes(product.design_id);
-            const transparencyMatch = transparency.length === 0 || transparency.includes(product.transparency_id);
-            const collectionMatch = collection.length === 0 || collection.includes(product.collection_id);
+            const categoryMatch = activeCategory === null || product.category_id === activeCategory;
+            const colorMatch = color.length === 0 || color.includes(product.technical_info.color);
+            // const designMatch = design.length === 0 || design.includes(product.design_id); - TO DO
+            const transparencyMatch = transparency.length === 0 || transparency.includes(product.technical_info.transparency);
+            const collectionMatch = collection.length === 0 || collection.includes(product.technical_info.collection);
 
             // The product does not pass filtration if there is at least one "false" match values!
-            return categoryMatch && colorMatch && designMatch && transparencyMatch && collectionMatch;
+            // return categoryMatch && colorMatch && designMatch && transparencyMatch && collectionMatch; - init all filters
+            return categoryMatch && colorMatch && transparencyMatch && collectionMatch;
         });
 
         setProductList({ ...productList, listToRender: updatedList });
@@ -139,6 +140,7 @@ export default function Catalog() {
         }
     };
 
+    // TO_DO
     // function sortByPriceHandler(order: PriceOrder) {
     //     if (order === 'fromLower') {
     //         const sortedProductList = productList.listToRender.sort((a, b) => a.price - b.price);
