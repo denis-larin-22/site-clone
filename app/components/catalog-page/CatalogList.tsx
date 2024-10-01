@@ -28,7 +28,7 @@ export default function CatalogList({ listToRender, className }: IProps) {
 
     return (
         <div>
-            <ul className={`w-full -mt-[420px] px-0 tablet:px-10 pb-28 mobile:pb-0 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className ? className : ''}`}>
+            <ul className={`w-full -mt-[420px] px-0 tablet:px-10 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className ? className : ''}`}>
                 {currentItems.map((product) => (
                     <li key={product.id}>
                         <CatalogItem productItem={product} />
@@ -36,7 +36,7 @@ export default function CatalogList({ listToRender, className }: IProps) {
                 ))}
             </ul>
 
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center mt-4 mb-24 mobile:mb-0 w-full">
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
                         key={index}
