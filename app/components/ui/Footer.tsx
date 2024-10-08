@@ -27,7 +27,7 @@ export default function Footer() {
     return (
         <footer className={openSansFont.className + " container mobile:px-[57px] py-5 border-t-1 border-[#A2A2A8] text-[#A2A2A8]"}>
             <div className="flex items-center justify-between">
-                <p>© 2024 ТПК Піраміда</p>
+                <p>© 2024 ТОВ Пірамідспейс</p>
                 <ul className="flex gap-x-3">
                     {
                         linksList.map((item, index) => (
@@ -48,6 +48,8 @@ export default function Footer() {
                     <a href={`tel:${number}`} key={index} className="lg:hover:text-t-blue duration-150">{number}</a>
                 ))}
             </div>
+
+            <p className="mt-3.5">Україна, Харківська обл., м.Златопіль</p>
         </footer>
     )
 }

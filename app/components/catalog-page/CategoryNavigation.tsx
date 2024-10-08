@@ -145,7 +145,7 @@ function getCategoryIconSrc(category: string): string {
     let iconSrc = "";
     switch (category) {
         case "Day Night":
-        case "День Ніч":
+        case "День-Ніч":
             iconSrc = "/assets/images/categories-icons/day-night.svg";
             break;
         case "Rollo":

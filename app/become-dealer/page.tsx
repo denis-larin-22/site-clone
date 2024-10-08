@@ -2,17 +2,19 @@ import { Metadata } from "next";
 import Footer from "../components/ui/Footer";
 import Header from "../components/ui/Header";
 import BecomeDealer from "./BecomeDealer";
+import { metaTagsValues } from "../lib/seo/meta-tags-values";
 
 export const metadata: Metadata = {
     title: 'Стати дилером | Piramid | Пирамида ТПК',
-    description: 'Стати дилером, Пирамида ТПК',
+    description: 'Стати дилером, ' + metaTagsValues.shop_name,
     openGraph: {
         title: 'Стати дилером | Piramid',
         description: 'Стати дилером, Пирамида ТПК',
         type: 'website',
         locale: 'uk_UA',
-        url: '',
-        siteName: 'Piramid | Пирамида ТПК'
+        url: 'https://piramidspace.com/',
+        siteName: 'Piramid | Пирамида ТПК',
+        phoneNumbers: metaTagsValues.config_telephone
     }
 };
 

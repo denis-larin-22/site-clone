@@ -21,6 +21,7 @@ export default function CatalogItem({ productItem }: IProps) {
         name,
         images_url,
         availability,
+        category,
         technical_info: {
             collection,
             color,
@@ -59,7 +60,7 @@ export default function CatalogItem({ productItem }: IProps) {
                 className="group relative inline-flex w-full mobile:w-[282px] h-[231px] mobile:h-[381px] rounded-xl overflow-hidden mobile:hover:ring-4 ring-offset-4 ring-t-blue/40 duration-400"
             >
                 <Image
-                    alt={`Зображення товару ${name}`}
+                    alt={`Зображення товару ${name} із категорії ${category}`}
                     src={images_url[0] !== null ? images_url[0] : "/assets/images/default-item.webp"}
                     width={282}
                     height={381}
