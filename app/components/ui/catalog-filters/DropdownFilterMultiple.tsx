@@ -7,13 +7,14 @@ import { openSansFont } from "../fonts";
 import { ArrowIcon } from "../../assets/icons";
 import { getFilterAnimation } from "@/app/lib/utils/animations";
 import { IFilterOption } from "@/app/lib/types";
+import { filterValuesIcons } from "@/app/lib/data/filter-values-icons";
 
 export interface IProps {
     filterOption: IFilterOption,
     isOpen: boolean,
     onToggle: () => void,
     wrapperStyles?: string,
-    filtersHandler: (filter: string, id: number, multichoice?: boolean) => void
+    filtersHandler: (filter: string, value: string, multichoice?: boolean) => void
 }
 
 export function DropdownFilterMultiple({
@@ -63,18 +64,19 @@ export function DropdownFilterMultiple({
                         initial="hidden"
                         animate="visible"
                     >
-                        {filterOption.options.map(({ name, id, icon }, index) => (
+                        {filterOption.options.map((value, index) => (
                             <li
                                 key={index}
-                                className={`${selectedOptions.includes(name) ? 'bg-t-blue text-white mobile:text-inherit mobile:bg-t-pale' : 'bg-white mobile:bg-none'} h-7 relative py-[9px] mobile:py-1 px-[18px] mobile:px-3 cursor-pointer p-1 rounded-3xl mobile:hover:bg-t-pale active:scale-95 duration-150 flex items-center ${icon === undefined ? '' : 'gap-x-2'}`}
+                                className={`${selectedOptions.includes(value) ? 'bg-t-blue text-white mobile:text-inherit mobile:bg-t-pale' : 'bg-white mobile:bg-none'} h-7 relative py-[9px] mobile:py-1 px-[18px] mobile:px-3 cursor-pointer p-1 rounded-3xl mobile:hover:bg-t-pale active:scale-95 duration-150 flex items-center`}
                                 onClick={() => {
-                                    toggleOption(name);
+                                    toggleOption(value);
 
-                                    filtersHandler(filterOption.filter, id, true);
+                                    filtersHandler(filterOption.filter, value, true);
                                 }}
                             >
-                                {icon === undefined ? null : <span className="inline-block h-5 absolute left-1 bottom-[5px]">{icon}</span>}
-                                <p className={`${icon ? 'ml-2.5 mobile:ml-[19px]' : ''} text-nowrap flex items-center gap-x-[5px] text-sm font-normal whitespace-nowrap`}>{name}</p>
+                                {/* {icon === undefined ? null : <span className="inline-block h-5 absolute left-1 bottom-[5px]">{icon}</span>} */}
+                                <OptionIcon filter={filterOption.filter} value={value} />
+                                <p className={`text-nowrap flex items-center gap-x-[5px] text-sm font-normal whitespace-nowrap`}>{value}</p>
                             </li>
                         ))}
                     </motion.ul>
@@ -84,4 +86,30 @@ export function DropdownFilterMultiple({
             )}
         </div>
     );
+}
+
+function OptionIcon({ filter, value }: { filter: string, value: string }) {
+    const FILTER_COLOR = "color";
+
+    if (filter === FILTER_COLOR) {
+        const colorIcon = filterValuesIcons[filter][value];
+
+        return (
+            <>
+                {colorIcon === undefined ?
+                    null
+                    :
+                    <span
+                        className="inline-block h-[21px] w-[21px] relative -left-2 rounded-full"
+                        style={{
+                            backgroundColor: colorIcon,
+                            border: colorIcon === "#ffffff" ? "1px solid #3372F9" : ""
+                        }}
+                    ></span>
+                }
+            </>
+        )
+    } else {
+        return null;
+    }
 }

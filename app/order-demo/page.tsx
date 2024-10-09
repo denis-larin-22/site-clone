@@ -5,7 +5,7 @@ import OrderDemo from "./OrderDemo";
 import { metaTagsValues } from "../lib/seo/meta-tags-values";
 
 export const metadata: Metadata = {
-    title: 'Замовити демо | Piramid | Пирамида ТПК',
+    title: 'Замовити демо | Piramid | ' + metaTagsValues.shop_name,
     description: 'Замовити демо, ' + metaTagsValues.shop_name,
     openGraph: {
         title: 'Замовити демо | Piramid',

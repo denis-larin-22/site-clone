@@ -5,7 +5,7 @@ import BecomeDealer from "./BecomeDealer";
 import { metaTagsValues } from "../lib/seo/meta-tags-values";
 
 export const metadata: Metadata = {
-    title: 'Стати дилером | Piramid | Пирамида ТПК',
+    title: 'Стати дилером | Piramid | ' + metaTagsValues.shop_name,
     description: 'Стати дилером, ' + metaTagsValues.shop_name,
     openGraph: {
         title: 'Стати дилером | Piramid',

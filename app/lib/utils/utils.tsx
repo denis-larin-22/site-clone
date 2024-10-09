@@ -98,3 +98,13 @@ export function removeDuplicates(array: (number | string)[]) {
 
     return Array.from(result);
 }
+
+// Make to uppercase first letter
+export function capitalizeFirstLetter(word: string | null): string | null {
+    // Check if the word is not null and not empty
+    if (word === null || word.length === 0) {
+        return null; // Empty string if input value is null or empty
+    }
+
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}

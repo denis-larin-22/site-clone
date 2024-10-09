@@ -19,10 +19,7 @@ export const metadata: Metadata = {
 
 export default function CatalogPage() {
     return (
-        <section
-            title={`Каталог товарів ${metaTagsValues.shop_name}`}
-            className="relative h-dvh w-screen bg-t-pale flex flex-row overflow-hidden"
-        >
+        <section className="relative h-dvh w-screen bg-t-pale flex flex-row overflow-hidden">
             <Catalog />
         </section>
     )

@@ -13,12 +13,18 @@ export interface IProps {
     isOpen: boolean,
     onToggle: () => void,
     wrapperStyles?: string,
-    filtersHandler: (filter: string, id: number, multichoice?: boolean) => void
+    filtersHandler: (filter: string, value: string, multichoice?: boolean) => void
 }
 
 // Dropdown list of options with single choice
-export function DropdownFilterSingle({ filterOption, isOpen, onToggle, wrapperStyles, filtersHandler }: IProps) {
-    const [optionTitle, setOptionTitle] = useState<string>(filterOption.title || filterOption.options[0].name);
+export function DropdownFilterSingle({
+    filterOption,
+    isOpen,
+    onToggle,
+    wrapperStyles,
+    filtersHandler
+}: IProps) {
+    const [optionTitle, setOptionTitle] = useState<string>(filterOption.title || filterOption.options[0]);
     const [selectedOption, setSelectedOption] = useState<string>(optionTitle);
 
     // Animation parameters
@@ -44,21 +50,21 @@ export function DropdownFilterSingle({ filterOption, isOpen, onToggle, wrapperSt
                         initial="hidden"
                         animate="visible"
                     >
-                        {filterOption.options.map(({ name, id, icon }, index) => (
+                        {filterOption.options.map((value, index) => (
                             <li
                                 key={index}
-                                className={`${selectedOption === name ? 'bg-white mobile:bg-t-pale' : 'bg-none'} h-[38px] mobile:h-7 px-[18px] mobile:px-3 mobile:py-1 cursor-pointer rounded-3xl text-sm hover:bg-t-pale duration-150 flex items-center gap-x-3 mobile:gap-x-1.5`}
+                                className={`${selectedOption === value ? 'bg-white mobile:bg-t-pale' : 'bg-none'} h-[38px] mobile:h-7 px-[18px] mobile:px-3 mobile:py-1 cursor-pointer rounded-3xl text-sm hover:bg-t-pale duration-150 flex items-center gap-x-3 mobile:gap-x-1.5`}
                                 onClick={() => {
                                     if (!filterOption.title) {
-                                        setOptionTitle(name);
+                                        setOptionTitle(value);
                                     }
-                                    setSelectedOption(name);
-                                    filtersHandler(filterOption.filter, id, false);
+                                    setSelectedOption(value);
+                                    filtersHandler(filterOption.filter, value, false);
                                     onToggle();
                                 }}
                             >
-                                {icon !== undefined ? <span className="inline-block h-fit">{icon}</span> : null}
-                                <p className="flex items-center gap-1 text-sm font-normal whitespace-nowrap">{name}</p>
+                                {/* {icon !== undefined ? <span className="inline-block h-fit">{icon}</span> : null} */}
+                                <p className="flex items-center gap-1 text-sm font-normal whitespace-nowrap">{value}</p>
                             </li>
                         ))}
                     </motion.ul>

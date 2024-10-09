@@ -8,7 +8,7 @@ import { IFilterOption } from "@/app/lib/types"
 
 interface IProps {
     filterOptions: IFilterOption[],
-    filtersHandler: (filter: string, id: number, multichoice?: boolean) => void,
+    filtersHandler: (filter: string, value: string, multichoice?: boolean) => void,
     sortByPriceHandler: (order: PriceOrder) => void
 }
 

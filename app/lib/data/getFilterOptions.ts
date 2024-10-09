@@ -45,78 +45,70 @@ export function getFilterOptions(productList: IProductItem[]) {
 }
 
 function getColors(productList: IProductItem[]) {
-    const all = productList.map((product) => {
-        if (product.technical_info.color === null) {
-            return "відсутнє"
-        } else {
-            return product.technical_info.color;
-        }
-    });
+    const uniqueColorsArray = Array.from(
+        productList.reduce<Set<string>>((acc, product) => {
+            const color = product.technical_info.color;
 
-    const withoutDuplicates = Array.from(new Set(all));
+            // Check that the color is not null and add it to the Set
+            if (color !== null) {
+                acc.add(color); // Adding color to Set for uniqueness
+            }
 
-    return withoutDuplicates.map((value, index) => {
-        return {
-            id: index,
-            name: value
-        }
-    })
+            return acc;
+        }, new Set<string>())
+    );
+
+    return uniqueColorsArray;
 }
 
 function getTransparencies(productList: IProductItem[]) {
-    const all = productList.map((product) => {
-        if (product.technical_info.transparency === null) {
-            return "відсутнє"
-        } else {
-            return product.technical_info.transparency;
-        }
-    });
+    const uniqueTransparencyValuesArray = Array.from(
+        productList.reduce<Set<string>>((acc, product) => {
+            const transparency = product.technical_info.transparency;
 
-    const withoutDuplicates = Array.from(new Set(all));
+            // Check that the transparency is not null and add it to the Set
+            if (transparency !== null) {
+                acc.add(transparency); // Adding transparency to Set for uniqueness
+            }
 
-    return withoutDuplicates.map((value, index) => {
-        return {
-            id: index,
-            name: value
-        }
-    })
+            return acc;
+        }, new Set<string>())
+    );
+
+    return uniqueTransparencyValuesArray;
 };
 
 function getCollections(productList: IProductItem[]) {
-    const all = productList.map((product) => {
-        if (product.technical_info.collection === null) {
-            return "відсутнє"
-        } else {
-            return product.technical_info.collection;
-        }
-    });
+    const uniqueCollectionsArray = Array.from(
+        productList.reduce<Set<string>>((acc, product) => {
+            const collection = product.technical_info.collection;
 
-    const withoutDuplicates = Array.from(new Set(all));
+            // Check that the collection is not null and add it to the Set
+            if (collection !== null) {
+                acc.add(collection); // Adding collection to Set for uniqueness
+            }
 
-    return withoutDuplicates.map((value, index) => {
-        return {
-            id: index,
-            name: value
-        }
-    })
+            return acc;
+        }, new Set<string>())
+    );
+
+    return uniqueCollectionsArray;
 };
 
 function getPriceCategories(productList: IProductItem[]) {
-    const all = productList.map((product) => {
-        if (product.price.price_5 === null) {
-            return "відсутнє"
-        } else {
-            return product.price.price_5;
-        }
-    });
+    const uniquePriceCategoriesArray = Array.from(
+        productList.reduce<Set<string>>((acc, product) => {
+            const priceCategory = product.price.price_5;
 
-    const withoutDuplicates = Array.from(new Set(all));
+            // Check that the priceCategory is not null and add it to the Set
+            if (priceCategory !== null) {
+                acc.add(priceCategory); // Adding priceCategory to Set for uniqueness
+            }
 
-    return withoutDuplicates.map((value, index) => {
-        return {
-            id: index,
-            name: value
-        }
-    })
+            return acc;
+        }, new Set<string>())
+    );
+
+    return uniquePriceCategoriesArray;
 };
 

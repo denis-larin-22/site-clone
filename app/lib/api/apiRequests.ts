@@ -1,5 +1,5 @@
 import { ICategory, IColor, IDesign, IProductItem } from "../types";
-import { formatImagePathFromApi } from "../utils/utils";
+import { capitalizeFirstLetter, formatImagePathFromApi } from "../utils/utils";
 
 // ↓↓↓↓ CATALOG PAGE API ↓↓↓↓
 
@@ -46,9 +46,9 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
                     warranty: item.technical_info.warranty,
                     roll_width: item.technical_info.roll_width,
                     tape_width: item.technical_info.tape_width,
-                    collection: item.technical_info.collection,
-                    transparency: item.technical_info.transparency,
-                    color: item.technical_info.color,
+                    collection: capitalizeFirstLetter(item.technical_info.collection),
+                    transparency: capitalizeFirstLetter(item.technical_info.transparency),
+                    color: capitalizeFirstLetter(item.technical_info.color),
                     description: item.technical_info.description,
                     max_width: item.technical_info.max_width,
                     max_height: item.technical_info.max_height,

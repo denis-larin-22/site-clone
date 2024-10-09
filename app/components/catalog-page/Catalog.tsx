@@ -104,14 +104,14 @@ export default function Catalog() {
         getFilteredItems(activeFilters, categoryId);
     };
 
-    function filtersHandler(filter: string, id: number, multichoice: boolean = false) {
+    function filtersHandler(filter: string, value: string, multichoice: boolean = false) {
         const initActiveFilterState = activeFilters[filter];
 
         if (multichoice) {
-            const isIdInclude = initActiveFilterState.includes(id);
+            const isFilterValueInclude = initActiveFilterState.includes(value);
 
-            if (isIdInclude) {
-                const removeDuplicateId = initActiveFilterState.filter((item) => item !== id);
+            if (isFilterValueInclude) {
+                const removeDuplicateId = initActiveFilterState.filter((item) => item !== value);
                 const updatedActiveFilters = {
                     ...activeFilters,
                     [filter]: [...removeDuplicateId]
@@ -122,7 +122,7 @@ export default function Catalog() {
             } else {
                 const updatedActiveFilters = {
                     ...activeFilters,
-                    [filter]: removeDuplicates([...activeFilters[filter], id])
+                    [filter]: removeDuplicates([...activeFilters[filter], value])
                 }
 
                 getFilteredItems(updatedActiveFilters);
@@ -132,7 +132,7 @@ export default function Catalog() {
         } else {
             const updatedActiveFilters = {
                 ...activeFilters,
-                [filter]: [id]
+                [filter]: [value]
             }
 
             getFilteredItems(updatedActiveFilters);
