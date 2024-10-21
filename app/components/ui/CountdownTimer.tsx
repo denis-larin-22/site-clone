@@ -44,7 +44,6 @@ const CountdownTimer = ({ className = "" }: IProps) => {
     }
 
     return (
-        // <div className={`min-w-fit h-fit p-1 rounded-s-lg flex flex-col items-center  ${className}`}>
         <div className={`min-w-fit h-fit p-1 rounded-s-lg flex flex-col items-center bg-white/30 group-hover:bg-t-blue/75 duration-150 ${className}`}>
             <p className="text-[10px] font-bold text-t-dark-text group-hover:text-white/80 duration-150">До кінця пропозиції:</p>
             <div className="flex items-center gap-1 text-black/70 group-hover:text-white font-bold duration-150">

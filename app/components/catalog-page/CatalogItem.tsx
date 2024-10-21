@@ -60,7 +60,7 @@ export default function CatalogItem({ productItem }: IProps) {
                 onClick={onOpen}
                 className="group relative inline-flex w-full mobile:w-[282px] h-[231px] mobile:h-[381px] rounded-xl overflow-hidden mobile:hover:ring-4 ring-offset-4 ring-t-blue/40 duration-400"
             >
-                <CountdownTimer className="absolute top-2 right-0 z-50" />
+                <CountdownTimer className="absolute top-2 right-0 z-20" />
 
                 <Image
                     alt={`Зображення товару ${name} із категорії ${category}`}
