@@ -5,6 +5,7 @@ import { useState } from "react";
 import { openSansFont } from "../ui/fonts";
 import { CloseArrowIcon, FireIcon } from "../assets/icons";
 import { IProductItem } from "@/app/lib/types";
+import WatermarkPiramid from "../ui/WatermarkPiramid";
 
 const DEFAULT_IMAGE_SRC = "/assets/images/default-item.webp";
 
@@ -14,6 +15,7 @@ interface IProps {
 }
 
 export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) {
+    const DEFAULT_IMAGE = "https://piramidspace.com/admin/storage/default.jpg";
     // Catalog item properties
     const {
         name,
@@ -34,7 +36,9 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
         }
     } = productItem;
 
-    const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
+    const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
+
+    const [selectedImage, setSelectedImage] = useState<string | null>(imagesToRender[0]);
     // To hide tachinical information
     const [isHide, setIsHide] = useState<boolean>(false);
 
@@ -69,10 +73,12 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
                 className={`relative z-0 top-0 left-0 w-full ${isHide ? 'h-screen' : 'h-[60vh]'} mobile:h-full object-cover duration-200`}
                 onClick={() => setIsHide(!isHide)}
             />
+            <WatermarkPiramid width={128} className="absolute bottom-4 left-4" />
+
 
             <div className={`wrap absolute ${isHide ? 'bottom-12' : 'bottom-0'} left-0 right-0 p-0 mobile:p-9 duration-200`}>
                 <ul className="flex gap-2.5 pl-5 mobile:pl-0">
-                    {images_url.map((url, index) => (
+                    {imagesToRender.map((url, index) => (
                         <li
                             key={index}
                             onClick={() => {

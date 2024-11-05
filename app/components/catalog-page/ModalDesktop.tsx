@@ -4,6 +4,7 @@ import { CloseIcon, FireIcon, ZoomIcon } from "../assets/icons";
 import { openSansFont } from "../ui/fonts";
 import { IProductItem } from "@/app/lib/types";
 import { useState } from "react";
+import WatermarkPiramid from "../ui/WatermarkPiramid";
 
 interface IProps {
     productItem: IProductItem,
@@ -11,6 +12,7 @@ interface IProps {
 }
 
 export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
+    const DEFAULT_IMAGE = "https://piramidspace.com/admin/storage/default.jpg";
     // Catalog item properties
     const {
         name,
@@ -31,7 +33,9 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
         }
     } = productItem;
 
-    const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
+    const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
+
+    const [selectedImage, setSelectedImage] = useState<string | null>(imagesToRender[0]);
     const { isOpen: isZoomed, onOpen: onZoomed, onOpenChange: onZoomedChange } = useDisclosure();
     const [isImageLoading, setIsImageLoading] = useState(true);
 
@@ -51,7 +55,7 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
             </button>
 
             <ul className="flex flex-col gap-2.5">
-                {images_url.map((url, index) => (
+                {imagesToRender.map((url, index) => (
                     <li
                         key={index}
                         onClick={() => {
@@ -80,6 +84,7 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
                     className={`h-[620px] w-[346px] object-cover rounded-[30px] transition-opacity duration-300 ${isImageLoading ? 'opacity-0' : 'opacity-100'}`} // применение классов для анимации
                     onLoad={() => setIsImageLoading(false)}
                 />
+                <WatermarkPiramid width={128} className="absolute bottom-4 left-4" />
                 <button onClick={onZoomed} className="w-[65px] h-[65px] absolute bottom-[30px] right-[30px] rounded-full bg-white flex items-center justify-center">
                     <ZoomIcon />
                 </button>
@@ -104,6 +109,7 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
                                     loading="lazy"
                                     className="object-cover"
                                 />
+                                <WatermarkPiramid className="absolute bottom-2 right-2" />
                                 <button className="w-fit h-fit absolute top-3 right-3 z-50" onClick={onCloseZoomed}>
                                     <CloseIcon iconColor="#10005B" />
                                 </button>
