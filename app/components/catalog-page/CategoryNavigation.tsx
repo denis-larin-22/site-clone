@@ -6,9 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { ICategory } from "@/app/lib/types";
 import Loader from "../ui/Loader";
+import { ICategoryList } from "./Catalog";
 
 interface IProps {
-    categoriesList: ICategory[],
+    categoriesList: ICategoryList,
     categoriesHandler: (categoryId: number) => void
 }
 
@@ -16,10 +17,10 @@ type CategoriesListWithIcons = Array<ICategory & { iconSrc: string }>;
 
 export default function CategoryNavigation({ categoriesList, categoriesHandler }: IProps) {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
-    const [activeCategory, setActiveCategory] = useState<number | null>(null);
+    const [activeCategory, setActiveCategory] = useState<number | null>(categoriesList.activeCategory);
 
     // Get icons for each category
-    const categoriesListWithIcons: CategoriesListWithIcons = categoriesList.map((category) => ({
+    const categoriesListWithIcons: CategoriesListWithIcons = categoriesList.allCategories.map((category) => ({
         ...category,
         iconSrc: getCategoryIconSrc(category.name)
     }));
@@ -80,7 +81,7 @@ export default function CategoryNavigation({ categoriesList, categoriesHandler }
                     </span>
                 </Link>
                 <nav className="mt-52 flex flex-col items-start">
-                    {categoriesList.length ?
+                    {categoriesList.allCategories.length ?
                         categoriesListWithIcons.map((category) => (
                             <button
                                 key={category.id}
@@ -121,7 +122,7 @@ export default function CategoryNavigation({ categoriesList, categoriesHandler }
             < aside className="block mobile:hidden h-24 absolute z-30 bottom-0 right-0 left-0 bg-[#FAFAFA] overflow-hidden" >
                 <nav className="h-full flex items-center justify-around ">
                     {
-                        categoriesList.length ?
+                        categoriesList.allCategories.length ?
                             categoriesListWithIcons.map((category) => (
                                 <button
                                     key={category.id}

@@ -10,6 +10,7 @@ import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useState } from 'react';
 import { removeDuplicates } from '@/app/lib/utils/utils';
+import { useSearchParams } from 'next/navigation';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -28,6 +29,10 @@ export interface IActiveFilters {
 }
 
 export default function Catalog() {
+    // Selecting a category by user from the main page
+    const searchCategoryParamValue = useSearchParams().get('category');
+    const userChosenCategoryId = searchCategoryParamValue === null ? null : +searchCategoryParamValue;
+
     // Product list contains: initList => fetched initial product list, listToRender => product list for rendering (after filtering)
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
@@ -37,7 +42,7 @@ export default function Catalog() {
     // Main categories list
     const [categories, setCategories] = useState<ICategoryList>({
         allCategories: [],
-        activeCategory: null
+        activeCategory: userChosenCategoryId
     });
 
     // Filters list
@@ -60,10 +65,13 @@ export default function Catalog() {
                     return acc;
                 }, {} as IActiveFilters);
 
-            // Set product list obj.  
+
+            // // Set product list obj. (include user category choise)
             setProductList({
                 initList: listProduct,
-                listToRender: listProduct
+                listToRender: userChosenCategoryId !== null
+                    ? listProduct.filter((item) => item.category_id === userChosenCategoryId)
+                    : listProduct
             });
 
             // Set categories obj.
@@ -73,7 +81,6 @@ export default function Catalog() {
             setFilterOptions(optionsFilter);
             // Set active values of filters
             setActiveFilters(activeFilters);
-            // Categories
         }
 
         fetchCatalogData();
@@ -156,7 +163,7 @@ export default function Catalog() {
     return (
         <>
             <CategoryNavigation
-                categoriesList={categories.allCategories}
+                categoriesList={categories}
                 categoriesHandler={categoriesHandler}
             />
 

@@ -9,6 +9,7 @@ import { ModalDesktop } from "./ModalDesktop";
 import { ModalTabletMobile } from "./ModalTabletMobile";
 import { IProductItem } from "@/app/lib/types";
 import CountdownTimer from "../ui/CountdownTimer";
+import ImageWithLoader from "../ui/ImageWithLoader";
 
 interface IProps {
     productItem: IProductItem
@@ -62,12 +63,11 @@ export default function CatalogItem({ productItem }: IProps) {
             >
                 <CountdownTimer className="absolute top-2 right-0 z-20" />
 
-                <Image
+                <ImageWithLoader
                     alt={`Зображення товару ${name} із категорії ${category}`}
                     src={images_url[0] !== null ? images_url[0] : "/assets/images/default-item.webp"}
                     width={282}
                     height={381}
-                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 duration-150"
                 />
                 {/* TO_DO!!! */}

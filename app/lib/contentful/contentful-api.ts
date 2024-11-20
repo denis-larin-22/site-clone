@@ -302,6 +302,7 @@ export async function getVideoBannerContent(): Promise<IVideoBannerContent | und
 // GET CAROUSEL SECTION CONTENT
 export interface ICarouselItem {
     title: string,
+    id: number | string,
     image: IImage
 }
 
@@ -329,6 +330,7 @@ export async function getCarouselSectionContent(): Promise<ICarouselSectionConte
             title: componentContent.items[0].fields.title,
             carouselList: componentContent.items[0].fields.carouselList.map((carouselItem: any) => ({
                 title: carouselItem.fields.title,
+                id: carouselItem.fields.id,
                 image: {
                     alt: carouselItem.fields.image.fields.title,
                     src: `https:${carouselItem.fields.image.fields.file.url}`

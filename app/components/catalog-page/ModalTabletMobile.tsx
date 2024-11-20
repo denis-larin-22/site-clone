@@ -6,6 +6,7 @@ import { openSansFont } from "../ui/fonts";
 import { CloseArrowIcon, FireIcon } from "../assets/icons";
 import { IProductItem } from "@/app/lib/types";
 import WatermarkPiramid from "../ui/WatermarkPiramid";
+import ImageWithLoader from "../ui/ImageWithLoader";
 
 const DEFAULT_IMAGE_SRC = "/assets/images/default-item.webp";
 
@@ -65,16 +66,16 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
                 className="inline mobile:hidden absolute z-10 top-[15px] right-5"
             />
 
-            <Image
-                src={selectedImage || DEFAULT_IMAGE_SRC}
-                alt={`Фото варінта тканини для ${name}`}
-                width={1024}
-                height={1366}
-                className={`relative z-0 top-0 left-0 w-full ${isHide ? 'h-screen' : 'h-[60vh]'} mobile:h-full object-cover duration-200`}
-                onClick={() => setIsHide(!isHide)}
-            />
-            <WatermarkPiramid width={128} className="absolute bottom-4 left-4" />
-
+            <div onClick={() => setIsHide(!isHide)}>
+                <ImageWithLoader
+                    src={selectedImage || DEFAULT_IMAGE_SRC}
+                    alt={`Фото варінта тканини для ${name}`}
+                    width={1024}
+                    height={1366}
+                    className={`relative z-0 top-0 left-0 w-full ${isHide ? 'h-screen object-contain' : 'h-[60vh] object-cover'} mobile:h-full  overflow-hidden duration-200`}
+                    watermark
+                />
+            </div>
 
             <div className={`wrap absolute ${isHide ? 'bottom-12' : 'bottom-0'} left-0 right-0 p-0 mobile:p-9 duration-200`}>
                 <ul className="flex gap-2.5 pl-5 mobile:pl-0">
@@ -91,7 +92,7 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
                                 width={47}
                                 height={46}
                                 loading="lazy"
-                                className={`cursor-pointer rounded-md ring-1 duration-150 ${selectedImage === url ? "ring-[#10005B]" : "ring-t-gray-text"}`}
+                                className={`w-[47px] h-[46px] cursor-pointer rounded-md ring-1 duration-150 ${selectedImage === url ? "ring-[#10005B]" : "ring-t-gray-text"}`}
                             />
                         </li>
                     ))}

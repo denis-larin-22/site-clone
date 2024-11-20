@@ -45,7 +45,7 @@ export function DropdownFilterSingle({
                 isOpen &&
                 <>
                     <motion.ul
-                        className={`${openSansFont.className} fixed left-0 mobile:absolute z-50 mt-[5px] py-[30px] mobile:py-2.5 px-5 mobile:px-2.5 w-screen mobile:w-fit bg-t-pale mobile:bg-white rounded-bl-[35px] rounded-br-[35px] mobile:rounded-2xl flex flex-col gap-y-[2px]`}
+                        className={`${openSansFont.className} fixed left-0 mobile:absolute z-50 -mt-0.5 py-[30px] mobile:py-2.5 px-5 mobile:px-2.5 w-screen mobile:w-fit bg-t-pale mobile:bg-white rounded-bl-[35px] rounded-br-[35px] mobile:rounded-2xl flex flex-col gap-y-[2px]`}
                         variants={containerAnimation}
                         initial="hidden"
                         animate="visible"

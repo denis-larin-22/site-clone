@@ -59,7 +59,7 @@ export function DropdownFilterMultiple({
             {isOpen && (
                 <>
                     <motion.ul
-                        className={`${openSansFont.className} fixed left-0 mobile:absolute z-50 w-screen mobile:w-fit max-h-[450px] overflow-y-auto bg-t-pale mobile:bg-white p-5 mobile:p-2.5 rounded-bl-[35px] rounded-br-[35px] mobile:rounded-2xl mt-[5px] flex flex-row flex-wrap mobile:flex-nowrap mobile:flex-col gap-1.5 mobile:gap-y-[2px]`}
+                        className={`${openSansFont.className} fixed left-0 mobile:absolute z-50 w-screen mobile:w-fit max-h-[450px] overflow-y-auto bg-t-pale mobile:bg-white p-5 mobile:p-2.5 rounded-bl-[35px] rounded-br-[35px] mobile:rounded-2xl -mt-0.5 flex flex-row flex-wrap mobile:flex-nowrap mobile:flex-col gap-1.5 mobile:gap-y-[2px]`}
                         variants={containerAnimation}
                         initial="hidden"
                         animate="visible"
@@ -103,7 +103,7 @@ function OptionIcon({ filter, value }: { filter: string, value: string }) {
                         className="inline-block h-[21px] w-[21px] relative -left-2 rounded-full"
                         style={{
                             backgroundColor: colorIcon,
-                            border: colorIcon === "#ffffff" ? "1px solid #3372F9" : ""
+                            border: colorIcon === "#FFFFFF" ? "1px solid #3372F9" : ""
                         }}
                     ></span>
                 }

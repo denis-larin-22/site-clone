@@ -49,7 +49,7 @@ const CountdownTimer = ({ className = "" }: IProps) => {
             <div className="flex items-center gap-1 text-black/70 group-hover:text-white font-bold duration-150">
                 {['days', 'hours', 'minutes', 'seconds'].map((unit, index) => (
                     <motion.span
-                        key={timeLeft[unit as keyof IInitCountdown]}
+                        key={`${unit}-${timeLeft[unit as keyof IInitCountdown]}`}
                         className="text-base text-center inline-block min-w-5 "
                         initial={{ opacity: 0, y: -5 }}
                         animate={{ opacity: 1, y: 0 }}

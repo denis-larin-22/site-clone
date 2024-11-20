@@ -75,7 +75,7 @@ function CarouselListDesktop({ carouselList, isInView }: IProps) {
                     className="group relative flex-shrink-0 flex-grow-0 rounded-[14px]"
                     style={getAnimInViewDesktop(isInView, index)}
                 >
-                    <Link href={"/catalog"}>
+                    <Link href={"/catalog?category=" + item.id}>
                         <img
                             alt={`Зображення для ${item.image.alt}`}
                             title={`Зображення для ${item.image.alt}`}

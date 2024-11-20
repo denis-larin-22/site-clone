@@ -5,6 +5,7 @@ import { openSansFont } from "../ui/fonts";
 import { IProductItem } from "@/app/lib/types";
 import { useState } from "react";
 import WatermarkPiramid from "../ui/WatermarkPiramid";
+import ImageWithLoader from "../ui/ImageWithLoader";
 
 interface IProps {
     productItem: IProductItem,
@@ -37,7 +38,6 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
 
     const [selectedImage, setSelectedImage] = useState<string | null>(imagesToRender[0]);
     const { isOpen: isZoomed, onOpen: onZoomed, onOpenChange: onZoomedChange } = useDisclosure();
-    const [isImageLoading, setIsImageLoading] = useState(true);
 
     const technicalInformation = [
         { item: "Затемнення", info: transparency || 'відсутнє' },
@@ -60,7 +60,6 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
                         key={index}
                         onClick={() => {
                             setSelectedImage(url);
-                            setIsImageLoading(true);
                         }}
                     >
                         <Image
@@ -69,22 +68,22 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
                             width={47}
                             height={46}
                             loading="lazy"
-                            className={`cursor-pointer rounded-md ring-1 hover:ring-offset-1 hover:ring-[#10005B] duration-150 ${selectedImage === color ? "ring-[#10005B]" : "ring-t-gray-text"}`}
+                            className={`w-[47px] h-[46px] cursor-pointer rounded-md ring-1 hover:ring-offset-1 hover:ring-[#10005B] duration-150 ${selectedImage === color ? "ring-[#10005B]" : "ring-t-gray-text"}`}
                         />
                     </li>
                 ))}
             </ul>
 
             <div className="absolute left-[120px] w-fit h-fit">
-                <Image
+                <ImageWithLoader
                     alt={`Зображення товару ${name}`}
                     src={selectedImage || "/assets/images/default-item.webp"}
                     width={346}
                     height={620}
-                    className={`h-[620px] w-[346px] object-cover rounded-[30px] transition-opacity duration-300 ${isImageLoading ? 'opacity-0' : 'opacity-100'}`} // применение классов для анимации
-                    onLoad={() => setIsImageLoading(false)}
+                    quality={75}
+                    className={`h-[620px] w-[346px] object-cover rounded-[30px]`}
+                    watermark
                 />
-                <WatermarkPiramid width={128} className="absolute bottom-4 left-4" />
                 <button onClick={onZoomed} className="w-[65px] h-[65px] absolute bottom-[30px] right-[30px] rounded-full bg-white flex items-center justify-center">
                     <ZoomIcon />
                 </button>
@@ -101,15 +100,16 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
                     <ModalContent>
                         {(onCloseZoomed) => (
                             <>
-                                <Image
+                                <ImageWithLoader
                                     alt={`Зображення товару ${name}`}
                                     src={selectedImage || "/assets/images/default-item.webp"}
                                     width={1198}
                                     height={750}
                                     loading="lazy"
+                                    quality={100}
                                     className="object-cover"
+                                    watermark
                                 />
-                                <WatermarkPiramid className="absolute bottom-2 right-2" />
                                 <button className="w-fit h-fit absolute top-3 right-3 z-50" onClick={onCloseZoomed}>
                                     <CloseIcon iconColor="#10005B" />
                                 </button>
