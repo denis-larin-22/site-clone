@@ -11,6 +11,8 @@ import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useState } from 'react';
 import { removeDuplicates } from '@/app/lib/utils/utils';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+import Loader from '../ui/Loader';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -161,7 +163,7 @@ export default function Catalog() {
     // }
 
     return (
-        <>
+        <Suspense fallback={<Loader />}>
             <CategoryNavigation
                 categoriesList={categories}
                 categoriesHandler={categoriesHandler}
@@ -189,7 +191,7 @@ export default function Catalog() {
                     listToRender={productList.listToRender}
                 />
             </div>
-        </>
+        </Suspense>
     );
 };
 
