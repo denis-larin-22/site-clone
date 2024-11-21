@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Catalog from "../components/catalog-page/Catalog";
 import { metaTagsValues } from "../lib/seo/meta-tags-values";
+import CatalogContent from "../components/catalog-page/CatalogContent";
 
 export const metadata: Metadata = {
     title: 'Каталог | Piramid',
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 export default function CatalogPage() {
     return (
         <section className="relative h-dvh w-screen bg-t-pale flex flex-row overflow-hidden">
-            <Catalog />
+            <CatalogContent />
         </section>
     )
 };

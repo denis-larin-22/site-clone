@@ -28,12 +28,7 @@ export interface IActiveFilters {
     [key: string]: any[];
 }
 
-export default function Catalog() {
-    // Selecting a category by user from the main page
-    const searchCategoryParamValue = useSearchParams().get('category');
-    const userChosenCategoryId = searchCategoryParamValue === null ? null : +searchCategoryParamValue;
-
-
+export default function Catalog({ userChosenCategoryId }: { userChosenCategoryId: number | null }) {
     // Product list contains: initList => fetched initial product list, listToRender => product list for rendering (after filtering)
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
@@ -70,9 +65,7 @@ export default function Catalog() {
             // // Set product list obj. (include user category choise)
             setProductList({
                 initList: listProduct,
-                listToRender: userChosenCategoryId !== null
-                    ? listProduct.filter((item) => item.category_id === userChosenCategoryId)
-                    : listProduct
+                listToRender: listProduct
             });
 
             // Set categories obj.
