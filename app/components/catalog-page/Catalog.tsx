@@ -10,7 +10,6 @@ import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useState } from 'react';
 import { removeDuplicates } from '@/app/lib/utils/utils';
-import { useSearchParams } from 'next/navigation';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -28,7 +27,7 @@ export interface IActiveFilters {
     [key: string]: any[];
 }
 
-export default function Catalog({ userChosenCategoryId }: { userChosenCategoryId: number | null }) {
+export default function Catalog() {
     // Product list contains: initList => fetched initial product list, listToRender => product list for rendering (after filtering)
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
@@ -38,7 +37,7 @@ export default function Catalog({ userChosenCategoryId }: { userChosenCategoryId
     // Main categories list
     const [categories, setCategories] = useState<ICategoryList>({
         allCategories: [],
-        activeCategory: userChosenCategoryId
+        activeCategory: null
     });
 
     // Filters list

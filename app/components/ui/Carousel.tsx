@@ -160,7 +160,7 @@ function CarouselListTablet({ carouselList, isInView }: IProps) {
                     key={index}
                     style={getAnimInViewMobile(isInView, index)}
                 >
-                    <Link href={"/catalog"} className="inline-block w-[231px] h-[369px]">
+                    <Link href={"/catalog?category=" + item.id} className="inline-block w-[231px] h-[369px]">
                         <div className="relative z-0">
                             <img
                                 alt={`Зображення до ${item.image.alt}`}
@@ -241,7 +241,7 @@ function CarouselListMobile({ carouselList, isInView }: IProps) {
                     className="relative z-0 flex flex-col items-center gap-y-[27px]"
                     style={getAnimInViewMobile(isInView, index)}
                 >
-                    <Link href={"/catalog"} className="inline-block w-[135px] mobile-xs:w-[172px] md:w-[231px] h-[233px] mobile-xs:h-[272px] md:h-[369px]">
+                    <Link href={"/catalog?category=" + item.id} className="inline-block w-[135px] mobile-xs:w-[172px] md:w-[231px] h-[233px] mobile-xs:h-[272px] md:h-[369px]">
                         <div className="relative z-0">
                             <img
                                 alt={`Зображення до ${item.image.alt}`}
