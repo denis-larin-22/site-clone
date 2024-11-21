@@ -56,24 +56,16 @@ export default function CategoryNavigation({ categoriesList, categoriesHandler }
             >
                 <Link href={"/"}>
                     <span className="inline-block h-9">
-                        {/* <Image
+                        <Image
                             alt="Piramid logo"
                             src={"/assets/images/logo.svg"}
                             width={57}
                             height={36}
                             className={`${isCollapsed ? 'inline' : 'inline tablet:hidden'}`}
-                        /> */}
-                        <Image
-                            alt="Piramid logo"
-                            width={150}
-                            height={150}
-                            src={"/assets/images/logo-halloween-gif.gif"}
-                            className={`${isCollapsed ? 'inline' : 'inline tablet:hidden'} object-cover absolute -top-[3%] -left-[3%]`}
                         />
                         <Image
                             alt="Piramid logo"
-                            // src={"/assets/images/full_logo.svg"}
-                            src={"/assets/images/full-logo-halloween.webp"}
+                            src={"/assets/images/full_logo.svg"}
                             width={203}
                             height={36}
                             className={`${isCollapsed ? 'hidden' : 'hidden tablet:inline ml-[18px] self-start'}`}

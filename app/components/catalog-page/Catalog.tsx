@@ -165,8 +165,7 @@ export default function Catalog() {
                     <Link href={"/"}>
                         <Image
                             alt='Piramid logo'
-                            // src={"/assets/images/full_logo_small.svg"}
-                            src={"/assets/images/full-logo-halloween.webp"}
+                            src={"/assets/images/full_logo_small.svg"}
                             width={129}
                             height={25}
                         />
