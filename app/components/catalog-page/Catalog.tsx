@@ -33,6 +33,7 @@ export default function Catalog() {
     const searchCategoryParamValue = useSearchParams().get('category');
     const userChosenCategoryId = searchCategoryParamValue === null ? null : +searchCategoryParamValue;
 
+
     // Product list contains: initList => fetched initial product list, listToRender => product list for rendering (after filtering)
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
