@@ -8,7 +8,7 @@ import { ICategory, IFilterOption, IProductItem } from '@/app/lib/types';
 import { fetchCategories, fetchProductsList } from '@/app/lib/api/apiRequests';
 import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { removeDuplicates } from '@/app/lib/utils/utils';
 import { useSearchParams } from 'next/navigation';
 
@@ -159,7 +159,7 @@ export default function Catalog() {
     // }
 
     return (
-        <>
+        <Suspense fallback={<p>Load...</p>}>
             <CategoryNavigation
                 categoriesList={categories}
                 categoriesHandler={categoriesHandler}
@@ -186,7 +186,7 @@ export default function Catalog() {
                     listToRender={productList.listToRender}
                 />
             </div>
-        </>
+        </Suspense>
     );
 };
 
