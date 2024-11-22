@@ -7,6 +7,7 @@ import Image from "next/image";
 import { ICategory } from "@/app/lib/types";
 import Loader from "../ui/Loader";
 import { ICategoryList } from "./Catalog";
+import { useSearchParams } from "next/navigation";
 
 interface IProps {
     categoriesList: ICategoryList,
@@ -16,6 +17,11 @@ interface IProps {
 type CategoriesListWithIcons = Array<ICategory & { iconSrc: string }>;
 
 export default function CategoryNavigation({ categoriesList, categoriesHandler }: IProps) {
+    const params = useSearchParams();
+    const search = params.get('category')
+    console.log(search);
+
+
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
     const [activeCategory, setActiveCategory] = useState<number | null>(categoriesList.activeCategory);
 

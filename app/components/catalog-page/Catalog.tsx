@@ -10,7 +10,6 @@ import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
 import { Suspense, useEffect, useState } from 'react';
 import { removeDuplicates } from '@/app/lib/utils/utils';
-import { useSearchParams } from 'next/navigation';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -29,10 +28,6 @@ export interface IActiveFilters {
 }
 
 export default function Catalog() {
-    const params = useSearchParams();
-    const search = params.get('category')
-    console.log(search);
-
     // Product list contains: initList => fetched initial product list, listToRender => product list for rendering (after filtering)
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
@@ -159,7 +154,7 @@ export default function Catalog() {
     // }
 
     return (
-        <Suspense fallback={<p>Load...</p>}>
+        <>
             <CategoryNavigation
                 categoriesList={categories}
                 categoriesHandler={categoriesHandler}
@@ -186,7 +181,7 @@ export default function Catalog() {
                     listToRender={productList.listToRender}
                 />
             </div>
-        </Suspense>
+        </>
     );
 };
 
