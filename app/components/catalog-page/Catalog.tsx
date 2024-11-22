@@ -28,15 +28,11 @@ export interface IActiveFilters {
 }
 
 export default function Catalog() {
-    // const [userCategoryChoise, setUserCategoryChoise] = useState<null | number>(null);
-
     // Product list contains: initList => fetched initial product list, listToRender => product list for rendering (after filtering)
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
         listToRender: []
     });
-
-
 
     // Main categories list
     const [categories, setCategories] = useState<ICategoryList>({
@@ -50,10 +46,6 @@ export default function Catalog() {
     const [activeFilters, setActiveFilters] = useState<IActiveFilters>({});
 
     useEffect(() => {
-        const category = getCategoryFromUrl(window.location.search);
-        // setUserCategoryChoise(category);
-        console.log(category);
-
         async function fetchCatalogData() {
             // Fetch data (product list, category list, filters list)
             const listProduct = await fetchProductsList();
@@ -69,14 +61,19 @@ export default function Catalog() {
                 }, {} as IActiveFilters);
 
 
-            // // Set product list obj. (include user category choise)
+            // Set product list obj. (include user category choise)
+            const userCategoryChoise = getCategoryFromUrl(window.location.search);
+
             setProductList({
                 initList: listProduct,
-                listToRender: listProduct
+                listToRender: userCategoryChoise === null ?
+                    listProduct
+                    :
+                    listProduct.filter((product) => product.category_id === userCategoryChoise)
             });
 
             // Set categories obj.
-            setCategories({ activeCategory: category, allCategories: categoriesList });
+            setCategories({ activeCategory: userCategoryChoise, allCategories: categoriesList });
 
             // Set filters options
             setFilterOptions(optionsFilter);
