@@ -28,11 +28,15 @@ export interface IActiveFilters {
 }
 
 export default function Catalog() {
+    // const [userCategoryChoise, setUserCategoryChoise] = useState<null | number>(null);
+
     // Product list contains: initList => fetched initial product list, listToRender => product list for rendering (after filtering)
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
         listToRender: []
     });
+
+
 
     // Main categories list
     const [categories, setCategories] = useState<ICategoryList>({
@@ -46,6 +50,10 @@ export default function Catalog() {
     const [activeFilters, setActiveFilters] = useState<IActiveFilters>({});
 
     useEffect(() => {
+        const category = getCategoryFromUrl(window.location.search);
+        // setUserCategoryChoise(category);
+        console.log(category);
+
         async function fetchCatalogData() {
             // Fetch data (product list, category list, filters list)
             const listProduct = await fetchProductsList();
@@ -68,7 +76,7 @@ export default function Catalog() {
             });
 
             // Set categories obj.
-            setCategories({ ...categories, allCategories: categoriesList });
+            setCategories({ activeCategory: category, allCategories: categoriesList });
 
             // Set filters options
             setFilterOptions(optionsFilter);
@@ -185,3 +193,9 @@ export default function Catalog() {
     );
 };
 
+function getCategoryFromUrl(search: string): number | null {
+    const params = new URLSearchParams(search);
+    const categoryIdValue = params.get("category");
+
+    return categoryIdValue === null ? null : +categoryIdValue;
+}
