@@ -29,7 +29,7 @@ export default function Header() {
                     <div className="flex items-center gap-x-3.5 font-semibold">
                         <Link href={"/catalog"} className="group flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pr-3 hover:text-white">
                             <span
-                                className="-rotate-[33deg] group-hover:rotate-[58deg] duration-250 inline-flex items-center justify-center h-10 w-10 rounded-full cursor-pointer pointer-events-none"
+                                className="-rotate-[33deg] opacity-0 group-hover:opacity-100 group-hover:rotate-[58deg] duration-250 inline-flex items-center justify-center h-10 w-10 rounded-full cursor-pointer pointer-events-none"
                             >
                                 <svg width="16" height="21" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.4565 19.7035L13.2742 1.14709M13.2742 1.14709L4.45319 3.82839M13.2742 1.14709L14.9966 10.543" stroke="#F6F5F8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
