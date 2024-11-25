@@ -2,7 +2,6 @@
 
 import { Modal, ModalContent, ModalBody, useDisclosure } from "@nextui-org/modal";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { openSansFont } from "../ui/fonts";
 import { CoinIcon, FireIcon } from "../assets/icons";
 import { ModalDesktop } from "./ModalDesktop";
@@ -24,6 +23,9 @@ export default function CatalogItem({ productItem }: IProps) {
         images_url,
         availability,
         category,
+        price: {
+            sale_tk
+        },
         technical_info: {
             collection,
             color,
@@ -61,7 +63,11 @@ export default function CatalogItem({ productItem }: IProps) {
                 onClick={onOpen}
                 className="group relative inline-flex w-full mobile:w-[282px] h-[231px] mobile:h-[381px] rounded-xl overflow-hidden mobile:hover:ring-4 ring-offset-4 ring-t-blue/40 duration-400"
             >
-                <CountdownTimer className="absolute top-2 right-0 z-20" />
+                {sale_tk && <CountdownTimer
+                    startDate="2024-11-28T00:00:00" // default dates
+                    endDate="2024-12-01T00:00:00" // default dates
+                    className="absolute top-2 right-0 z-20"
+                />}
 
                 <ImageWithLoader
                     alt={`Зображення товару ${name} із категорії ${category}`}
@@ -92,13 +98,13 @@ export default function CatalogItem({ productItem }: IProps) {
                     {/* {cashback === undefined ? null : <p className="absolute top-0 mobile:top-2 right-2 mobile:right-3">
                         <CoinIcon />
                     </p>} */}
-                    {/* {discount === null ? null :
-                        <p className="absolute right-0 -top-5 mobile:-top-7 inline-flex h-[18px] mobile:h-[25px] w-[89px] mobile:w-[113px] pr-1.5 mobile:pr-[11px] rounded-[36px] bg-[#FFEFD1] text-xxs mobile:text-xs text-[#F79D15] font-bold items-center justify-end">
+                    {sale_tk === null ? null :
+                        <p className="absolute right-0 -top-5 mobile:-top-7 inline-flex h-[18px] mobile:h-[25px] w-[89px] mobile:w-[113px] pr-1.5 mobile:pr-[11px] rounded-[36px] bg-[#FFEFD1] text-xxs mobile:text-xs text-[#F79D15] font-bold items-center justify-end animate-bounce">
                             <span className="absolute left-[5px] mobile:left-[7px] bottom-0.5 mobile:bottom-1">
                                 <FireIcon />
                             </span>
-                            Акція {discount.discount_percentage}%
-                        </p>} */}
+                            Акція {parseFloat(sale_tk)}%
+                        </p>}
                     {/* isInStock and label info fields*/}
                     <div className="w-full flex items-center justify-between">
                         <p className={`${isFabricOfTheWeek ? "hidden mobile:inline px-2.5 bg-t-pale rounded-xl" : "inline"} w-fit h-[15px] py-1 mobile:h-[25px] ${openSansFont.className} text-[9px] leading-none mobile:leading-none mobile:text-sm ${availability === 'В наявності'

@@ -7,7 +7,6 @@ import Image from "next/image";
 import { ICategory } from "@/app/lib/types";
 import Loader from "../ui/Loader";
 import { ICategoryList } from "./Catalog";
-import { useSearchParams } from "next/navigation";
 
 interface IProps {
     categoriesList: ICategoryList,

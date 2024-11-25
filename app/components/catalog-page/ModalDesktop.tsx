@@ -4,7 +4,6 @@ import { CloseIcon, FireIcon, ZoomIcon } from "../assets/icons";
 import { openSansFont } from "../ui/fonts";
 import { IProductItem } from "@/app/lib/types";
 import { useState } from "react";
-import WatermarkPiramid from "../ui/WatermarkPiramid";
 import ImageWithLoader from "../ui/ImageWithLoader";
 
 interface IProps {
@@ -20,6 +19,9 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
         images_url,
         availability,
         category,
+        price: {
+            sale_tk
+        },
         technical_info: {
             collection,
             color,
@@ -133,11 +135,12 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
                     </div>
                     <h5 className="text-[32px] mt-3 mb-8">{name}</h5>
                     <div className="w-full flex items-center justify-between">
-                        <div className="flex items-center gap-[15px]">
-                            {/* {discount === null ? null : <p className="relative w-[113px] py-1 px-3 flex items-center justify-end text-xs font-bold text-[#F79D15] bg-[#FFEFD1] rounded-full">
+                        <div className="flex items-center justify-between gap-[15px]">
+                            {sale_tk === null ? null : <p className="relative w-[113px] py-1 px-3 flex items-center justify-end text-xs font-bold text-[#F79D15] bg-[#FFEFD1] rounded-full">
                                 <FireIcon className="absolute left-[6px] bottom-1" />
-                                Акція {discount.discount_percentage}% 
-                            </p>} */}
+                                Акція {parseFloat(sale_tk)}%
+                            </p>}
+
                             {/* TO_DO!!! */}
                             {/* <p className={`h-[25px] w-fit px-[14px] py-1 rounded-full text-[12px] font-bold  ${label === "Новинка" ? 
                                 "text-white bg-t-blue" 

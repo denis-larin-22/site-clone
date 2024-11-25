@@ -8,7 +8,7 @@ import { ICategory, IFilterOption, IProductItem } from '@/app/lib/types';
 import { fetchCategories, fetchProductsList } from '@/app/lib/api/apiRequests';
 import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { removeDuplicates } from '@/app/lib/utils/utils';
 
 export interface IProductList {
