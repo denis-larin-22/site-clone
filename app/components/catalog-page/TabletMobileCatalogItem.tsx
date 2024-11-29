@@ -1,20 +1,20 @@
 'use client'
 
-import Image from "next/image";
-import { useState } from "react";
-import { openSansFont } from "../ui/fonts";
-import { CloseArrowIcon, FireIcon } from "../assets/icons";
 import { IProductItem } from "@/app/lib/types";
+import { useState } from "react";
+import { CloseArrowIcon } from "../assets/icons";
+import Image from "next/image";
 import ImageWithLoader from "../ui/ImageWithLoader";
-
-const DEFAULT_IMAGE_SRC = "/assets/images/default-item.webp";
+import { openSansFont } from "../ui/fonts";
+import Link from "next/link";
 
 interface IProps {
-    productItem: IProductItem,
-    onModalCloseHandler: () => void
+    productItem: Omit<IProductItem, 'price'> | null
 }
 
-export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) {
+function TabletMobileCatalogItem({ productItem }: IProps) {
+    if (productItem === null) return;
+
     const DEFAULT_IMAGE = "https://piramidspace.com/admin/storage/default.jpg";
     // Catalog item properties
     const {
@@ -22,9 +22,6 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
         images_url,
         availability,
         category,
-        price: {
-            sale_tk
-        },
         technical_info: {
             collection,
             color,
@@ -39,9 +36,9 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
         }
     } = productItem;
 
-    const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
+    // const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
 
-    const [selectedImage, setSelectedImage] = useState<string | null>(imagesToRender[0]);
+    const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
     // To hide tachinical information
     const [isHide, setIsHide] = useState<boolean>(false);
 
@@ -55,10 +52,10 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
     ];
 
     return (
-        <>
-            <button className="absolute z-10 left-5 mobile:left-10 top-3 mobile:top-12" onClick={onModalCloseHandler}>
+        <section className="relative block tablet:hidden grow">
+            <Link href={"/catalog"} className="absolute z-10 left-5 mobile:left-10 top-3 mobile:top-12">
                 <CloseArrowIcon />
-            </button>
+            </Link>
 
             <Image
                 alt="Piramid logo"
@@ -70,18 +67,19 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
 
             <div onClick={() => setIsHide(!isHide)}>
                 <ImageWithLoader
-                    src={selectedImage || DEFAULT_IMAGE_SRC}
+                    src={selectedImage || DEFAULT_IMAGE}
                     alt={`Фото варінта тканини для ${name}`}
                     width={1024}
                     height={1366}
-                    className={`relative z-0 top-0 left-0 w-full ${isHide ? 'h-screen object-contain' : 'h-[60vh] object-cover'} mobile:h-full  overflow-hidden duration-200`}
+                    quality={100}
+                    className={`relative z-0 top-0 left-0 w-full ${isHide ? 'h-screen object-contain' : 'h-[60vh] object-cover'} mobile:h-full overflow-hidden duration-200`}
                     watermark
                 />
             </div>
 
             <div className={`wrap absolute ${isHide ? 'bottom-12' : 'bottom-0'} left-0 right-0 p-0 mobile:p-9 duration-200`}>
                 <ul className="flex gap-2.5 pl-5 mobile:pl-0">
-                    {imagesToRender.map((url, index) => (
+                    {images_url.map((url, index) => (
                         <li
                             key={index}
                             onClick={() => {
@@ -89,7 +87,7 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
                             }}
                         >
                             <Image
-                                src={url || DEFAULT_IMAGE_SRC}
+                                src={url || DEFAULT_IMAGE}
                                 alt="Варіант тканини"
                                 width={47}
                                 height={46}
@@ -113,22 +111,21 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
                                 } text-sm`}>{availability}</p>
                         </div>
                         <h5 className="text-[32px] mt-3 mb-5 mobile:mb-8">{name}</h5>
-                        <div className="w-full flex items-center justify-between">
-                            {/* <div className="flex items-center gap-[15px]"> */}
+                        {/* <div className="w-full flex items-center justify-between">
                             {sale_tk === null ? null : <p className="relative w-[113px] h-[25px] py-1 px-3 flex items-center justify-end text-xs font-bold text-[#F79D15] bg-[#FFEFD1] rounded-full">
                                 <FireIcon className="absolute left-[6px] bottom-1" />
                                 Акція {parseFloat(sale_tk)}%
-                            </p>}
-                            {/* TO_DO!!! */}
-                            {/* <p className={`h-[25px] w-fit px-[14px] py-1 rounded-full text-[12px] font-bold  ${label === "Новинка" ?
+                            </p>} */}
+                        {/* TO_DO!!! */}
+                        {/* <p className={`h-[25px] w-fit px-[14px] py-1 rounded-full text-[12px] font-bold  ${label === "Новинка" ?
                                     "text-white bg-t-blue"
                                     :
                                     label === "Розпродаж" ? "text-[#F79D15] bg-[#FFEFD1]" : "text-t-blue bg-[#DDE8FF]"}`
                                 }>
                                     {label}
                                 </p> */}
-                            {/* </div> */}
-                        </div>
+                        {/* </div> */}
+                        {/* </div> */}
                     </div>
 
                     <div className={`${openSansFont.className} text-base mobile:text-lg font-normal mt-10 mobile:mt-11`}>
@@ -145,6 +142,8 @@ export function ModalTabletMobile({ productItem, onModalCloseHandler }: IProps) 
                     </div>
                 </section>}
             </div>
-        </>
+        </section>
     )
 }
+
+export default TabletMobileCatalogItem;

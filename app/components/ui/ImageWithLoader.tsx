@@ -13,7 +13,8 @@ interface IImageProps {
     loading?: "lazy" | "eager";
     quality?: number;
     className?: string;
-    watermark?: boolean
+    watermark?: boolean,
+    watermarkPosition?: "center" | "left-bottom"
 }
 
 export default function ImageWithLoader({
@@ -24,7 +25,8 @@ export default function ImageWithLoader({
     loading = "lazy",
     quality = 75,
     className = "",
-    watermark = false
+    watermark = false,
+    watermarkPosition = "left-bottom"
 }: IImageProps) {
     const [isLoading, setIsLoading] = useState(true);
 
@@ -48,7 +50,7 @@ export default function ImageWithLoader({
                 className={className}
                 onLoad={() => setIsLoading(false)}
             />
-            {!isLoading && watermark && <WatermarkPiramid width={128} className="absolute bottom-4 left-4" />}
+            {!isLoading && watermark && <WatermarkPiramid width={128} className={`absolute ${watermarkPosition === "center" ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" : "bottom-4 left-4"}`} />}
         </div>
     );
 }

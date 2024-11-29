@@ -1,8 +1,5 @@
 import Link from "next/link";
-import { FullArrowIcon } from "../assets/icons";
-import { openSansFont } from "./fonts";
 import Logo from "./logo/Logo";
-import LogoHalloween from "./LogoHalloween";
 
 export default function Header() {
     return (

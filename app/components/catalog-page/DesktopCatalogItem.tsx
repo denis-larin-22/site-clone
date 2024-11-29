@@ -1,17 +1,21 @@
-import Image from "next/image";
-import { Modal, ModalContent, useDisclosure } from "@nextui-org/modal";
-import { CloseIcon, FireIcon, ZoomIcon } from "../assets/icons";
-import { openSansFont } from "../ui/fonts";
-import { IProductItem } from "@/app/lib/types";
-import { useState } from "react";
-import ImageWithLoader from "../ui/ImageWithLoader";
+'use client'
+
+import { IProductItem } from "@/app/lib/types"
+import { Modal, ModalContent, useDisclosure } from "@nextui-org/react"
+import { useState } from "react"
+import { CloseIcon, ZoomIcon } from "../assets/icons"
+import Image from "next/image"
+import ImageWithLoader from "../ui/ImageWithLoader"
+import { openSansFont } from "../ui/fonts"
+import Link from "next/link"
 
 interface IProps {
-    productItem: IProductItem,
-    onModalCloseHandler: () => void
+    productItem: Omit<IProductItem, 'price'> | null
 }
 
-export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
+function DesktopCatalogItem({ productItem }: IProps) {
+    if (productItem === null) return;
+
     const DEFAULT_IMAGE = "https://piramidspace.com/admin/storage/default.jpg";
     // Catalog item properties
     const {
@@ -19,9 +23,6 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
         images_url,
         availability,
         category,
-        price: {
-            sale_tk
-        },
         technical_info: {
             collection,
             color,
@@ -36,9 +37,9 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
         }
     } = productItem;
 
-    const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
+    // const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
 
-    const [selectedImage, setSelectedImage] = useState<string | null>(imagesToRender[0]);
+    const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
     const { isOpen: isZoomed, onOpen: onZoomed, onOpenChange: onZoomedChange } = useDisclosure();
 
     const technicalInformation = [
@@ -51,13 +52,13 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
     ];
 
     return (
-        <>
-            <button className="w-fit h-fit absolute right-5 top-5" onClick={onModalCloseHandler}>
+        <section className="relative my-10 max-w-[1048px] mx-auto hidden tablet:flex items-center justify-between">
+            <Link href={"/catalog"} className="w-fit h-fit absolute right-5 top-5" title="Назад до каталогу">
                 <CloseIcon iconColor="#10005B" />
-            </button>
+            </Link >
 
-            <ul className="flex flex-col gap-2.5">
-                {imagesToRender.map((url, index) => (
+            <ul className="w-fit flex flex-col gap-2.5">
+                {images_url.map((url, index) => (
                     <li
                         key={index}
                         onClick={() => {
@@ -65,18 +66,18 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
                         }}
                     >
                         <Image
-                            src={url || "/assets/images/default-item.webp"}
+                            src={url || DEFAULT_IMAGE}
                             alt="Варіант тканини"
                             width={47}
                             height={46}
                             loading="lazy"
-                            className={`w-[47px] h-[46px] cursor-pointer rounded-md ring-1 hover:ring-offset-1 hover:ring-[#10005B] duration-150 ${selectedImage === color ? "ring-[#10005B]" : "ring-t-gray-text"}`}
+                            className={`w-[47px] h-[46px] cursor-pointer rounded-md ring-1 hover:ring-offset-1 hover:ring-[#10005B] duration-150 ${selectedImage === url ? "ring-[#10005B]" : "ring-t-gray-text"}`}
                         />
                     </li>
                 ))}
             </ul>
 
-            <div className="absolute left-[120px] w-fit h-fit">
+            <div className="relative w-fit h-fit">
                 <ImageWithLoader
                     alt={`Зображення товару ${name}`}
                     src={selectedImage || "/assets/images/default-item.webp"}
@@ -134,23 +135,23 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
                             }`}>{availability}</p>
                     </div>
                     <h5 className="text-[32px] mt-3 mb-8">{name}</h5>
-                    <div className="w-full flex items-center justify-between">
-                        <div className="flex items-center justify-between gap-[15px]">
+                    {/* <div className="w-full flex items-center justify-between"> */}
+                    {/* <div className="flex items-center justify-between gap-[15px]">
                             {sale_tk === null ? null : <p className="relative w-[113px] py-1 px-3 flex items-center justify-end text-xs font-bold text-[#F79D15] bg-[#FFEFD1] rounded-full">
                                 <FireIcon className="absolute left-[6px] bottom-1" />
                                 Акція {parseFloat(sale_tk)}%
-                            </p>}
+                            </p>} */}
 
-                            {/* TO_DO!!! */}
-                            {/* <p className={`h-[25px] w-fit px-[14px] py-1 rounded-full text-[12px] font-bold  ${label === "Новинка" ? 
-                                "text-white bg-t-blue" 
-                                : 
-                                label === "Розпродаж" ? "text-[#F79D15] bg-[#FFEFD1]" : "text-t-blue bg-[#DDE8FF]"}` 
-                            }>
-                                {label} 
-                            </p> */}
-                        </div>
-                    </div>
+                    {/* TO_DO!!! */}
+                    {/* <p className={`h-[25px] w-fit px-[14px] py-1 rounded-full text-[12px] font-bold  ${label === "Новинка" ? 
+                            "text-white bg-t-blue" 
+                            : 
+                            label === "Розпродаж" ? "text-[#F79D15] bg-[#FFEFD1]" : "text-t-blue bg-[#DDE8FF]"}` 
+                        }>
+                            {label} 
+                        </p> */}
+                    {/* </div> */}
+                    {/* </div> */}
                 </div>
 
                 <div className={`${openSansFont.className} text-lg font-normal mt-[60px]`}>
@@ -166,6 +167,8 @@ export function ModalDesktop({ productItem, onModalCloseHandler }: IProps) {
                     </ul>
                 </div>
             </section>
-        </>
+        </section>
     )
 }
+
+export default DesktopCatalogItem;

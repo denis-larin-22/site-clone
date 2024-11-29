@@ -62,7 +62,55 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
         console.error('Error fetching data:', error);
         return [];
     }
-}
+};
+
+export async function fetchProductItem(productId: string | number): Promise<Omit<IProductItem, 'price'> | null> {
+    try {
+        const response = await fetch(`${BASE_URL}api/cms/jaluji/products/${productId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        return {
+            id: data.id,
+            name: data.name,
+            category_id: data.category_id,
+            availability: data.availability,
+            category: {
+                id: data.category.id,
+                name: data.category.name
+            },
+            images_url: [
+                data.image.image_url_1 ? formatImagePathFromApi(data.image.image_url_1) : null,
+                data.image.image_url_2 ? formatImagePathFromApi(data.image.image_url_2) : null,
+                data.image.image_url_3 ? formatImagePathFromApi(data.image.image_url_3) : null,
+                data.image.image_url_4 ? formatImagePathFromApi(data.image.image_url_4) : null,
+            ],
+            technical_info: {
+                name: data.technical_info.name,
+                blackout: data.technical_info.blackout,
+                water_resistance: data.technical_info.water_resistance,
+                fabric_texture: data.technical_info.fabric_texture,
+                composition: data.technical_info.composition,
+                warranty: data.technical_info.warranty,
+                roll_width: data.technical_info.roll_width,
+                tape_width: data.technical_info.tape_width,
+                collection: capitalizeFirstLetter(data.technical_info.collection),
+                transparency: capitalizeFirstLetter(data.technical_info.transparency),
+                color: capitalizeFirstLetter(data.technical_info.color),
+                description: data.technical_info.description,
+                max_width: data.technical_info.max_width,
+                max_height: data.technical_info.max_height,
+                max_area: data.technical_info.max_area,
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+
+        return null;
+    }
+};
 
 // Categories
 export async function fetchCategories(): Promise<ICategory[]> {

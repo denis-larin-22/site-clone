@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { IProductItem } from "@/app/lib/types";
-import CatalogItem from "./CatalogItem";
+import CatalogCard from "./CatalogCard";
 
 interface IProps {
     listToRender: IProductItem[],
@@ -31,7 +31,7 @@ export default function CatalogList({ listToRender, className }: IProps) {
             <ul className={`w-full -mt-[420px] px-0 tablet:px-10 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start mobile:justify-center gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className ? className : ''}`}>
                 {currentItems.map((product, index) => (
                     <li key={product.id + product.name + index}>
-                        <CatalogItem productItem={product} />
+                        <CatalogCard productItem={product} />
                     </li>
                 ))}
             </ul>
