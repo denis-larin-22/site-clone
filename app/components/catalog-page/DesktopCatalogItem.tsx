@@ -8,6 +8,7 @@ import Image from "next/image"
 import ImageWithLoader from "../ui/ImageWithLoader"
 import { openSansFont } from "../ui/fonts"
 import Link from "next/link"
+import { motion } from "framer-motion"
 
 interface IProps {
     productItem: Omit<IProductItem, 'price'> | null
@@ -37,7 +38,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
         }
     } = productItem;
 
-    // const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
+    const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
 
     const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
     const { isOpen: isZoomed, onOpen: onZoomed, onOpenChange: onZoomedChange } = useDisclosure();
@@ -52,18 +53,40 @@ function DesktopCatalogItem({ productItem }: IProps) {
     ];
 
     return (
-        <section className="relative my-10 max-w-[1048px] mx-auto hidden tablet:flex items-center justify-between">
+        <motion.section
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="relative my-20 max-w-[1048px] h-[540px] p-10 pt-[60px] mx-auto hidden tablet:flex items-center justify-between bg-[#FAFAFA]  rounded-[26px]"
+        >
             <Link href={"/catalog"} className="w-fit h-fit absolute right-5 top-5" title="Назад до каталогу">
                 <CloseIcon iconColor="#10005B" />
             </Link >
-
-            <ul className="w-fit flex flex-col gap-2.5">
-                {images_url.map((url, index) => (
-                    <li
+            <motion.ul
+                className="w-fit flex flex-col gap-2.5"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                    hidden: { opacity: 0 },
+                    visible: {
+                        opacity: 1,
+                        transition: {
+                            staggerChildren: 0.1, // пауза между элементами
+                        },
+                    },
+                }}
+            >
+                {imagesToRender.map((url, index) => (
+                    <motion.li
                         key={index}
                         onClick={() => {
                             setSelectedImage(url);
                         }}
+                        variants={{
+                            hidden: { opacity: 0, x: -50 },
+                            visible: { opacity: 1, x: 0 },
+                        }}
+                        transition={{ duration: 0.3 }}
                     >
                         <Image
                             src={url || DEFAULT_IMAGE}
@@ -73,19 +96,25 @@ function DesktopCatalogItem({ productItem }: IProps) {
                             loading="lazy"
                             className={`w-[47px] h-[46px] cursor-pointer rounded-md ring-1 hover:ring-offset-1 hover:ring-[#10005B] duration-150 ${selectedImage === url ? "ring-[#10005B]" : "ring-t-gray-text"}`}
                         />
-                    </li>
+                    </motion.li>
                 ))}
-            </ul>
+            </motion.ul>
 
-            <div className="relative w-fit h-fit">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2, delay: 0.2 }}
+                className="relative w-fit h-fit"
+            >
                 <ImageWithLoader
                     alt={`Зображення товару ${name}`}
                     src={selectedImage || "/assets/images/default-item.webp"}
                     width={346}
                     height={620}
                     quality={75}
-                    className={`h-[620px] w-[346px] object-cover rounded-[30px]`}
+                    className={`relative -top- h-[620px] w-[346px] object-cover rounded-[30px]`}
                     watermark
+                    watermarkPosition="center"
                 />
                 <button onClick={onZoomed} className="w-[65px] h-[65px] absolute bottom-[30px] right-[30px] rounded-full bg-white flex items-center justify-center">
                     <ZoomIcon />
@@ -120,11 +149,16 @@ function DesktopCatalogItem({ productItem }: IProps) {
                         )}
                     </ModalContent>
                 </Modal>
-            </div>
+            </motion.div>
 
-            <section className="w-[451px] xl:w-[515px]">
+            <article className="w-[451px] xl:w-[515px]">
                 <div>
-                    <div className={`${openSansFont.className} flex items-center justify-between`}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                        className={`${openSansFont.className} flex items-center justify-between`}
+                    >
                         <p className="text-[#AEB1BA] text-xs uppercase">{category.name} <span className="text-t-blue-dark uppercase">/</span> {collection}</p>
                         <p className={`${availability === 'В наявності'
                             ? "text-t-green"
@@ -133,8 +167,15 @@ function DesktopCatalogItem({ productItem }: IProps) {
                                 :
                                 "text-[#FF4242]"
                             }`}>{availability}</p>
-                    </div>
-                    <h5 className="text-[32px] mt-3 mb-8">{name}</h5>
+                    </motion.div>
+                    <motion.h5
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
+                        className="text-[32px] mt-3 mb-8"
+                    >
+                        {name}
+                    </motion.h5>
                     {/* <div className="w-full flex items-center justify-between"> */}
                     {/* <div className="flex items-center justify-between gap-[15px]">
                             {sale_tk === null ? null : <p className="relative w-[113px] py-1 px-3 flex items-center justify-end text-xs font-bold text-[#F79D15] bg-[#FFEFD1] rounded-full">
@@ -155,20 +196,35 @@ function DesktopCatalogItem({ productItem }: IProps) {
                 </div>
 
                 <div className={`${openSansFont.className} text-lg font-normal mt-[60px]`}>
-                    <p className="inline-block w-full pb-5 mb-5 border-b-1 border-[#DDE0E9]">Технічна інформація</p>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.3 }}
+                        className="inline-block w-full pb-5 mb-5 border-b-1 border-[#DDE0E9]"
+                    >
+                        Технічна інформація
+                    </motion.p>
 
                     <ul className="text-lg grid grid-cols-3 gap-x-2 gap-y-[30px]">
                         {technicalInformation.map((infoItem, index) => (
-                            <li key={index}>
+                            <motion.li
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    duration: 0.3,
+                                    delay: 0.4 + index * 0.07,
+                                }}
+                            >
                                 <p>{infoItem.item}</p>
                                 <p className="mt-1 text-sm text-[#AEB1BA]">{infoItem.info}</p>
-                            </li>
+                            </motion.li>
                         ))}
                     </ul>
                 </div>
-            </section>
-        </section>
+            </article>
+        </motion.section>
     )
-}
+};
 
 export default DesktopCatalogItem;

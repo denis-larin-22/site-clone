@@ -38,7 +38,7 @@ function CatalogItem({ itemId }: IProps) {
         )
     } else {
         return (
-            <div className="min-h-dvh overflow-hidden tablet:overflow-visible flex tablet:block flex-col justify-between">
+            <div className="min-h-dvh overflow-hidden tablet:overflow-visible flex tablet:block flex-col justify-between bg-[#ECEAF0]">
                 <div className="hidden tablet:block">
                     <Header />
                 </div>
@@ -53,3 +53,5 @@ function CatalogItem({ itemId }: IProps) {
 }
 
 export default CatalogItem;
+
+
