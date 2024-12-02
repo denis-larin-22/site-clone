@@ -24,7 +24,7 @@ export default function Header() {
                     <Logo />
 
                     <div className="flex items-center gap-x-3.5 font-semibold">
-                        <Link href={"/catalog"} className="group flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pr-3 hover:text-white">
+                        <Link href={"/catalog"} className="group flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pr-3 hover:text-white text-sm lg:text-base">
                             <span
                                 className="-rotate-[33deg] opacity-0 group-hover:opacity-100 group-hover:rotate-[58deg] duration-250 inline-flex items-center justify-center h-10 w-10 rounded-full cursor-pointer pointer-events-none"
                             >

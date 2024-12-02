@@ -37,11 +37,11 @@ export default function CarouselSection() {
                     <p className="inline-block w-full md:w-[650px] h-20 md:h-36 rounded-lg bg-t-blue/15 animate-pulse"></p>
                     :
                     <>
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col xl:flex-row items-center justify-between">
                             <h5 className="relative z-10 max-w-[942px] text-[20px] mobile-xs:text-[24px] mobile:text-[38px] xl:text-[48px] leading-none font-bold uppercase">
                                 {replaceOWithPaintedO(componentContent.title, "black", "#F6F5F8")}
                             </h5>
-                            <Link href={"/catalog"} className="group flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pl-3 hover:text-white">
+                            <Link href={"/catalog"} className="group self-end xl:self-stretch hidden md:flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pl-3 hover:text-white">
                                 Усі товари
                                 <span
                                     className="-rotate-[33deg] group-hover:-rotate-[123deg] duration-250 inline-flex items-center justify-center h-10 w-10 rounded-full bg-t-blue cursor-pointer pointer-events-none"
