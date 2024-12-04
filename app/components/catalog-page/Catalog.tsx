@@ -27,7 +27,19 @@ export interface IActiveFilters {
     [key: string]: any[];
 }
 
+interface ISavedActiveFiltersFromLS {
+    savedCategory: number | null,
+    savedFilters: IActiveFilters | null
+}
+
 export default function Catalog() {
+    const LS_KEY = "piramid-saved_active_filters"
+    const [LSSavedActiveFilters, setLSSavedActiveFilters] = useState<ISavedActiveFiltersFromLS>({
+        savedCategory: null,
+        savedFilters: null
+    });
+
+
     // Product list contains: initList => fetched initial product list, listToRender => product list for rendering (after filtering)
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
@@ -52,6 +64,9 @@ export default function Catalog() {
             const categoriesList = await fetchCategories();
             const optionsFilter = getFilterOptions(listProduct);
 
+            // FROM LS
+            let savedActiveFiltersFromLS = localStorage.getItem(LS_KEY);
+
             // Filters collection
             const activeFilters: IActiveFilters = optionsFilter
                 .map((item) => item.filter)
@@ -59,26 +74,47 @@ export default function Catalog() {
                     acc[key] = [];
                     return acc;
                 }, {} as IActiveFilters);
+            console.log(activeFilters);
 
+            if (savedActiveFiltersFromLS !== null) {
+                const { savedCategory, savedFilters } = JSON.parse(savedActiveFiltersFromLS) as ISavedActiveFiltersFromLS;
 
-            // Set product list obj. (include user category choise)
-            const userCategoryChoise = getCategoryFromUrl(window.location.search);
+                setProductList({
+                    initList: listProduct,
+                    listToRender: savedCategory === null ?
+                        listProduct
+                        :
+                        listProduct.filter((product) => product.category_id === savedCategory)
+                });
 
-            setProductList({
-                initList: listProduct,
-                listToRender: userCategoryChoise === null ?
-                    listProduct
-                    :
-                    listProduct.filter((product) => product.category_id === userCategoryChoise)
-            });
+                // Set categories obj.
+                setCategories({ activeCategory: savedCategory, allCategories: categoriesList });
 
-            // Set categories obj.
-            setCategories({ activeCategory: userCategoryChoise, allCategories: categoriesList });
+                // Set filters options
+                setFilterOptions(optionsFilter);
+                // Set active values of filters
+                setActiveFilters(activeFilters);
 
-            // Set filters options
-            setFilterOptions(optionsFilter);
-            // Set active values of filters
-            setActiveFilters(activeFilters);
+            } else {
+                // Set product list obj. (include user category choise)
+                const userCategoryChoise = getCategoryFromUrl(window.location.search);
+
+                setProductList({
+                    initList: listProduct,
+                    listToRender: userCategoryChoise === null ?
+                        listProduct
+                        :
+                        listProduct.filter((product) => product.category_id === userCategoryChoise)
+                });
+
+                // Set categories obj.
+                setCategories({ activeCategory: userCategoryChoise, allCategories: categoriesList });
+
+                // Set filters options
+                setFilterOptions(optionsFilter);
+                // Set active values of filters
+                setActiveFilters(activeFilters);
+            }
         }
 
         fetchCatalogData();
@@ -107,6 +143,10 @@ export default function Catalog() {
     function categoriesHandler(categoryId: number) {
         setCategories({ ...categories, activeCategory: categoryId });
         getFilteredItems(activeFilters, categoryId);
+
+        const activeFiltersToSave: ISavedActiveFiltersFromLS = { ...LSSavedActiveFilters, savedCategory: categoryId };
+        setLSSavedActiveFilters(activeFiltersToSave);
+        localStorage.setItem(LS_KEY, JSON.stringify(activeFiltersToSave));
     };
 
     function filtersHandler(filter: string, value: string, multichoice: boolean = false) {
