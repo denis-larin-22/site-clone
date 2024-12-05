@@ -5,14 +5,16 @@ import { DropdownFilterMultiple } from "../ui/catalog-filters/DropdownFilterMult
 import { DropdownFilterSingle } from "../ui/catalog-filters/DropdownFilterSingle"
 import { PriceOrder } from "../ui/catalog-filters/FilterByLevelPrice"
 import { IFilterOption } from "@/app/lib/types"
+import { IActiveFilters } from "./Catalog"
 
 interface IProps {
     filterOptions: IFilterOption[],
+    activeFilters: IActiveFilters,
     filtersHandler: (filter: string, value: string, multichoice?: boolean) => void,
     sortByPriceHandler: (order: PriceOrder) => void
 }
 
-export function Filters({ filterOptions, filtersHandler, sortByPriceHandler }: IProps) {
+export function Filters({ filterOptions, activeFilters, filtersHandler, sortByPriceHandler }: IProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [openFilterIndex, setOpenFilterIndex] = useState<number | null>(null);
 
@@ -43,6 +45,7 @@ export function Filters({ filterOptions, filtersHandler, sortByPriceHandler }: I
                         <DropdownFilterMultiple
                             key={index}
                             filterOption={filter}
+                            activeFilters={activeFilters}
                             isOpen={isOpen}
                             onToggle={() => handleToggle(index)}
                             wrapperStyles={(openFilterIndex !== null && openFilterIndex !== index) ? 'grayscale mobile:grayscale-0 opacity-40 mobile:opacity-100 duration-150' : ''}
@@ -54,6 +57,7 @@ export function Filters({ filterOptions, filtersHandler, sortByPriceHandler }: I
                         <DropdownFilterSingle
                             key={index}
                             filterOption={filter}
+                            activeFilters={activeFilters}
                             isOpen={isOpen}
                             onToggle={() => handleToggle(index)}
                             wrapperStyles={(openFilterIndex !== null && openFilterIndex !== index) ? 'grayscale mobile:grayscale-0 opacity-40 mobile:opacity-100 duration-150' : ''}

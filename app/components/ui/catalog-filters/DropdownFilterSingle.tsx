@@ -7,9 +7,11 @@ import { openSansFont } from "../fonts";
 import { ArrowIcon } from "../../assets/icons";
 import { getFilterAnimation } from "@/app/lib/utils/animations";
 import { IFilterOption } from "@/app/lib/types";
+import { IActiveFilters } from "../../catalog-page/Catalog";
 
 export interface IProps {
     filterOption: IFilterOption,
+    activeFilters: IActiveFilters,
     isOpen: boolean,
     onToggle: () => void,
     wrapperStyles?: string,
@@ -19,13 +21,14 @@ export interface IProps {
 // Dropdown list of options with single choice
 export function DropdownFilterSingle({
     filterOption,
+    activeFilters,
     isOpen,
     onToggle,
     wrapperStyles,
     filtersHandler
 }: IProps) {
     const [optionTitle, setOptionTitle] = useState<string>(filterOption.title || filterOption.options[0]);
-    const [selectedOption, setSelectedOption] = useState<string>(optionTitle);
+    const [selectedOption, setSelectedOption] = useState<string>(activeFilters[filterOption.filter].pop() || optionTitle);
 
     // Animation parameters
     const { containerAnimation } = getFilterAnimation();

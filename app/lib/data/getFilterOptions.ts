@@ -25,7 +25,7 @@ export function getFilterOptions(productList: IProductItem[]) {
         filter: "transparency",
         title: "Прозорість",
         options: getTransparencies(productList),
-        multichoice: false
+        multichoice: true
     }
     const filterByCollections: IFilterOption = {
         filter: "collection",

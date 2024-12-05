@@ -33,70 +33,47 @@ interface ISavedActiveFiltersFromLS {
 }
 
 export default function Catalog() {
-    const LS_KEY = "piramid-saved_active_filters"
-    const [LSSavedActiveFilters, setLSSavedActiveFilters] = useState<ISavedActiveFiltersFromLS>({
-        savedCategory: null,
-        savedFilters: null
-    });
+    const SS_KEY = "piramid-saved_active_filters"; // Session storage key
 
-
-    // Product list contains: initList => fetched initial product list, listToRender => product list for rendering (after filtering)
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
         listToRender: []
     });
 
-    // Main categories list
     const [categories, setCategories] = useState<ICategoryList>({
         allCategories: [],
         activeCategory: null
     });
 
-    // Filters list
     const [filterOptions, setFilterOptions] = useState<FilterOptions>([]);
-    // Active filters
     const [activeFilters, setActiveFilters] = useState<IActiveFilters>({});
 
     useEffect(() => {
         async function fetchCatalogData() {
-            // Fetch data (product list, category list, filters list)
             const listProduct = await fetchProductsList();
             const categoriesList = await fetchCategories();
             const optionsFilter = getFilterOptions(listProduct);
 
-            // FROM LS
-            let savedActiveFiltersFromLS = localStorage.getItem(LS_KEY);
-
-            // Filters collection
             const activeFilters: IActiveFilters = optionsFilter
                 .map((item) => item.filter)
                 .reduce((acc, key) => {
                     acc[key] = [];
                     return acc;
                 }, {} as IActiveFilters);
-            console.log(activeFilters);
 
-            if (savedActiveFiltersFromLS !== null) {
+            let savedActiveFiltersFromLS = sessionStorage.getItem(SS_KEY);
+            if (savedActiveFiltersFromLS) {
                 const { savedCategory, savedFilters } = JSON.parse(savedActiveFiltersFromLS) as ISavedActiveFiltersFromLS;
 
                 setProductList({
                     initList: listProduct,
-                    listToRender: savedCategory === null ?
-                        listProduct
-                        :
-                        listProduct.filter((product) => product.category_id === savedCategory)
+                    listToRender: (savedCategory !== null && savedFilters !== null) ? getFilteredItems(listProduct, savedFilters, savedCategory) : listProduct
                 });
 
-                // Set categories obj.
                 setCategories({ activeCategory: savedCategory, allCategories: categoriesList });
-
-                // Set filters options
                 setFilterOptions(optionsFilter);
-                // Set active values of filters
-                setActiveFilters(activeFilters);
-
+                setActiveFilters(savedFilters || activeFilters);
             } else {
-                // Set product list obj. (include user category choise)
                 const userCategoryChoise = getCategoryFromUrl(window.location.search);
 
                 setProductList({
@@ -107,12 +84,8 @@ export default function Catalog() {
                         listProduct.filter((product) => product.category_id === userCategoryChoise)
                 });
 
-                // Set categories obj.
                 setCategories({ activeCategory: userCategoryChoise, allCategories: categoriesList });
-
-                // Set filters options
                 setFilterOptions(optionsFilter);
-                // Set active values of filters
                 setActiveFilters(activeFilters);
             }
         }
@@ -120,83 +93,60 @@ export default function Catalog() {
         fetchCatalogData();
     }, []);
 
-    function getFilteredItems(activeFilters: IActiveFilters, activeCategoryId?: number) {
-        const activeCategory = activeCategoryId ?? categories.activeCategory; // Return null if activeCategoryId = undefined and categories.activeCategory = null
+    function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId?: number) {
+        const activeCategory = activeCategoryId ?? categories.activeCategory;
 
-        // Search for matches of product attributes with corresponding values ​​of activeFilters attributes
-        const { color, collection, transparency, price } = activeFilters;
-        const updatedList = productList.initList.filter((product) => {
+        const { color, collection, transparency } = activeFilters;
+        return products.filter((product) => {
             const categoryMatch = activeCategory === null || product.category_id === activeCategory;
             const colorMatch = color.length === 0 || color.includes(product.technical_info.color);
-            // const designMatch = design.length === 0 || design.includes(product.design_id); - TO DO
             const transparencyMatch = transparency.length === 0 || transparency.includes(product.technical_info.transparency);
             const collectionMatch = collection.length === 0 || collection.includes(product.technical_info.collection);
 
-            // The product does not pass filtration if there is at least one "false" match values!
-            // return categoryMatch && colorMatch && designMatch && transparencyMatch && collectionMatch; - init all filters
             return categoryMatch && colorMatch && transparencyMatch && collectionMatch;
         });
-
-        setProductList({ ...productList, listToRender: updatedList });
-    };
+    }
 
     function categoriesHandler(categoryId: number) {
-        setCategories({ ...categories, activeCategory: categoryId });
-        getFilteredItems(activeFilters, categoryId);
+        const filteredItems = getFilteredItems(productList.initList, activeFilters, categoryId);
 
-        const activeFiltersToSave: ISavedActiveFiltersFromLS = { ...LSSavedActiveFilters, savedCategory: categoryId };
-        setLSSavedActiveFilters(activeFiltersToSave);
-        localStorage.setItem(LS_KEY, JSON.stringify(activeFiltersToSave));
-    };
+        setCategories({ ...categories, activeCategory: categoryId });
+        setProductList({ ...productList, listToRender: filteredItems });
+
+        const activeFiltersToSave: ISavedActiveFiltersFromLS = { savedCategory: categoryId, savedFilters: activeFilters };
+        // setLSSavedActiveFilters(activeFiltersToSave);
+        sessionStorage.setItem(SS_KEY, JSON.stringify(activeFiltersToSave));
+    }
 
     function filtersHandler(filter: string, value: string, multichoice: boolean = false) {
+        const updatedActiveFilters: IActiveFilters = { ...activeFilters };
         const initActiveFilterState = activeFilters[filter];
 
         if (multichoice) {
-            const isFilterValueInclude = initActiveFilterState.includes(value);
-
-            if (isFilterValueInclude) {
-                const removeDuplicateId = initActiveFilterState.filter((item) => item !== value);
-                const updatedActiveFilters = {
-                    ...activeFilters,
-                    [filter]: [...removeDuplicateId]
-                }
-
-                getFilteredItems(updatedActiveFilters);
-                setActiveFilters(updatedActiveFilters);
-            } else {
-                const updatedActiveFilters = {
-                    ...activeFilters,
-                    [filter]: removeDuplicates([...activeFilters[filter], value])
-                }
-
-                getFilteredItems(updatedActiveFilters);
-                setActiveFilters(updatedActiveFilters);
-            }
-
+            updatedActiveFilters[filter] = initActiveFilterState.includes(value)
+                ? initActiveFilterState.filter((item) => item !== value)
+                : [...initActiveFilterState, value];
         } else {
-            const updatedActiveFilters = {
-                ...activeFilters,
-                [filter]: [value]
-            }
-
-            getFilteredItems(updatedActiveFilters);
-            setActiveFilters(updatedActiveFilters);
+            updatedActiveFilters[filter] = [value];
         }
-    };
 
-    // TO_DO
-    // function sortByPriceHandler(order: PriceOrder) {
-    //     if (order === 'fromLower') {
-    //         const sortedProductList = productList.listToRender.sort((a, b) => a.price - b.price);
-    //         setProductList({ ...productList, listToRender: sortedProductList })
-    //     } else if (order === 'fromHigher') {
-    //         const sortedProductList = productList.listToRender.sort((a, b) => b.price - a.price);;
-    //         setProductList({ ...productList, listToRender: sortedProductList })
-    //     } else {
-    //         return;
-    //     }
-    // }
+        // Передача activeCategory с заменой null на undefined
+        const filteredItems = getFilteredItems(
+            productList.initList,
+            updatedActiveFilters,
+            categories.activeCategory ?? undefined
+        );
+
+        setActiveFilters(updatedActiveFilters);
+        setProductList({ ...productList, listToRender: filteredItems });
+
+        const activeFiltersToSave: ISavedActiveFiltersFromLS = {
+            savedCategory: categories.activeCategory,
+            savedFilters: updatedActiveFilters
+        };
+        // setLSSavedActiveFilters(activeFiltersToSave);
+        sessionStorage.setItem(SS_KEY, JSON.stringify(activeFiltersToSave));
+    }
 
     return (
         <>
@@ -220,6 +170,7 @@ export default function Catalog() {
                 <Filters
                     filterOptions={filterOptions}
                     filtersHandler={filtersHandler}
+                    activeFilters={activeFilters}
                     sortByPriceHandler={() => { }}
                 />
                 <CatalogList
@@ -228,7 +179,7 @@ export default function Catalog() {
             </div>
         </>
     );
-};
+}
 
 function getCategoryFromUrl(search: string): number | null {
     const params = new URLSearchParams(search);

@@ -8,9 +8,11 @@ import { ArrowIcon } from "../../assets/icons";
 import { getFilterAnimation } from "@/app/lib/utils/animations";
 import { IFilterOption } from "@/app/lib/types";
 import { filterValuesIcons } from "@/app/lib/data/filter-values-icons";
+import { IActiveFilters } from "../../catalog-page/Catalog";
 
 export interface IProps {
     filterOption: IFilterOption,
+    activeFilters: IActiveFilters,
     isOpen: boolean,
     onToggle: () => void,
     wrapperStyles?: string,
@@ -19,12 +21,13 @@ export interface IProps {
 
 export function DropdownFilterMultiple({
     filterOption,
+    activeFilters,
     isOpen,
     onToggle,
     wrapperStyles,
     filtersHandler
 }: IProps) {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<string[]>(activeFilters[filterOption.filter]);
 
     const toggleOption = (option: string) => {
         const updatedOptions = [...selectedOptions];
