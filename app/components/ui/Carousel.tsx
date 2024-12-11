@@ -1,7 +1,10 @@
+"use client"
+
 import Link from "next/link";
 import { openSansFont } from "./fonts";
 import { motion } from "framer-motion";
 import { CarouselList } from "@/app/lib/contentful/contentful-api";
+import { ISavedActiveFiltersFromLS, SS_KEY } from "../catalog-page/Catalog";
 
 interface IProps {
     carouselList: CarouselList,
@@ -75,8 +78,11 @@ function CarouselListDesktop({ carouselList, isInView }: IProps) {
                     className="group relative flex-shrink-0 flex-grow-0 rounded-[14px]"
                     style={getAnimInViewDesktop(isInView, index)}
                 >
-                    <Link href={"/catalog?category=" + item.id}>
-                        <img
+                    <Link
+                        href={"/catalog"}
+                        onClick={() => saveCategoryParamObj(+item.id)}
+                    >
+                        < img
                             alt={`Зображення для ${item.image.alt}`}
                             title={`Зображення для ${item.image.alt}`}
                             src={item.image.src}
@@ -110,8 +116,9 @@ function CarouselListDesktop({ carouselList, isInView }: IProps) {
                         ></div>
                     </Link>
                 </motion.li>
-            ))}
-        </ul>
+            ))
+            }
+        </ul >
     )
 };
 
@@ -160,7 +167,11 @@ function CarouselListTablet({ carouselList, isInView }: IProps) {
                     key={index}
                     style={getAnimInViewMobile(isInView, index)}
                 >
-                    <Link href={"/catalog?category=" + item.id} className="inline-block w-[231px] h-[369px]">
+                    <Link
+                        href={"/catalog"}
+                        onClick={() => saveCategoryParamObj(+item.id)}
+                        className="inline-block w-[231px] h-[369px]"
+                    >
                         <div className="relative z-0">
                             <img
                                 alt={`Зображення до ${item.image.alt}`}
@@ -241,7 +252,11 @@ function CarouselListMobile({ carouselList, isInView }: IProps) {
                     className="relative z-0 flex flex-col items-center gap-y-[27px]"
                     style={getAnimInViewMobile(isInView, index)}
                 >
-                    <Link href={"/catalog?category=" + item.id} className="inline-block w-[135px] mobile-xs:w-[172px] md:w-[231px] h-[233px] mobile-xs:h-[272px] md:h-[369px]">
+                    <Link
+                        href={"/catalog"}
+                        onClick={() => saveCategoryParamObj(+item.id)}
+                        className="inline-block w-[135px] mobile-xs:w-[172px] md:w-[231px] h-[233px] mobile-xs:h-[272px] md:h-[369px]"
+                    >
                         <div className="relative z-0">
                             <img
                                 alt={`Зображення до ${item.image.alt}`}
@@ -274,6 +289,15 @@ function CarouselListMobile({ carouselList, isInView }: IProps) {
             ))}
         </ul>
     )
+}
+
+function saveCategoryParamObj(categoryId: number) {
+    const paramsObjToSave: ISavedActiveFiltersFromLS = {
+        savedCategory: categoryId,
+        savedFilters: null
+    };
+
+    sessionStorage.setItem(SS_KEY, JSON.stringify(paramsObjToSave));
 }
 
 // Icon

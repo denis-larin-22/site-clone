@@ -41,16 +41,6 @@ export default function CarouselSection() {
                             <h5 className="relative z-10 max-w-[942px] text-[20px] mobile-xs:text-[24px] mobile:text-[38px] xl:text-[48px] leading-none font-bold uppercase">
                                 {replaceOWithPaintedO(componentContent.title, "black", "#F6F5F8")}
                             </h5>
-                            <Link href={"/catalog"} className="group self-end xl:self-stretch hidden md:flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pl-3 hover:text-white">
-                                Усі товари
-                                <span
-                                    className="-rotate-[33deg] group-hover:-rotate-[123deg] duration-250 inline-flex items-center justify-center h-10 w-10 rounded-full bg-t-blue cursor-pointer pointer-events-none"
-                                >
-                                    <svg width="16" height="21" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1.4565 19.7035L13.2742 1.14709M13.2742 1.14709L4.45319 3.82839M13.2742 1.14709L14.9966 10.543" stroke="#F6F5F8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                </span>
-                            </Link>
                         </div>
                         <Carousel
                             carouselList={componentContent.carouselList}

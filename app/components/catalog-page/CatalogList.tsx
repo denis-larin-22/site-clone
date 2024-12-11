@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { IProductItem } from "@/app/lib/types";
 import CatalogCard from "./CatalogCard";
 
@@ -9,10 +9,16 @@ interface IProps {
     className?: string
 }
 
-const ITEMS_PER_PAGE = 20; // Define how many items you want to show per page
+const ITEMS_PER_PAGE = 20;
 
 export default function CatalogList({ listToRender, className }: IProps) {
     const [currentPage, setCurrentPage] = useState(1);
+    const containerRef = useRef<HTMLDivElement>(null); // Ссылка на обертку компонента
+
+    // Reset currentPage to 1 when listToRender changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [listToRender]);
 
     // Calculate total pages
     const totalPages = Math.ceil(listToRender.length / ITEMS_PER_PAGE);
@@ -24,11 +30,19 @@ export default function CatalogList({ listToRender, className }: IProps) {
     // Handle page change
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
+
+        // Scroll to top of the container
+        if (containerRef.current) {
+            containerRef.current.scrollIntoView({
+                behavior: "smooth", // Плавная прокрутка
+                block: "start"
+            });
+        }
     };
 
     return (
-        <div>
-            <ul className={`w-full -mt-[420px] px-0 tablet:px-10 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start mobile:justify-center gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className ? className : ''}`}>
+        <div ref={containerRef} className="mt-[-400px] pt-5">
+            <ul className={` w-full px-0 tablet:px-10 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start mobile:justify-center gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className ? className : ''}`}>
                 {currentItems.map((product, index) => (
                     <li key={product.id + product.name + index}>
                         <CatalogCard productItem={product} />
