@@ -34,7 +34,7 @@ export default function CatalogCard({ productItem }: IProps) {
     return (
         <>
             <Link
-                href={`/catalog/${id}/catalog-item`}
+                href={`/catalog/${category.id}/category/${id}/catalog-item`}
                 className="group relative inline-flex w-full mobile:w-[282px] h-[231px] mobile:h-[381px] rounded-xl overflow-hidden mobile:hover:ring-4 ring-offset-4 ring-t-blue/40 duration-400"
             >
                 {sale_tk && <CountdownTimer

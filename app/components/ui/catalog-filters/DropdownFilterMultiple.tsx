@@ -27,6 +27,8 @@ export function DropdownFilterMultiple({
     wrapperStyles,
     filtersHandler
 }: IProps) {
+    const isOptionsArrayEmpty = !Boolean(filterOption.options.length);
+
     const [selectedOptions, setSelectedOptions] = useState<string[]>(activeFilters[filterOption.filter]);
 
     const toggleOption = (option: string) => {
@@ -44,7 +46,7 @@ export function DropdownFilterMultiple({
     const { containerAnimation } = getFilterAnimation();
 
     return (
-        <div className={`text-t-blue-dark relative mt-1 ${wrapperStyles ? wrapperStyles : ''}`}>
+        <div className={`text-t-blue-dark relative mt-1 ${isOptionsArrayEmpty ? 'hidden' : 'block'} ${wrapperStyles ? wrapperStyles : ''}`}>
             <Button
                 className="py-3 px-4 rounded-3xl text-t-blue-dark bg-white text-sm font-medium flex items-center justify-between gap-4"
                 onClick={onToggle}
@@ -62,7 +64,7 @@ export function DropdownFilterMultiple({
             {isOpen && (
                 <>
                     <motion.ul
-                        className={`${openSansFont.className} fixed left-0 mobile:absolute z-50 w-screen mobile:w-fit max-h-[450px] overflow-y-auto bg-t-pale mobile:bg-white p-5 mobile:p-2.5 rounded-bl-[35px] rounded-br-[35px] mobile:rounded-2xl -mt-0.5 flex flex-row flex-wrap mobile:flex-nowrap mobile:flex-col gap-1.5 mobile:gap-y-[2px]`}
+                        className={`${openSansFont.className} fixed left-0 mobile:absolute z-[100] w-screen mobile:w-fit max-h-[450px] overflow-y-auto bg-t-pale mobile:bg-white p-5 mobile:p-2.5 rounded-bl-[35px] rounded-br-[35px] mobile:rounded-2xl -mt-0.5 flex flex-row flex-wrap mobile:flex-nowrap mobile:flex-col gap-1.5 mobile:gap-y-[2px]`}
                         variants={containerAnimation}
                         initial="hidden"
                         animate="visible"

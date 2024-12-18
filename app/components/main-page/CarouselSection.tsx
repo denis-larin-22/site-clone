@@ -6,7 +6,6 @@ import { defaultCarouselList } from "@/app/lib/data/carousel-list";
 import { getCarouselSectionContent, ICarouselSectionContent } from "@/app/lib/contentful/contentful-api";
 import { replaceOWithPaintedO } from "@/app/lib/utils/utils";
 import { Carousel } from "../ui/Carousel";
-import Link from "next/link";
 
 export default function CarouselSection() {
     const ref = useRef(null); // Animation container

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { openSansFont } from "./fonts";
 import { motion } from "framer-motion";
 import { CarouselList } from "@/app/lib/contentful/contentful-api";
-import { ISavedActiveFiltersFromLS, SS_KEY } from "../catalog-page/Catalog";
 
 interface IProps {
     carouselList: CarouselList,
@@ -33,6 +32,8 @@ export function Carousel({ carouselList, isInView }: IProps) {
 }
 
 function CarouselListDesktop({ carouselList, isInView }: IProps) {
+    console.log(carouselList);
+
     // Get spawn animation for each card
     const getAnimInViewDesktop = (isInView: boolean, elementIndex: number) => {
         const transition = "all 1s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
@@ -78,10 +79,7 @@ function CarouselListDesktop({ carouselList, isInView }: IProps) {
                     className="group relative flex-shrink-0 flex-grow-0 rounded-[14px]"
                     style={getAnimInViewDesktop(isInView, index)}
                 >
-                    <Link
-                        href={"/catalog"}
-                        onClick={() => saveCategoryParamObj(+item.id)}
-                    >
+                    <Link href={`/catalog/${item.id}/category`}>
                         < img
                             alt={`Зображення для ${item.image.alt}`}
                             title={`Зображення для ${item.image.alt}`}
@@ -118,7 +116,7 @@ function CarouselListDesktop({ carouselList, isInView }: IProps) {
                 </motion.li>
             ))
             }
-        </ul >
+        </ul>
     )
 };
 
@@ -168,8 +166,7 @@ function CarouselListTablet({ carouselList, isInView }: IProps) {
                     style={getAnimInViewMobile(isInView, index)}
                 >
                     <Link
-                        href={"/catalog"}
-                        onClick={() => saveCategoryParamObj(+item.id)}
+                        href={`/catalog/${item.id}/category`}
                         className="inline-block w-[231px] h-[369px]"
                     >
                         <div className="relative z-0">
@@ -253,8 +250,7 @@ function CarouselListMobile({ carouselList, isInView }: IProps) {
                     style={getAnimInViewMobile(isInView, index)}
                 >
                     <Link
-                        href={"/catalog"}
-                        onClick={() => saveCategoryParamObj(+item.id)}
+                        href={`/catalog/${item.id}/category`}
                         className="inline-block w-[135px] mobile-xs:w-[172px] md:w-[231px] h-[233px] mobile-xs:h-[272px] md:h-[369px]"
                     >
                         <div className="relative z-0">
@@ -291,17 +287,8 @@ function CarouselListMobile({ carouselList, isInView }: IProps) {
     )
 }
 
-function saveCategoryParamObj(categoryId: number) {
-    const paramsObjToSave: ISavedActiveFiltersFromLS = {
-        savedCategory: categoryId,
-        savedFilters: null
-    };
-
-    sessionStorage.setItem(SS_KEY, JSON.stringify(paramsObjToSave));
-}
-
 // Icon
-function DecorSpot() {
+export function DecorSpot() {
     return (
         <svg width="89" height="102" viewBox="0 0 89 102" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M75.3286 1.0594C75.3286 -10.3319 98.4557 73.4551 82.8659 93.5429C67.3933 113.48 -13.0526 89.5597 1.82677 89.5596C30.9903 89.5594 16.6772 73.375 10.2541 53.9673C3.83098 34.5596 18.7612 14.0596 37.8262 14.0596C56.8911 14.0596 75.9238 22.6478 75.3286 1.0594Z" fill="#F6F5F8" />

@@ -41,7 +41,7 @@ export default function CatalogList({ listToRender, className }: IProps) {
     };
 
     return (
-        <div ref={containerRef} className="mt-[-400px] pt-5">
+        <div ref={containerRef} className="mt-[-400px] pt-5 min-h-[50dvh]">
             <ul className={` w-full px-0 tablet:px-10 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start mobile:justify-center gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className ? className : ''}`}>
                 {currentItems.map((product, index) => (
                     <li key={product.id + product.name + index}>

@@ -9,22 +9,18 @@ import Loader from "../ui/Loader";
 import { ICategoryList } from "./Catalog";
 
 interface IProps {
-    categoriesList: ICategoryList,
+    activeCategory: number | null,
+    categoriesList: ICategory[],
     categoriesHandler: (categoryId: number) => void
 }
 
 type CategoriesListWithIcons = Array<ICategory & { iconSrc: string }>;
 
-export default function CategoryNavigation({ categoriesList, categoriesHandler }: IProps) {
+export default function CategoryNavigation({ activeCategory, categoriesList, categoriesHandler }: IProps) {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
-    const [activeCategory, setActiveCategory] = useState<number | null>(null);
-
-    useEffect(() => {
-        setActiveCategory(categoriesList.activeCategory);
-    }, [categoriesList.activeCategory])
 
     // Get icons for each category
-    const categoriesListWithIcons: CategoriesListWithIcons = categoriesList.allCategories.map((category) => ({
+    const categoriesListWithIcons: CategoriesListWithIcons = categoriesList.map((category) => ({
         ...category,
         iconSrc: getCategoryIconSrc(category.name)
     }));
@@ -46,8 +42,7 @@ export default function CategoryNavigation({ categoriesList, categoriesHandler }
     }, [handleResize]);
 
     const handleClick = (categoryId: number) => {
-        setActiveCategory(categoryId);
-        categoriesHandler(categoryId);
+        ;
     };
 
     return (
@@ -77,11 +72,12 @@ export default function CategoryNavigation({ categoriesList, categoriesHandler }
                     </span>
                 </Link>
                 <nav className="mt-52 flex flex-col items-start">
-                    {categoriesList.allCategories.length ?
+                    {categoriesList.length ?
                         categoriesListWithIcons.map((category) => (
-                            <button
+                            <Link
                                 key={category.id}
-                                onClick={() => handleClick(category.id)}
+                                href={`/catalog/${category.id}/category`}
+                                onClick={() => categoriesHandler(category.id)}
                                 className={`group relative h-[60px] w-full p-[15px] rounded-xl text-lg font-bold ${activeCategory === category.id ? 'text-t-blue bg-white' : 'text-t-gray-text hover:text-t-blue'} flex items-center gap-x-[14px] hover:bg-white duration-150`}
                             >
                                 <span className={activeCategory === category.id ? 'absolute top-1/2 -left-10 -translate-y-1/2 inline-block w-[22px] h-[39px] rounded-xl bg-t-blue' : 'hidden'}></span>
@@ -106,7 +102,7 @@ export default function CategoryNavigation({ categoriesList, categoriesHandler }
                                             {category.name}
                                         </motion.span>}
                                 </AnimatePresence>
-                            </button>
+                            </Link>
                         ))
                         :
                         <Loader />
@@ -115,14 +111,15 @@ export default function CategoryNavigation({ categoriesList, categoriesHandler }
             </aside >
 
             {/* Mobile version */}
-            < aside className="block mobile:hidden h-24 absolute z-30 bottom-0 right-0 left-0 bg-[#FAFAFA] overflow-hidden" >
+            <aside className="block mobile:hidden h-24 fixed z-30 bottom-0 right-0 left-0 bg-[#FAFAFA] overflow-hidden" >
                 <nav className="h-full flex items-center justify-around ">
                     {
-                        categoriesList.allCategories.length ?
+                        categoriesList.length ?
                             categoriesListWithIcons.map((category) => (
-                                <button
+                                <Link
                                     key={category.id}
-                                    onClick={() => handleClick(category.id)}
+                                    href={`/catalog/${category.id}/category`}
+                                    onClick={() => categoriesHandler(category.id)}
                                     className={`group relative w-[55px] h-[52px] rounded-xl flex flex-col items-center ${activeCategory === category.id ? 'bg-white' : ''} flex items-center justify-center`}
                                 >
                                     <span className={activeCategory === category.id ? 'absolute -top-9 inline-block w-[29px] h-[10px] rounded-xl bg-t-blue' : 'hidden'}></span>
@@ -134,13 +131,13 @@ export default function CategoryNavigation({ categoriesList, categoriesHandler }
                                             className="w-full h-full object-cover"
                                         />
                                     </span>
-                                </button>
+                                </Link>
                             ))
                             :
                             <Loader />
                     }
                 </nav>
-            </aside >
+            </aside>
         </>
     )
 }

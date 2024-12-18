@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     }
 };
 
-function CatalogItemPage({ params }: { params: { id: string } }) {
-    const productId = params.id;
+function CatalogItemPage({ params }: { params: { itemId: string } }) {
+    const productId = params.itemId;
 
     return (
         <CatalogItem itemId={productId} />

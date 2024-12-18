@@ -53,7 +53,7 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
 
     return (
         <section className="relative block tablet:hidden grow">
-            <Link href={"/catalog"} className="absolute z-10 left-5 mobile:left-10 top-3 mobile:top-12">
+            <Link href={`/catalog/${category.id}/category`} className="absolute z-10 left-5 mobile:left-10 top-3 mobile:top-12">
                 <CloseArrowIcon />
             </Link>
 

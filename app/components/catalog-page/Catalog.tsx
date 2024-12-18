@@ -26,15 +26,9 @@ export interface IActiveFilters {
     [key: string]: any[];
 }
 
-export interface ISavedActiveFiltersFromLS {
-    savedCategory: number | null,
-    savedFilters: IActiveFilters | null
-}
+export const SS_CATALOG_FILTERS_PARAMS_KEY = "piramid_ss_key";
 
-export const SS_KEY = "piramid-saved_active_filters"; // Session storage key
-
-export default function Catalog() {
-
+export default function Catalog({ activeCategoryId }: { activeCategoryId: string }) {
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
         listToRender: []
@@ -42,75 +36,62 @@ export default function Catalog() {
 
     const [categories, setCategories] = useState<ICategoryList>({
         allCategories: [],
-        activeCategory: null
+        activeCategory: Number(activeCategoryId)
     });
 
     const [filterOptions, setFilterOptions] = useState<FilterOptions>([]);
     const [activeFilters, setActiveFilters] = useState<IActiveFilters>({});
 
+    // GET CATALOG DATA
     useEffect(() => {
         async function fetchCatalogData() {
-            const listProduct = await fetchProductsList();
-            const categoriesList = await fetchCategories();
-            const optionsFilter = getFilterOptions(listProduct);
+            const listProduct = await fetchProductsList(); // init catalog list
+            const categoriesList = await fetchCategories(); // category list
 
+            const productListByActiveCategory = listProduct.filter((product) => product.category_id === Number(activeCategoryId)); // filtered list by active category
+            const optionsFilter = getFilterOptions(productListByActiveCategory); // all filters/filter values by selected products
+
+            setCategories({ ...categories, allCategories: categoriesList });
             setFilterOptions(optionsFilter);
 
-            const activeFilters: IActiveFilters = optionsFilter
-                .map((item) => item.filter)
-                .reduce((acc, key) => {
-                    acc[key] = [];
-                    return acc;
-                }, {} as IActiveFilters);
+            const filterParamsFromSS = sessionStorage.getItem(SS_CATALOG_FILTERS_PARAMS_KEY); // saved filter params from the session storage
 
-            let savedActiveFiltersFromLS = sessionStorage.getItem(SS_KEY);
+            if (filterParamsFromSS) {
+                const savedFilterParams = JSON.parse(filterParamsFromSS) as IActiveFilters;
 
-            if (savedActiveFiltersFromLS) {
-                const { savedCategory, savedFilters } = JSON.parse(savedActiveFiltersFromLS) as ISavedActiveFiltersFromLS;
-
+                setActiveFilters(savedFilterParams);
                 setProductList({
-                    initList: listProduct,
-                    listToRender: savedCategory === null ?
-                        listProduct
-                        :
-                        getFilteredItems(listProduct, savedFilters || activeFilters, savedCategory)
+                    initList: productListByActiveCategory,
+                    listToRender: getFilteredItems(productListByActiveCategory, savedFilterParams, Number(activeCategoryId)) // filtered by params from session storage
                 });
-                setCategories({ activeCategory: savedCategory, allCategories: categoriesList });
-                setActiveFilters(savedFilters || activeFilters);
             } else {
-                setProductList({ initList: listProduct, listToRender: listProduct });
-                setCategories({ activeCategory: null, allCategories: categoriesList });
+                // init activeFilters object
+                const activeFilters: IActiveFilters = optionsFilter
+                    .map((item) => item.filter)
+                    .reduce((acc, key) => {
+                        acc[key] = [];
+                        return acc;
+                    }, {} as IActiveFilters);
+
                 setActiveFilters(activeFilters);
+                setProductList({
+                    initList: productListByActiveCategory,
+                    listToRender: productListByActiveCategory
+                });
             }
         }
 
         fetchCatalogData();
     }, []);
 
-    function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId?: number) {
-        const activeCategory = activeCategoryId ?? categories.activeCategory;
-
-        const { color, collection, transparency } = activeFilters;
-        return products.filter((product) => {
-            const categoryMatch = activeCategory === null || product.category_id === activeCategory;
-            const colorMatch = color.length === 0 || color.includes(product.technical_info.color);
-            const transparencyMatch = transparency.length === 0 || transparency.includes(product.technical_info.transparency);
-            const collectionMatch = collection.length === 0 || collection.includes(product.technical_info.collection);
-
-            return categoryMatch && colorMatch && transparencyMatch && collectionMatch;
-        });
-    }
-
+    // CATEGORY HANDLER
     function categoriesHandler(categoryId: number) {
-        const filteredItems = getFilteredItems(productList.initList, activeFilters, categoryId);
-
         setCategories({ ...categories, activeCategory: categoryId });
-        setProductList({ ...productList, listToRender: filteredItems });
-
-        const activeFiltersToSave: ISavedActiveFiltersFromLS = { savedCategory: categoryId, savedFilters: activeFilters };
-        sessionStorage.setItem(SS_KEY, JSON.stringify(activeFiltersToSave));
+        // remoove previous saved filter params in the session storage
+        sessionStorage.removeItem(SS_CATALOG_FILTERS_PARAMS_KEY);
     }
 
+    // FILTERS HANDLER
     function filtersHandler(filter: string, value: string, multichoice: boolean = false) {
         const updatedActiveFilters: IActiveFilters = { ...activeFilters };
         const initActiveFilterState = activeFilters[filter];
@@ -127,38 +108,27 @@ export default function Catalog() {
         const filteredItems = getFilteredItems(
             productList.initList,
             updatedActiveFilters,
-            categories.activeCategory ?? undefined
+            Number(activeCategoryId)
         );
 
         setActiveFilters(updatedActiveFilters);
         setProductList({ ...productList, listToRender: filteredItems });
-
-        const activeFiltersToSave: ISavedActiveFiltersFromLS = {
-            savedCategory: categories.activeCategory,
-            savedFilters: updatedActiveFilters
-        };
-        sessionStorage.setItem(SS_KEY, JSON.stringify(activeFiltersToSave));
+        // saving updated filter params to the session storage
+        sessionStorage.setItem(SS_CATALOG_FILTERS_PARAMS_KEY, JSON.stringify(updatedActiveFilters));
     }
 
-    function resetFilters() {
-        let savedActiveFiltersFromLS = sessionStorage.getItem(SS_KEY);
-        if (!savedActiveFiltersFromLS) return;
-
-        const currentFiltersSavedObj = JSON.parse(savedActiveFiltersFromLS) as ISavedActiveFiltersFromLS;
-        const resetedFiltersObjToSave: ISavedActiveFiltersFromLS = {
-            savedCategory: currentFiltersSavedObj.savedCategory,
-            savedFilters: null
-        };
-
-        sessionStorage.setItem(SS_KEY, JSON.stringify(resetedFiltersObjToSave));
-
+    // RESET FILTERS
+    function resetFiltersHandler() {
+        setActiveFilters({});
+        sessionStorage.removeItem(SS_CATALOG_FILTERS_PARAMS_KEY);
         window.location.reload();
     }
 
     return (
         <>
             <CategoryNavigation
-                categoriesList={categories}
+                activeCategory={categories.activeCategory}
+                categoriesList={categories.allCategories}
                 categoriesHandler={categoriesHandler}
             />
 
@@ -175,11 +145,11 @@ export default function Catalog() {
                 </div>
 
                 <Filters
+                    activeFilters={activeFilters}
                     filterOptions={filterOptions}
                     filtersHandler={filtersHandler}
-                    activeFilters={activeFilters}
+                    resetFiltersButtonHandler={resetFiltersHandler}
                     sortByPriceHandler={() => { }}
-                    resetFiltersButtonHandler={resetFilters}
                 />
                 <CatalogList
                     listToRender={productList.listToRender}
@@ -189,9 +159,17 @@ export default function Catalog() {
     );
 }
 
-function getCategoryFromUrl(search: string): number | null {
-    const params = new URLSearchParams(search);
-    const categoryIdValue = params.get("category");
+// get filtered product list by category and filters values
+function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId: number) {
+    const { color, collection, transparency, price } = activeFilters;
 
-    return categoryIdValue === null ? null : +categoryIdValue;
-}
+    return products.filter((product) => {
+        const categoryMatch = product.category_id === activeCategoryId;
+        const colorMatch = color.length === 0 || color.includes(product.technical_info.color);
+        const transparencyMatch = transparency.length === 0 || transparency.includes(product.technical_info.transparency);
+        const collectionMatch = collection.length === 0 || collection.includes(product.technical_info.collection);
+        const priceMatch = price.length === 0 || price.includes(product.price.price_5);
+
+        return categoryMatch && colorMatch && transparencyMatch && collectionMatch && priceMatch;
+    });
+};
