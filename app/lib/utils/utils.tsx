@@ -108,3 +108,8 @@ export function capitalizeFirstLetter(word: string | null): string | null {
 
     return word.charAt(0).toUpperCase() + word.slice(1);
 }
+
+// Return true if value equals even number or 0
+export function isNumberInArray(number: number, arrayNumber: number[]): boolean {
+    return arrayNumber.includes(number);
+}

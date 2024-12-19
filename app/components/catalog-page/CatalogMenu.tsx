@@ -3,7 +3,7 @@
 import { fetchCategories, fetchProductsList } from "@/app/lib/api/apiRequests";
 import Header from "../ui/Header";
 import Footer from "../ui/Footer";
-import { replaceOWithPaintedO } from "@/app/lib/utils/utils";
+import { isNumberInArray, replaceOWithPaintedO } from "@/app/lib/utils/utils";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { openSansFont } from "../ui/fonts";
@@ -175,8 +175,10 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
                                 ></div>
                             </Link>
 
+
+
                             {hoveredItemId === category.id && (
-                                <div className="absolute top-0 -right-[145px] z-50 flex flex-col gap-2">
+                                <div className={`absolute top-0 ${isNumberInArray(index, [3, 7]) ? '-left-[45%]' : '-right-[45%]'} z-50 flex flex-col gap-2`}>
                                     <CategoryDetailItem value={details.quantity} label="пропозицій" delay={0} />
                                     <CategoryDetailItem value={details.colors} label="кольорів" delay={0.1} />
                                     <CategoryDetailItem value={details.collections} label="колекцій" delay={0.2} />
@@ -235,7 +237,7 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 1.1 }}
-                                    className="absolute -top-2 -right-3"
+                                    className="absolute -top-2 left-[40%] mobile:left-1/2"
                                 >
                                     <CategoryDetailItem delay={0.2} label="пропозицій" value={details.quantity} />
                                 </motion.span>
@@ -256,9 +258,9 @@ function CategoryDetailItem({ value, label, delay }: { value: number, label: str
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay }}
-            className="text-[10px] lg:text-sm pr-1 lg:pr-3 border-2 border-t-blue rounded-full text-white bg-t-blue"
+            className="text-[10px] sm:text-xs pr-1 lg:pr-3 border-2 border-t-blue rounded-full text-white bg-t-blue whitespace-nowrap"
         >
-            <span className="w-4 lg:w-8 h-4 lg:h-8 bg-white text-t-blue rounded-full inline-flex items-center justify-center leading-none">{value}</span> {label}
+            <span className="w-5 lg:w-8 h-5 lg:h-8 bg-white text-t-blue rounded-full inline-flex items-center justify-center leading-none">{value}</span> {label}
         </motion.p>
     );
 };
@@ -299,19 +301,16 @@ interface IProductDetails {
 }
 
 function getCategoryDetails(categoryId: number, productList: IProductItem[]): IProductDetails {
-    const listByCategory = productList
-        .filter((product) => categoryId === product.category_id)
-        .map((product) => ({
-            color: product.technical_info.color,
-            collection: product.technical_info.collection,
-        }));
-
     const colors = new Set;
     const collections = new Set;
 
-    listByCategory.forEach((item) => {
-        if (item.color !== null) colors.add(item.color);
-        if (item.collection !== null) collections.add(item.collection);
+    const listByCategory = productList.filter((product) => {
+        if (product.category_id === categoryId) {
+            if (product.technical_info.color !== null) colors.add(product.technical_info.color);
+            if (product.technical_info.collection !== null) collections.add(product.technical_info.collection);
+
+            return product;
+        }
     });
 
     return {
@@ -320,4 +319,6 @@ function getCategoryDetails(categoryId: number, productList: IProductItem[]): IP
         collections: Array.from(collections).length
     }
 }
+
+
 

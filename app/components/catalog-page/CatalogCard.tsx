@@ -81,14 +81,14 @@ export default function CatalogCard({ productItem }: IProps) {
                         </p>}
                     {/* isInStock and label info fields*/}
                     <div className="w-full flex items-center justify-between">
-                        <p className={`${isFabricOfTheWeek ? "hidden mobile:inline px-2.5 bg-t-pale rounded-xl" : "inline"} w-fit h-[15px] py-1 mobile:h-[25px] ${openSansFont.className} text-[9px] leading-none mobile:leading-none mobile:text-sm ${availability === 'В наявності'
+                        <p className={`${isFabricOfTheWeek ? "hidden mobile:inline px-2.5 bg-t-pale rounded-xl" : "inline"} w-fit h-[15px] py-1 mobile:h-[25px] ${openSansFont.className} text-[9px] leading-none mobile:leading-none mobile:text-sm ${availability === 'In Stock'
                             ? "text-t-green"
-                            : availability === 'Акція' ?
-                                "text-[#F79D15]"
-                                :
+                            : availability === 'Low Stock' ?
                                 "text-[#FF4242]"
+                                :
+                                "text-[#F79D15]"
                             }`}>
-                            {availability}
+                            {availability === 'In Stock' ? "в наявності" : "закінчується"}
                         </p>
                         {/* TO_DO!!! */}
                         {/* <p className={`h-[15px] mobile:h-[25px] w-fit px-1 mobile:px-[14px] pt-[2px] mobile:py-1 rounded-full text-3xs mobile:text-xs font-bold  ${label === "Новинка" ?
