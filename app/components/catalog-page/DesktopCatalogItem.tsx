@@ -160,13 +160,18 @@ function DesktopCatalogItem({ productItem }: IProps) {
                         className={`${openSansFont.className} flex items-center justify-between`}
                     >
                         <p className="text-[#AEB1BA] text-xs uppercase">{category.name} <span className="text-t-blue-dark uppercase">/</span> {collection}</p>
-                        <p className={`${availability === 'В наявності'
+                        <p className={availability === 'In Stock'
                             ? "text-t-green"
-                            : availability === 'Акція' ?
+                            : availability === 'Low Stock' ?
                                 "text-[#F79D15]"
                                 :
                                 "text-[#FF4242]"
-                            }`}>{availability}</p>
+                        }>
+                            {availability === 'In Stock' ? "в наявності" :
+                                availability === "Low Stock" ?
+                                    "закінчується" : "немає"
+                            }
+                        </p>
                     </motion.div>
                     <motion.h5
                         initial={{ opacity: 0, y: 20 }}

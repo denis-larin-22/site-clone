@@ -319,6 +319,3 @@ function getCategoryDetails(categoryId: number, productList: IProductItem[]): IP
         collections: Array.from(collections).length
     }
 }
-
-
-

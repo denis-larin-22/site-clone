@@ -102,13 +102,18 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
                     <div>
                         <div className={`${openSansFont.className} flex items-center justify-between`}>
                             <p className="text-[#AEB1BA] text-xs uppercase">{category.name} <span className="text-t-blue-dark uppercase">/</span> {collection}</p>
-                            <p className={`${availability === 'В наявності'
+                            <p className={availability === 'In Stock'
                                 ? "text-t-green"
-                                : availability === 'Акція' ?
+                                : availability === 'Low Stock' ?
                                     "text-[#F79D15]"
                                     :
                                     "text-[#FF4242]"
-                                } text-sm`}>{availability}</p>
+                            }>
+                                {availability === 'In Stock' ? "в наявності" :
+                                    availability === "Low Stock" ?
+                                        "закінчується" : "немає"
+                                }
+                            </p>
                         </div>
                         <h5 className="text-[32px] mt-3 mb-5 mobile:mb-8">{name}</h5>
                         {/* <div className="w-full flex items-center justify-between">
