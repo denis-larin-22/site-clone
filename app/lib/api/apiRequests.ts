@@ -3,11 +3,11 @@ import { capitalizeFirstLetter, formatImagePathFromApi } from "../utils/utils";
 
 // ↓↓↓↓ CATALOG PAGE API ↓↓↓↓
 
-const BASE_URL = "https://piramidspace.com/api/";
+const BASE_URL = "https://api.piramidspace.com/api/";
 // GET Product list
 export async function fetchProductsList(): Promise<IProductItem[]> {
     try {
-        const response = await fetch(`${BASE_URL}api/cms/jaluji/products`);
+        const response = await fetch(`${BASE_URL}cms/jaluji/products`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -66,7 +66,7 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
 
 export async function fetchProductItem(productId: string | number): Promise<Omit<IProductItem, 'price'> | null> {
     try {
-        const response = await fetch(`${BASE_URL}api/cms/jaluji/products/${productId}`);
+        const response = await fetch(`${BASE_URL}cms/jaluji/products/${productId}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -115,7 +115,7 @@ export async function fetchProductItem(productId: string | number): Promise<Omit
 // Categories
 export async function fetchCategories(): Promise<ICategory[]> {
     try {
-        const response = await fetch(`${BASE_URL}api/cms/jaluji/categories`);
+        const response = await fetch(`${BASE_URL}cms/jaluji/categories`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status} `);
         }
@@ -129,77 +129,3 @@ export async function fetchCategories(): Promise<ICategory[]> {
         return [];
     }
 };
-
-
-// OLD API
-// Filters
-// export async function fetchColors(): Promise<IColor[]> {
-//     try {
-//         const response = await fetch(`${BASE_URL}api/cms/jaluji/colors`);
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! status: ${response.status} `);
-//         }
-//         const data = await response.json();
-//         return data.map((item: any) => ({
-//             id: item.id,
-//             name: item.name
-//         }))
-//     } catch (error) {
-//         console.error('Error fetching data:', error);
-//         return [];
-//     }
-// }
-
-// // Designs
-// export async function fetchDesigns(): Promise<IDesign[]> {
-//     try {
-//         const response = await fetch(`${BASE_URL}api/cms/jaluji/designs`);
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! status: ${response.status} `);
-//         }
-//         const data = await response.json();
-//         return data.map((item: any) => ({
-//             id: item.id,
-//             name: item.name
-//         }))
-//     } catch (error) {
-//         console.error('Error fetching data:', error);
-//         return [];
-//     }
-// }
-
-// // Transparencies
-// export async function fetchTransparencies(): Promise<IDesign[]> {
-//     try {
-//         const response = await fetch(`${BASE_URL}api/cms/jaluji/transparencies`);
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! status: ${response.status} `);
-//         }
-//         const data = await response.json();
-//         return data.map((item: any) => ({
-//             id: item.id,
-//             name: item.name
-//         }))
-//     } catch (error) {
-//         console.error('Error fetching data:', error);
-//         return [];
-//     }
-// }
-
-// // Collections
-// export async function fetchCollections(): Promise<IDesign[]> {
-//     try {
-//         const response = await fetch(`${BASE_URL}api/cms/jaluji/collections`);
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! status: ${response.status} `);
-//         }
-//         const data = await response.json();
-//         return data.map((item: any) => ({
-//             id: item.id,
-//             name: item.name
-//         }))
-//     } catch (error) {
-//         console.error('Error fetching data:', error);
-//         return [];
-//     }
-// }
