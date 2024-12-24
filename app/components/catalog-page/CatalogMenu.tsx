@@ -124,7 +124,8 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
     return (
         <>
             {/* DESKTOP */}
-            <ul className="relative mb-28 hidden xl:flex gap-x-5 duration-500 ease-in-out mt-[100px] flex-wrap gap-y-24 justify-center">
+            {/* <ul className="relative mb-28 hidden xl:flex gap-x-5 duration-500 ease-in-out mt-[100px] flex-wrap gap-y-24 justify-center"> */}
+            <ul className="relative z-20 mb-28 hidden xl:flex gap-x-5 duration-500 ease-in-out mt-[100px] flex-wrap gap-y-24 justify-center">
                 {categoriesList.map((category, index) => {
                     const details = categoryDetails[category.id];
 

@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import Snowfall from 'react-snowfall';
 
+// react-snowfall 2.2.0
+// https://www.npmjs.com/package/react-snowfall
+
 const SNOW_COLOR = "#dee4fd";
 
 function SnowfallWrap() {

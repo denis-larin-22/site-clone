@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { metaTagsValues } from "../lib/seo/meta-tags-values";
 import CatalogMenu from "../components/catalog-page/CatalogMenu";
+import SnowfallWrap from "../components/ui/themes/SnowfallWrap";
 
 export const metadata: Metadata = {
     title: 'Каталог | Piramid',
@@ -18,7 +19,12 @@ export const metadata: Metadata = {
 };
 
 async function CatalogPage() {
-    return <CatalogMenu />
+    return (
+        <>
+            <CatalogMenu />
+            <SnowfallWrap />
+        </>
+    )
 };
 
 export default CatalogPage;

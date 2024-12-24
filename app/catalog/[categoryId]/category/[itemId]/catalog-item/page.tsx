@@ -1,4 +1,5 @@
 import CatalogItem from "@/app/components/catalog-page/CatalogItem";
+import SnowfallWrap from "@/app/components/ui/themes/SnowfallWrap";
 import { metaTagsValues } from "@/app/lib/seo/meta-tags-values";
 import { Metadata } from "next";
 
@@ -21,7 +22,10 @@ function CatalogItemPage({ params }: { params: { itemId: string } }) {
     const productId = params.itemId;
 
     return (
-        <CatalogItem itemId={productId} />
+        <>
+            <CatalogItem itemId={productId} />
+            <SnowfallWrap />
+        </>
     )
 
 }

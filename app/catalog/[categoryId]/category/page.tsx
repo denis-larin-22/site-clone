@@ -1,4 +1,5 @@
 import Catalog from "@/app/components/catalog-page/Catalog";
+import SnowfallWrap from "@/app/components/ui/themes/SnowfallWrap";
 import { metaTagsValues } from "@/app/lib/seo/meta-tags-values";
 import { Metadata } from "next";
 
@@ -20,7 +21,12 @@ export const metadata: Metadata = {
 function CatalogItems({ params }: { params: { categoryId: string } }) {
     const activeCategoryId = params.categoryId;
 
-    return <Catalog activeCategoryId={activeCategoryId} />
+    return (
+        <>
+            <Catalog activeCategoryId={activeCategoryId} />
+            <SnowfallWrap />
+        </>
+    )
 }
 
 export default CatalogItems;

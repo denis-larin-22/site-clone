@@ -57,7 +57,8 @@ function DesktopCatalogItem({ productItem }: IProps) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
-            className="relative my-20 max-w-[1048px] h-[540px] p-10 pt-[60px] mx-auto hidden tablet:flex items-center justify-between bg-[#FAFAFA]  rounded-[26px]"
+            // className="relative my-20 max-w-[1048px] h-[540px] p-10 pt-[60px] mx-auto hidden tablet:flex items-center justify-between bg-[#FAFAFA]  rounded-[26px]" // Default
+            className="relative z-20 my-20 max-w-[1048px] h-[540px] p-10 pt-[60px] mx-auto hidden tablet:flex items-center justify-between bg-[#FAFAFA]  rounded-[26px]"
         >
             <Link href={`/catalog/${category.id}/category`} className="w-fit h-fit absolute right-5 top-5" title="Назад до каталогу">
                 <CloseIcon iconColor="#10005B" />

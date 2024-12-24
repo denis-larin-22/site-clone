@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image';
 import CatalogList from './CatalogList';
 import Link from "next/link";
 import { Filters } from './Filters';
@@ -9,6 +8,7 @@ import { fetchCategories, fetchProductsList } from '@/app/lib/api/apiRequests';
 import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useState } from 'react';
+import LogoChristmas from '../ui/themes/LogoChristmas';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -26,7 +26,8 @@ export interface IActiveFilters {
     [key: string]: any[];
 }
 
-export const SS_CATALOG_FILTERS_PARAMS_KEY = "piramid_ss_key";
+export const SS_CATALOG_FILTERS_PARAMS_KEY = "piramid_ss_filters";
+export const SS_CATALOG_PAGINATION_PAGE_KEY = "piramid_ss_pagination_page";
 
 export default function Catalog({ activeCategoryId }: { activeCategoryId: string }) {
     const [productList, setProductList] = useState<IProductList>({
@@ -89,6 +90,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
         setCategories({ ...categories, activeCategory: categoryId });
         // remoove previous saved filter params in the session storage
         sessionStorage.removeItem(SS_CATALOG_FILTERS_PARAMS_KEY);
+        sessionStorage.removeItem(SS_CATALOG_PAGINATION_PAGE_KEY);
     }
 
     // FILTERS HANDLER
@@ -121,6 +123,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
     function resetFiltersHandler() {
         setActiveFilters({});
         sessionStorage.removeItem(SS_CATALOG_FILTERS_PARAMS_KEY);
+        sessionStorage.removeItem(SS_CATALOG_PAGINATION_PAGE_KEY);
         window.location.reload();
     }
 
@@ -135,12 +138,14 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
             <div className="flex flex-col items-center flex-grow overflow-y-auto overflow-x-hidden ml-0 mobile:ml-24 p-3 mobile:py-[60px]">
                 <div className="flex mobile:hidden w-screen pl-5 mb-8">
                     <Link href={"/"}>
-                        <Image
+                        {/* Default logo */}
+                        {/* <Image
                             alt='Piramid logo'
                             src={"/assets/images/full_logo_small.svg"}
                             width={129}
                             height={25}
-                        />
+                        /> */}
+                        <LogoChristmas />
                     </Link>
                 </div>
 
@@ -152,6 +157,9 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                     sortByPriceHandler={() => { }}
                 />
                 <CatalogList
+                    paginationPageHandler={(value) => {
+                        sessionStorage.setItem(SS_CATALOG_PAGINATION_PAGE_KEY, JSON.stringify(value));
+                    }}
                     listToRender={productList.listToRender}
                 />
             </div>

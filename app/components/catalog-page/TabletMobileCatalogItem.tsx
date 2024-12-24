@@ -7,6 +7,7 @@ import Image from "next/image";
 import ImageWithLoader from "../ui/ImageWithLoader";
 import { openSansFont } from "../ui/fonts";
 import Link from "next/link";
+import LogoChristmas from "../ui/themes/LogoChristmas";
 
 interface IProps {
     productItem: Omit<IProductItem, 'price'> | null
@@ -52,18 +53,21 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
     ];
 
     return (
-        <section className="relative block tablet:hidden grow">
+        // <section className="relative block tablet:hidden grow"> // Default
+        <section className="relative z-20 block tablet:hidden grow">
             <Link href={`/catalog/${category.id}/category`} className="absolute z-10 left-5 mobile:left-10 top-3 mobile:top-12">
                 <CloseArrowIcon />
             </Link>
 
-            <Image
+            {/* Default logo */}
+            {/* <Image
                 alt="Piramid logo"
                 src={"/assets/images/full_logo_small.svg"}
                 width={129}
                 height={25}
                 className="inline mobile:hidden absolute z-10 top-[15px] right-5"
-            />
+            /> */}
+            <LogoChristmas className="inline mobile:hidden absolute z-10 top-[15px] right-5" />
 
             <div onClick={() => setIsHide(!isHide)}>
                 <ImageWithLoader

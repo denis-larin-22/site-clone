@@ -19,7 +19,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'piramidspace.com',
+                hostname: 'api.piramidspace.com',
                 port: '',
             },
         ],

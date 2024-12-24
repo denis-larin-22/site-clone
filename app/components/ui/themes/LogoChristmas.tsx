@@ -1,8 +1,12 @@
 import Image from "next/image";
 
-function LogoChristmas() {
+interface IProps {
+    className?: string
+}
+
+function LogoChristmas({ className = "" }: IProps) {
     return (
-        <span className="flex items-center">
+        <span className={"flex items-center " + className}>
             <Image
                 src={"/assets/images/themes/christmas-logo.png"}
                 alt="Logo"
