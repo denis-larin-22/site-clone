@@ -11,7 +11,7 @@ export const metadata: Metadata = {
         description: 'Жалюзі Харків, рулонні штори  ТВК Піраміда - Зручна компанія. Київ, Харків, Львів, Полтава, Миколаїв, Дніпро, Вінниця',
         type: 'website',
         locale: 'uk_UA',
-        url: 'https://piramidspace.com/',
+        url: 'https://piramidspace.com/catalog',
         siteName: 'Piramid | Пирамида ТПК ' + metaTagsValues.shop_name,
         phoneNumbers: metaTagsValues.config_telephone
     }

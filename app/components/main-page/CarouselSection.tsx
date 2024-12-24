@@ -30,7 +30,8 @@ export default function CarouselSection() {
     }, [])
 
     return (
-        <section ref={ref} className="container mt-[47px] mobile:mt-20 mobile:mb-28 xl:my-[127px] px-4">
+        // <section ref={ref} className="container mt-[47px] mobile:mt-20 mobile:mb-28 xl:my-[127px] px-4"> // Default
+        <section ref={ref} className="relative z-20 container mt-[47px] mobile:mt-20 mobile:mb-28 xl:my-[127px] px-4">
             {
                 componentContent === null ?
                     <p className="inline-block w-full md:w-[650px] h-20 md:h-36 rounded-lg bg-t-blue/15 animate-pulse"></p>

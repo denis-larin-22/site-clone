@@ -29,7 +29,8 @@ export default function BusinessPromo() {
     }, [])
 
     return (
-        <div className="relative z-0 max-w-[1354px] px-4 mx-auto my-7 xl:my-36">
+        // <div className="relative z-0 max-w-[1354px] px-4 mx-auto my-7 xl:my-36"> // Default
+        <div className="relative z-20 max-w-[1354px] px-4 mx-auto my-7 xl:my-36">
             {/* Desktop screen */}
             <section className="relative hidden xl:flex justify-between min-h-[539px] pt-[162px] pr-[69px] pb-[131px] pl-[97px] bg-m-blue-dark rounded-[22px] text-white">
                 <a href="#header" className="group absolute -top-[20%] xl:-top-[12%] right-16">

@@ -32,8 +32,6 @@ export function Carousel({ carouselList, isInView }: IProps) {
 }
 
 function CarouselListDesktop({ carouselList, isInView }: IProps) {
-    console.log(carouselList);
-
     // Get spawn animation for each card
     const getAnimInViewDesktop = (isInView: boolean, elementIndex: number) => {
         const transition = "all 1s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"

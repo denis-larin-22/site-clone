@@ -4,6 +4,7 @@ import Footer from "./components/ui/Footer";
 import Header from "./components/ui/Header";
 import { metaTagsValues } from "./lib/seo/meta-tags-values";
 import ChatSupport from "./components/ui/ChatSupport";
+import SnowfallWrap from "./components/ui/themes/SnowfallWrap";
 
 export const metadata: Metadata = {
   title: 'Piramid | Пирамида ТПК | Головна ',
@@ -26,6 +27,8 @@ export default function Home() {
       <Header />
       <MainPage />
       <Footer />
+
+      <SnowfallWrap /> {/* snowfall effect */}
 
       <ChatSupport />
     </>

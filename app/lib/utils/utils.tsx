@@ -1,5 +1,6 @@
 import PaintedO from "@/app/components/ui/PaintedO";
 import React from "react";
+import { BASE_URL } from "../api/apiRequests";
 
 export function getFutureDate(days: number): string {
     const today = new Date();
@@ -89,7 +90,7 @@ export function replaceOWithPaintedO(
 
 // Formats url-link of the image coming from the request
 export function formatImagePathFromApi(receivedPath: string): string {
-    return `https://piramidspace.com/admin/storage/${receivedPath}`
+    return `${BASE_URL}/storage/${receivedPath}`
 }
 
 // Remove duplicates in arrays

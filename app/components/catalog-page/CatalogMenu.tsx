@@ -138,7 +138,7 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
                         >
                             <Link
                                 href={`/catalog/${category.id}/category`}
-                                className={`group flex-shrink-0 flex-grow-0 rounded-[14px] ${hoveredItemId !== null && "blur"} ${hoveredItemId === category.id ? "blur-none" : ""} duration-500`}
+                                className="group flex-shrink-0 flex-grow-0 rounded-[14px]"
                             >
                                 <Image
                                     alt={`Зображення для категорії ${category.name}`}

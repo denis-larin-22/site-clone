@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "./logo/Logo";
+import LogoChristmas from "./themes/LogoChristmas";
 
 export default function Header() {
     return (
@@ -21,7 +22,8 @@ export default function Header() {
 
             <header className="container sticky z-50 top-2">
                 <nav className="relative py-[13px] mobile:py-4 px-5 mobile:px-6 backdrop-blur-lg bg-white/40 rounded-[34px] flex items-center justify-between">
-                    <Logo />
+                    {/* <Logo /> */}
+                    <LogoChristmas />
 
                     <div className="flex items-center gap-x-3.5 font-semibold">
                         <Link href={"/catalog"} className="group flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pr-3 hover:text-white">

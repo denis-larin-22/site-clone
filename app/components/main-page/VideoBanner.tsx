@@ -26,7 +26,8 @@ export default function VideoBanner() {
     return (
         <motion.div
             id="video"
-            className="relative z-10 container mt-[76px] md:mt-[283px] lg:mt-[162px] xl:mt-[192px] mb-[72px] mobile:mb-10 lg:mb-[120px]"
+            // className="relative z-10 container mt-[76px] md:mt-[283px] lg:mt-[162px] xl:mt-[192px] mb-[72px] mobile:mb-10 lg:mb-[120px]" // Default
+            className="relative z-20 container mt-[76px] md:mt-[283px] lg:mt-[162px] xl:mt-[192px] mb-[72px] mobile:mb-10 lg:mb-[120px]"
             initial={{ y: 50, rotateX: 45, opacity: 0 }}
             animate={{ y: 0, rotateX: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -52,7 +53,10 @@ export default function VideoBanner() {
                 componentContent === null ?
                     <div className="w-full h-[237px] mobile:h-[383px] lg:h-[624px] rounded-[40px] bg-t-blue/15 animate-pulse"></div>
                     :
-                    <Video videoUrl={componentContent.videoUrl} posterUrl={componentContent.posterUrl} />
+                    <Video
+                        videoUrl={componentContent.videoUrl}
+                        posterUrl={componentContent.posterUrl}
+                    />
             }
         </motion.div>
     );

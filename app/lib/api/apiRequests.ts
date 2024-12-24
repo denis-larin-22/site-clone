@@ -3,11 +3,11 @@ import { capitalizeFirstLetter, formatImagePathFromApi } from "../utils/utils";
 
 // ↓↓↓↓ CATALOG PAGE API ↓↓↓↓
 
-const BASE_URL = "https://api.piramidspace.com/api/";
+export const BASE_URL = "https://api.piramidspace.com";
 // GET Product list
 export async function fetchProductsList(): Promise<IProductItem[]> {
     try {
-        const response = await fetch(`${BASE_URL}cms/jaluji/products`);
+        const response = await fetch(`${BASE_URL}/api/cms/jaluji/products`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -66,7 +66,7 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
 
 export async function fetchProductItem(productId: string | number): Promise<Omit<IProductItem, 'price'> | null> {
     try {
-        const response = await fetch(`${BASE_URL}cms/jaluji/products/${productId}`);
+        const response = await fetch(`${BASE_URL}/api/cms/jaluji/products/${productId}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -115,7 +115,7 @@ export async function fetchProductItem(productId: string | number): Promise<Omit
 // Categories
 export async function fetchCategories(): Promise<ICategory[]> {
     try {
-        const response = await fetch(`${BASE_URL}cms/jaluji/categories`);
+        const response = await fetch(`${BASE_URL}/api/cms/jaluji/categories`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status} `);
         }
