@@ -8,12 +8,11 @@ import { SS_CATALOG_PAGINATION_PAGE_KEY } from "./Catalog";
 interface IProps {
     listToRender: IProductItem[],
     className?: string,
-    paginationPageHandler: (value: number) => void
 }
 
 const ITEMS_PER_PAGE = 20;
 
-export default function CatalogList({ listToRender, className, paginationPageHandler }: IProps) {
+export default function CatalogList({ listToRender, className }: IProps) {
     const lastActivePageFromSS = sessionStorage.getItem(SS_CATALOG_PAGINATION_PAGE_KEY);
     const pageNumber = lastActivePageFromSS === null ? 1 : +lastActivePageFromSS;
 
@@ -61,7 +60,7 @@ export default function CatalogList({ listToRender, className, paginationPageHan
                     <button
                         key={index}
                         onClick={() => {
-                            paginationPageHandler(index + 1)
+                            sessionStorage.setItem(SS_CATALOG_PAGINATION_PAGE_KEY, JSON.stringify(index + 1)) // Saving last active page pagination to session storage
                             handlePageChange(index + 1)
                         }}
                         className={`mx-1 px-4 py-2 rounded-md text-sm ${currentPage === index + 1 ? 'bg-t-blue text-white' : 'bg-gray-200 text-black'}`}

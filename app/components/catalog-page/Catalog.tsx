@@ -137,7 +137,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
 
             <div className="flex flex-col items-center flex-grow overflow-y-auto overflow-x-hidden ml-0 mobile:ml-24 p-3 mobile:py-[60px]">
                 <div className="flex mobile:hidden w-screen pl-5 mb-8">
-                    <Link href={"/"}>
+                    <Link href={"/catalog"}>
                         {/* Default logo */}
                         {/* <Image
                             alt='Piramid logo'
@@ -157,9 +157,6 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                     sortByPriceHandler={() => { }}
                 />
                 <CatalogList
-                    paginationPageHandler={(value) => {
-                        sessionStorage.setItem(SS_CATALOG_PAGINATION_PAGE_KEY, JSON.stringify(value));
-                    }}
                     listToRender={productList.listToRender}
                 />
             </div>
