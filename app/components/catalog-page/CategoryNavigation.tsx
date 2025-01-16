@@ -54,7 +54,7 @@ export default function CategoryNavigation({ activeCategory, categoriesList, cat
                     onClick={() => sessionStorage.removeItem(SS_CATALOG_PAGINATION_PAGE_KEY)} // Reset saved last active page
                 >
                     {/* Default logo */}
-                    {/* <span className="inline-block h-9">
+                    <span className="inline-block h-9">
                         <Image
                             alt="Piramid logo"
                             src={"/assets/images/logo.svg"}
@@ -68,32 +68,6 @@ export default function CategoryNavigation({ activeCategory, categoriesList, cat
                             width={203}
                             height={36}
                             className={`${isCollapsed ? 'hidden' : 'hidden tablet:inline ml-[18px] self-start'}`}
-                        />
-                    </span> */}
-
-                    {/* Christmas logo */}
-                    <Image
-                        alt="Piramid logo"
-                        src={"/assets/images/themes/christmas-logo.png"}
-                        width={57}
-                        height={36}
-                        className={`${isCollapsed ? 'inline' : 'inline tablet:hidden'}`}
-                    />
-                    <span
-                        className={`${isCollapsed ? 'hidden' : 'hidden tablet:flex ml-[18px] self-start items-center'}`}
-                    >
-                        <Image
-                            alt="Piramid logo"
-                            src={"/assets/images/themes/christmas-logo.png"}
-                            width={57}
-                            height={36}
-                        />
-                        <Image
-                            src="/assets/images/logo-text.png"
-                            alt="Logo-text"
-                            width={112}
-                            height={30}
-                            className="w-fit mobile:w-[113px] h-[22px] mobile:h-[30px]"
                         />
                     </span>
                 </Link>

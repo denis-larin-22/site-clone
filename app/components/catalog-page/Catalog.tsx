@@ -9,6 +9,7 @@ import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useState } from 'react';
 import LogoChristmas from '../ui/themes/LogoChristmas';
+import Image from 'next/image';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -139,13 +140,12 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                 <div className="flex mobile:hidden w-screen pl-5 mb-8">
                     <Link href={"/catalog"}>
                         {/* Default logo */}
-                        {/* <Image
+                        <Image
                             alt='Piramid logo'
                             src={"/assets/images/full_logo_small.svg"}
                             width={129}
                             height={25}
-                        /> */}
-                        <LogoChristmas />
+                        />
                     </Link>
                 </div>
 
