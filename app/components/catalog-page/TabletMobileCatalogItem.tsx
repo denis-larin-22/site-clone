@@ -60,14 +60,13 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
             </Link>
 
             {/* Default logo */}
-            {/* <Image
+            <Image
                 alt="Piramid logo"
                 src={"/assets/images/full_logo_small.svg"}
                 width={129}
                 height={25}
                 className="inline mobile:hidden absolute z-10 top-[15px] right-5"
-            /> */}
-            <LogoChristmas className="inline mobile:hidden absolute z-10 top-[15px] right-5" />
+            />
 
             <div onClick={() => setIsHide(!isHide)}>
                 <ImageWithLoader

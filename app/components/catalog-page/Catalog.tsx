@@ -8,7 +8,6 @@ import { fetchCategories, fetchProductsList } from '@/app/lib/api/apiRequests';
 import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useState } from 'react';
-import LogoChristmas from '../ui/themes/LogoChristmas';
 import Image from 'next/image';
 
 export interface IProductList {
