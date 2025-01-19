@@ -166,7 +166,7 @@ function FeedbackForm() {
                             <label htmlFor="messageText" className="text-base font-bold text-gray-900 ml-3">Що вас зацікавило найбільше?</label>
                             <textarea
                                 id="messageText"
-                                className={`${openSansFont.className} ${errors.message ? "ring-1 ring-t-red" : ""} w-full h-24 mt-2 bg-gray-200 text-gray-600 p-3 rounded-lg focus:outline-blue-600 placeholder-gray-400 mb-4 resize-none`} placeholder="Допоможіть нам покращити "
+                                className={`${openSansFont.className} ${errors.message ? "ring-1 ring-t-red" : ""} w-full h-24 mt-2 bg-gray-200 text-gray-600 p-3 rounded-lg focus:outline-blue-600 placeholder-gray-400 mb-4 resize-none`} placeholder="Допоможіть нам стати краще"
                                 value={formState.message}
                                 onChange={(e) => {
                                     setFormState({
