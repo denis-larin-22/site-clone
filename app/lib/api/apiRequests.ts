@@ -129,3 +129,32 @@ export async function fetchCategories(): Promise<ICategory[]> {
         return [];
     }
 };
+
+// FEEDBACK
+
+// Send mail
+export async function sendFeedbackMail(userName: string, message: string, rating: number, location: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/api/cms/review`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_FEEDBACK_MAIL_TOKEN}`,
+            },
+            body: JSON.stringify({
+                message: "User name: " + userName + " Location: " + location + " /// Feedback text: " + message,
+                rating
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data as { success: boolean }
+    } catch (error) {
+        console.error('Error sending feedback mail:', error);
+        return null;
+    }
+}

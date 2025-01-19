@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { metaTagsValues } from "../lib/seo/meta-tags-values";
 import CatalogMenu from "../components/catalog-page/CatalogMenu";
+import FeedbackForm from "../components/ui/feedback/FeedbackForm";
+import ChatSupport from "../components/ui/ChatSupport";
 
 export const metadata: Metadata = {
     title: 'Каталог | Piramid',

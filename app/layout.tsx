@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Providers } from "./providers";
 import { comfortaaFont } from "./components/ui/fonts";
+import FeedbackForm from "./components/ui/feedback/FeedbackForm";
 
 export default function RootLayout({
   children,
@@ -12,6 +13,8 @@ export default function RootLayout({
       <body className={`${comfortaaFont.className} bg-t-pale relative min-h-screen flex flex-col justify-between`}>
         <Providers>
           {children}
+
+          <FeedbackForm />
         </Providers>
       </body>
     </html>

@@ -28,7 +28,7 @@ export default function Home() {
       <MainPage />
       <Footer />
 
-      <FeedbackForm />
+      <FeedbackForm locationAddress="piramidspace.com" />
       <ChatSupport />
     </>
   );
