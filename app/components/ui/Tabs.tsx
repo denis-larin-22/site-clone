@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useInView, motion } from "framer-motion";
 import Image from "next/image";
 
-const TAB_PAUSE_VALUE = 10; //seconds
+const TAB_PAUSE_VALUE = 20; //seconds
 
 // Animation params for elements
 function generateAnimationParams(isInView: boolean, delay: number) {

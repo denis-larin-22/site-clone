@@ -8,6 +8,7 @@ import { ReportMessage } from "../ReportMessage";
 import { sendFeedbackMail } from "@/app/lib/api/apiRequests";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import Loader from "../Loader";
 
 function FeedbackForm() {
     // Getting current url for location in the message
@@ -15,6 +16,7 @@ function FeedbackForm() {
 
     const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
     const [hoveredStar, setHoveredStar] = useState(0);
+    const [sendingProcess, setSendingProcess] = useState(false);
     const [sendingStatus, setSendingStatus] = useState({
         isVissible: false,
         status: true
@@ -37,6 +39,7 @@ function FeedbackForm() {
     });
 
     async function sendFeedback() {
+        setSendingProcess(true);
         const { name: nameValue, rating: ratingValue, message: messageValue } = formState;
 
         const checkErrors = {
@@ -52,8 +55,10 @@ function FeedbackForm() {
 
             // Check sending status
             if (responseResult?.success) {
+                setSendingProcess(false);
                 setSendingStatus({ isVissible: true, status: true })
             } else {
+                setSendingProcess(false);
                 setSendingStatus({ isVissible: true, status: false })
             }
             setTimeout(() => { setSendingStatus({ ...sendingStatus, isVissible: false }) }, 3000)
@@ -66,6 +71,14 @@ function FeedbackForm() {
             return;
         }
     };
+
+    async function check() {
+        setTimeout(() => {
+            return {
+
+            }
+        }, 3000)
+    }
 
     return (
         <>
@@ -93,6 +106,11 @@ function FeedbackForm() {
 
             {/* REPORT MESSAGE */}
             <AnimatePresence>
+                {sendingProcess &&
+                    <div className="z-[70] fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-white rounded-2xl p-4">
+                        <Loader />
+                    </div>
+                }
                 {sendingStatus.isVissible &&
                     <motion.div
                         className="relative z-[70]"

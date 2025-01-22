@@ -1,15 +1,63 @@
+'use client'
+
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function Logo() {
+    const SWITCH_DELAY = 4; // in seconds
+    const [isSwitched, setIsSwitched] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsSwitched(true);
+        }, SWITCH_DELAY * 1000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
-        <Link href={"/"}>
-            <img
-                alt="Piramid logo"
-                src={"/assets/images/full_logo.png"}
-                className="w-[124px] mobile:w-[167px] h-[22px] mobile:h-[30px]"
-            />
+        <Link href={"/"} className="relative block w-[130px] h-[45px]">
+            <AnimatePresence>
+                {!isSwitched ?
+                    <motion.div
+                        key="logo_gif"
+                        initial={{ opacity: 1 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 200 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="absolute inset-0 flex justify-center items-center"
+                    >
+                        <Image
+                            alt="Piramid logo animation"
+                            src={"/assets/images/logo_anim_preview.gif"}
+                            width={130}
+                            height={45}
+                            className="w-[90px] mobile:w-[130px] h-auto"
+                        />
+                    </motion.div>
+                    :
+                    <motion.div
+                        key="logo_static"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="absolute inset-0 flex justify-center items-center"
+                    >
+                        <Image
+                            alt="Piramid logo"
+                            src={"/assets/images/full_logo.png"}
+                            width={130}
+                            height={41}
+                            className="w-[90px] mobile:w-[130px] h-auto"
+                        />
+                    </motion.div>
+                }
+            </AnimatePresence>
         </Link>
-    )
-};
+    );
+}
 
 export default Logo;

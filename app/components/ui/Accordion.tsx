@@ -6,7 +6,7 @@ import { useInView, motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { openSansFont } from "./fonts";
 
-const ITEM_DELAY_VALUE = 10; // Seconds
+const ITEM_DELAY_VALUE = 15; // Seconds
 
 // Animation params for elements
 const generateAnimationParams = (isInView: boolean, delay: number) => ({
