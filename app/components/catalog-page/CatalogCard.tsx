@@ -35,7 +35,7 @@ export default function CatalogCard({ productItem }: IProps) {
         <>
             <Link
                 href={`/catalog/${category.id}/category/${id}/catalog-item`}
-                className={`group relative inline-flex w-full mobile:w-[282px] h-[231px] mobile:h-[381px] rounded-xl overflow-hidden mobile:hover:ring-4 ring-offset-4 ring-t-blue/40 duration-400 ${availability === "Out of Stock" ? "opacity-50" : ""} `}
+                className={`group relative inline-flex w-full mobile:w-[282px] h-[231px] mobile:h-[381px] rounded-xl overflow-hidden mobile:hover:ring-4 ring-offset-4 ring-t-blue/40 duration-400 ${(availability === "Немає" || availability === "Виробництво припинено") ? "opacity-50" : ""} `}
             >
                 {sale_tk && <CountdownTimer
                     startDate="2024-11-28T00:00:00" // default dates
@@ -81,17 +81,14 @@ export default function CatalogCard({ productItem }: IProps) {
                         </p>}
                     {/* isInStock and label info fields*/}
                     <div className="w-full flex items-center justify-between">
-                        <p className={`${isFabricOfTheWeek ? "hidden mobile:inline px-2.5 bg-t-pale rounded-xl" : "inline"} w-fit h-[15px] py-1 mobile:h-[25px] ${openSansFont.className} text-[9px] leading-none mobile:leading-none mobile:text-sm ${availability === 'In Stock'
+                        <p className={`${isFabricOfTheWeek ? "hidden mobile:inline px-2.5 bg-t-pale rounded-xl" : "inline"} w-fit h-[15px] py-1 mobile:h-[25px] ${openSansFont.className} text-[9px] leading-none mobile:leading-none mobile:text-sm ${availability === 'В наявності'
                             ? "text-t-green"
-                            : availability === 'Low Stock' ?
+                            : availability === 'Закінчується' ?
                                 "text-[#F79D15]"
                                 :
                                 "text-[#FF4242]"
                             }`}>
-                            {availability === 'In Stock' ? "в наявності" :
-                                availability === "Low Stock" ?
-                                    "закінчується" : "немає"
-                            }
+                            {availability}
                         </p>
                         {/* TO_DO!!! */}
                         {/* <p className={`h-[15px] mobile:h-[25px] w-fit px-1 mobile:px-[14px] pt-[2px] mobile:py-1 rounded-full text-3xs mobile:text-xs font-bold  ${label === "Новинка" ?

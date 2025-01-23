@@ -165,7 +165,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
 
 // get filtered product list by category and filters values
 function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId: number) {
-    const { color, collection, transparency, price } = activeFilters;
+    const { availability, color, collection, transparency, price } = activeFilters;
 
     return products.filter((product) => {
         const categoryMatch = product.category_id === activeCategoryId;
@@ -173,7 +173,8 @@ function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilter
         const transparencyMatch = transparency.length === 0 || transparency.includes(product.technical_info.transparency);
         const collectionMatch = collection.length === 0 || collection.includes(product.technical_info.collection);
         const priceMatch = price.length === 0 || price.includes(product.price.price_5);
+        const availabilityMatch = availability.length === 0 || availability.includes(product.availability);
 
-        return categoryMatch && colorMatch && transparencyMatch && collectionMatch && priceMatch;
+        return categoryMatch && colorMatch && transparencyMatch && collectionMatch && priceMatch && availabilityMatch;
     });
 };

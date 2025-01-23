@@ -18,7 +18,7 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
                 id: item.id,
                 name: item.name,
                 category_id: item.category_id,
-                availability: item.availability,
+                availability: getAvailabilityStatus(item.availability),
                 price: {
                     price_1: item.price.price_1,
                     price_2: item.price.price_2,
@@ -157,4 +157,26 @@ export async function sendFeedbackMail(userName: string, message: string, rating
         console.error('Error sending feedback mail:', error);
         return null;
     }
+}
+
+//////////// UTILS /////////////////////
+function getAvailabilityStatus(availabilityValue: string) {
+    let resultValue = availabilityValue;
+
+    switch (availabilityValue) {
+        case "In Stock":
+            resultValue = "В наявності";
+            break;
+        case "Low Stock":
+            resultValue = "Закінчується";
+            break;
+        case "Out of Stock":
+            resultValue = "Немає";
+            break;
+        case "Discontinued":
+            resultValue = "Виробництво припинено";
+            break;
+    }
+
+    return resultValue;
 }

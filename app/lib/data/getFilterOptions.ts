@@ -39,9 +39,15 @@ export function getFilterOptions(productList: IProductItem[]) {
         options: getPriceCategories(productList),
         multichoice: true
     }
+    const filterByAvailability: IFilterOption = {
+        filter: "availability",
+        title: "Наявність",
+        options: getAvailability(productList),
+        multichoice: true
+    }
 
     // return [filterByCriteria, filterByColors, filterByDesigns, filterByTransparencies, filterByCollections, filterByPrice]; - init all filters
-    return [filterByColors, filterByTransparencies, filterByCollections, filterByPriceCategories];
+    return [filterByColors, filterByTransparencies, filterByCollections, filterByPriceCategories, filterByAvailability];
 }
 
 function getColors(productList: IProductItem[]) {
@@ -86,6 +92,23 @@ function getCollections(productList: IProductItem[]) {
             // Check that the collection is not null and add it to the Set
             if (collection !== null) {
                 acc.add(collection); // Adding collection to Set for uniqueness
+            }
+
+            return acc;
+        }, new Set<string>())
+    );
+
+    return uniqueCollectionsArray;
+};
+
+function getAvailability(productList: IProductItem[]) {
+    const uniqueCollectionsArray = Array.from(
+        productList.reduce<Set<string>>((acc, product) => {
+            const availability = product.availability;
+
+            // Check that the collection is not null and add it to the Set
+            if (availability !== null) {
+                acc.add(availability); // Adding collection to Set for uniqueness
             }
 
             return acc;

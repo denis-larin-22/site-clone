@@ -39,7 +39,6 @@ function FeedbackForm() {
     });
 
     async function sendFeedback() {
-        setSendingProcess(true);
         const { name: nameValue, rating: ratingValue, message: messageValue } = formState;
 
         const checkErrors = {
@@ -51,6 +50,7 @@ function FeedbackForm() {
         const hasErrors = Object.values(checkErrors).some(error => error);
 
         if (!hasErrors) {
+            setSendingProcess(true);
             const responseResult = await sendFeedbackMail(nameValue, messageValue, ratingValue, "piramidspace.com" + currentPath);
 
             // Check sending status
@@ -71,14 +71,6 @@ function FeedbackForm() {
             return;
         }
     };
-
-    async function check() {
-        setTimeout(() => {
-            return {
-
-            }
-        }, 3000)
-    }
 
     return (
         <>

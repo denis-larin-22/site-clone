@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function Logo() {
-    const SWITCH_DELAY = 4; // in seconds
+    const SWITCH_DELAY = 3; // in seconds
     const [isSwitched, setIsSwitched] = useState(false);
 
     useEffect(() => {
@@ -18,23 +18,22 @@ function Logo() {
     }, []);
 
     return (
-        <Link href={"/"} className="relative block w-[130px] h-[45px]">
+        <Link href={"/"} className="relative block w-[130px] h-[43px]">
             <AnimatePresence>
                 {!isSwitched ?
                     <motion.div
                         key="logo_gif"
                         initial={{ opacity: 1 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 200 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="absolute inset-0 flex justify-center items-center"
                     >
                         <Image
                             alt="Piramid logo animation"
                             src={"/assets/images/logo_anim_preview.gif"}
                             width={130}
-                            height={45}
-                            className="w-[90px] mobile:w-[130px] h-auto"
+                            height={43}
+                            className="absolute -top-2 w-[130px] h-[56px]"
                         />
                     </motion.div>
                     :
@@ -43,15 +42,14 @@ function Logo() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="absolute inset-0 flex justify-center items-center"
+                        transition={{ duration: 0.3, delay: 0.3, ease: "easeInOut" }}
                     >
                         <Image
                             alt="Piramid logo"
                             src={"/assets/images/full_logo.png"}
                             width={130}
-                            height={41}
-                            className="w-[90px] mobile:w-[130px] h-auto"
+                            height={43}
+                            className="h-full w-full"
                         />
                     </motion.div>
                 }
