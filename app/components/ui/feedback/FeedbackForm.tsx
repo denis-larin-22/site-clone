@@ -76,7 +76,7 @@ function FeedbackForm() {
         <>
             {/* Feedback button */}
             <button
-                className="fixed bottom-8 md:bottom-5 left-3 mdright-auto z-[60] flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform"
+                className="fixed bottom-8 md:bottom-5 left-[83%] mobile:left-[86%] md:left-3 z-[60] flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform"
                 onClick={() => setIsFeedbackOpen(!isFeedbackOpen)}
             >
                 <motion.span

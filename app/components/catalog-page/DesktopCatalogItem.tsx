@@ -8,7 +8,8 @@ import Image from "next/image"
 import ImageWithLoader from "../ui/ImageWithLoader"
 import { openSansFont } from "../ui/fonts"
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, MotionProps } from "framer-motion"
+import { Description } from "./Description"
 
 interface IProps {
     productItem: Omit<IProductItem, 'price'> | null
@@ -38,6 +39,9 @@ function DesktopCatalogItem({ productItem }: IProps) {
         }
     } = productItem;
 
+    console.log("HERE", availability);
+
+
     const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
 
     const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
@@ -57,7 +61,6 @@ function DesktopCatalogItem({ productItem }: IProps) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
-            // className="relative my-20 max-w-[1048px] h-[540px] p-10 pt-[60px] mx-auto hidden tablet:flex items-center justify-between bg-[#FAFAFA]  rounded-[26px]" // Default
             className="relative z-20 my-20 max-w-[1048px] h-[540px] p-10 pt-[60px] mx-auto hidden tablet:flex items-center justify-between bg-[#FAFAFA]  rounded-[26px]"
         >
             <Link href={`/catalog/${category.id}/category`} className="w-fit h-fit absolute right-5 top-5" title="Назад до каталогу">
@@ -152,36 +155,37 @@ function DesktopCatalogItem({ productItem }: IProps) {
                 </Modal>
             </motion.div>
 
-            <article className="w-[451px] xl:w-[515px]">
+
+            {/* Main product information */}
+            <article className="w-[451px] xl:w-[515px] h-full overflow-y-auto pr-1">
                 <div>
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 }}
+                        {...getMotionAttributes(0.1)}
                         className={`${openSansFont.className} flex items-center justify-between`}
                     >
                         <p className="text-[#AEB1BA] text-xs uppercase">{category.name} <span className="text-t-blue-dark uppercase">/</span> {collection}</p>
-                        <p className={availability === 'In Stock'
+                        <p className={availability === 'В наявності'
                             ? "text-t-green"
-                            : availability === 'Low Stock' ?
+                            : availability === 'Закінчується' ?
                                 "text-[#F79D15]"
                                 :
                                 "text-[#FF4242]"
                         }>
-                            {availability === 'In Stock' ? "в наявності" :
-                                availability === "Low Stock" ?
-                                    "закінчується" : "немає"
-                            }
+                            {availability}
                         </p>
                     </motion.div>
                     <motion.h5
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
+                        {...getMotionAttributes(0.2)}
                         className="text-[32px] mt-3 mb-8"
                     >
                         {name}
                     </motion.h5>
+                    {/* Description */}
+                    {description && <motion.div
+                        {...getMotionAttributes(0.3)}
+                    >
+                        <Description descriptionText={description} />
+                    </motion.div>}
                     {/* <div className="w-full flex items-center justify-between"> */}
                     {/* <div className="flex items-center justify-between gap-[15px]">
                             {sale_tk === null ? null : <p className="relative w-[113px] py-1 px-3 flex items-center justify-end text-xs font-bold text-[#F79D15] bg-[#FFEFD1] rounded-full">
@@ -201,11 +205,9 @@ function DesktopCatalogItem({ productItem }: IProps) {
                     {/* </div> */}
                 </div>
 
-                <div className={`${openSansFont.className} text-lg font-normal mt-[60px]`}>
+                <div className={`${openSansFont.className} text-lg font-normal mt-7`}>
                     <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.3 }}
+                        {...getMotionAttributes(0.4)}
                         className="inline-block w-full pb-5 mb-5 border-b-1 border-[#DDE0E9]"
                     >
                         Технічна інформація
@@ -219,7 +221,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     duration: 0.3,
-                                    delay: 0.4 + index * 0.07,
+                                    delay: 0.5 + index * 0.07,
                                 }}
                             >
                                 <p>{infoItem.item}</p>
@@ -234,3 +236,11 @@ function DesktopCatalogItem({ productItem }: IProps) {
 };
 
 export default DesktopCatalogItem;
+
+function getMotionAttributes(delay: number): MotionProps {
+    return {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.3, delay },
+    };
+};

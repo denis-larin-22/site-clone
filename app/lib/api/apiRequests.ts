@@ -76,7 +76,7 @@ export async function fetchProductItem(productId: string | number): Promise<Omit
             id: data.id,
             name: data.name,
             category_id: data.category_id,
-            availability: data.availability,
+            availability: getAvailabilityStatus(data.availability),
             category: {
                 id: data.category.id,
                 name: data.category.name
