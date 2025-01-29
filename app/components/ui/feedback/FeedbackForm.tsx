@@ -72,11 +72,13 @@ function FeedbackForm() {
         }
     };
 
+    const isCategoryPage = currentPath.split("/").at(-1) === "category";
+
     return (
         <>
             {/* Feedback button */}
             <button
-                className="fixed bottom-8 md:bottom-5 left-[83%] mobile:left-[86%] md:left-3 z-[60] flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform"
+                className={`fixed ${isCategoryPage ? "bottom-48" : "bottom-8"} md:bottom-5 right-9 md:right-auto md:left-3 z-[60] flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform`}
                 onClick={() => setIsFeedbackOpen(!isFeedbackOpen)}
             >
                 <motion.span
@@ -94,16 +96,18 @@ function FeedbackForm() {
                     />
                 </span>
                 <span className="hidden md:inline ml-10">Feedback</span>
-            </button>
+            </button >
 
             {/* REPORT MESSAGE */}
             <AnimatePresence>
-                {sendingProcess &&
+                {
+                    sendingProcess &&
                     <div className="z-[70] fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-white rounded-2xl p-4">
                         <Loader />
                     </div>
                 }
-                {sendingStatus.isVissible &&
+                {
+                    sendingStatus.isVissible &&
                     <motion.div
                         className="relative z-[70]"
                         initial={{ opacity: 0 }}
@@ -118,7 +122,7 @@ function FeedbackForm() {
                         />
                     </motion.div>
                 }
-            </AnimatePresence>
+            </AnimatePresence >
 
             <AnimatePresence>
                 {isFeedbackOpen && <motion.main

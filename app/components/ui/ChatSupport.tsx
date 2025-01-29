@@ -53,7 +53,7 @@ function ChatSupport() {
             {/* MOBILE Link to page */}
             < a
                 href="https://widgets.binotel.com/w/chat/pages/?wgt=9qvWC8tgBqePKUW7C00O"
-                className="fixed bottom-3 right-3 z-[60] inline-block md:hidden w-14 h-14 p-3 bg-t-blue rounded-full group active:scale-80 duration-100"
+                className="fixed bottom-24 right-3 z-[60] inline-block md:hidden w-14 h-14 p-3 bg-t-blue rounded-full group active:scale-80 duration-100"
             >
                 <motion.span
                     className="inline-block w-16 h-16 rounded-full bg-t-blue/40 absolute z-0 -top-1 -left-1"

@@ -64,7 +64,7 @@ export default function CategoryNavigation({ activeCategory, categoriesList, cat
                         />
                         <Image
                             alt="Piramid logo"
-                            src={"/assets/images/full_logo.svg"}
+                            src={"/assets/images/full_logo.png"}
                             width={203}
                             height={36}
                             className={`${isCollapsed ? 'hidden' : 'hidden tablet:inline ml-[18px] self-start'}`}

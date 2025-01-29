@@ -81,7 +81,13 @@ export function DropdownFilterMultiple({
                             >
                                 {/* {icon === undefined ? null : <span className="inline-block h-5 absolute left-1 bottom-[5px]">{icon}</span>} */}
                                 <OptionIcon filter={filterOption.filter} value={value} />
-                                <p className={`text-nowrap flex items-center gap-x-[5px] text-sm font-normal whitespace-nowrap`}>{value}</p>
+                                <p className={`text-nowrap flex items-center gap-x-[5px] text-sm font-normal whitespace-nowrap`}>
+                                    {filterOption.filter === "price" ?
+                                        "категорія " + parseFloat(value)
+                                        :
+                                        value
+                                    }
+                                </p>
                             </li>
                         ))}
                     </motion.ul>
