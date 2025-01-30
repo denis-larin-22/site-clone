@@ -10,6 +10,9 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Loader from "../Loader";
 
+const SS_CATALOG_SENDINGS_COUNT_KEY = "piramid_ss_sendings_count";
+const MAXIMUM_COUNT_SENDS_PER_SESSION = 6;
+
 function FeedbackForm() {
     // Getting current url for location in the message
     const currentPath = usePathname();
@@ -22,7 +25,7 @@ function FeedbackForm() {
         status: true
     });
 
-    const errorLabelStyles = `${openSansFont.className} text-sm text-[#A2A2A8] flex items-center gap-1.5 absolute bottom-0`;
+    const errorLabelStyles = `${openSansFont.className} text-sm text-[#A2A2A8] flex items-center gap-1.5 absolute bottom-0;`
 
     // Form values
     const initFormState = {
@@ -39,7 +42,8 @@ function FeedbackForm() {
     });
 
     async function sendFeedback() {
-        const { name: nameValue, rating: ratingValue, message: messageValue } = formState;
+        const { name: nameValue, rating: ratingValue, message: messageValue } = formState; // form values
+        const currentSendingsCount = sessionStorage.getItem(SS_CATALOG_SENDINGS_COUNT_KEY) || 0;
 
         const checkErrors = {
             name: !nameValue,
@@ -49,7 +53,7 @@ function FeedbackForm() {
         setErrors(checkErrors);
         const hasErrors = Object.values(checkErrors).some(error => error);
 
-        if (!hasErrors) {
+        if (!hasErrors && +currentSendingsCount <= MAXIMUM_COUNT_SENDS_PER_SESSION) {
             setSendingProcess(true);
             const responseResult = await sendFeedbackMail(nameValue, messageValue, ratingValue, "piramidspace.com" + currentPath);
 
@@ -63,11 +67,18 @@ function FeedbackForm() {
             }
             setTimeout(() => { setSendingStatus({ ...sendingStatus, isVissible: false }) }, 3000)
 
+            // Update sendings count in the session storage
+            sessionStorage.setItem(SS_CATALOG_SENDINGS_COUNT_KEY, (JSON.stringify(+currentSendingsCount + 1)));
             // Reset form inputs values
             setFormState(initFormState);
             // Close feedback
             setTimeout(() => { setIsFeedbackOpen(false) }, 3500)
         } else {
+            // The limit of sendings per session has been reached
+            setSendingProcess(false);
+            setSendingStatus({ isVissible: true, status: false })
+
+            setTimeout(() => { setSendingStatus({ ...sendingStatus, isVissible: false }) }, 3000)
             return;
         }
     };
@@ -78,7 +89,7 @@ function FeedbackForm() {
         <>
             {/* Feedback button */}
             <button
-                className={`fixed ${isCategoryPage ? "bottom-48" : "bottom-8"} md:bottom-5 right-9 md:right-auto md:left-3 z-[60] flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform`}
+                className={`fixed ${isCategoryPage ? "bottom-48" : "bottom-8"} md:bottom-5 right-9 lg:right-auto lg:left-3 z-[60] flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform`}
                 onClick={() => setIsFeedbackOpen(!isFeedbackOpen)}
             >
                 <motion.span
@@ -180,7 +191,8 @@ function FeedbackForm() {
                             <label htmlFor="messageText" className="text-base font-bold text-gray-900 ml-3">Що вас зацікавило найбільше?</label>
                             <textarea
                                 id="messageText"
-                                className={`${openSansFont.className} ${errors.message ? "ring-1 ring-t-red" : ""} w-full h-24 mt-2 bg-gray-200 text-gray-600 p-3 rounded-lg focus:outline-blue-600 placeholder-gray-400 mb-4 resize-none`} placeholder="Допоможіть нам стати краще"
+                                className={`${openSansFont.className} ${errors.message ? "ring-1 ring-t-red" : ""} w-full h-24 mt-2 bg-gray-200 text-gray-600 p-3 rounded-lg focus:outline-blue-600 placeholder-gray-400 mb-4 resize-none`}
+                                placeholder="Допоможіть нам стати краще"
                                 value={formState.message}
                                 onChange={(e) => {
                                     setFormState({
