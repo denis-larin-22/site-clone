@@ -18,7 +18,9 @@ export default function CatalogCard({ productItem }: IProps) {
         availability,
         category,
         price: {
-            sale_tk
+            sale,
+            date_on_sale,
+            date_off_sale
         },
         technical_info: {
             collection
@@ -37,11 +39,14 @@ export default function CatalogCard({ productItem }: IProps) {
                 href={`/catalog/${category.id}/category/${id}/catalog-item`}
                 className={`group relative inline-flex w-full mobile:w-[282px] h-[231px] mobile:h-[381px] rounded-xl overflow-hidden mobile:hover:ring-4 ring-offset-4 ring-t-blue/40 duration-400 ${(availability === "Немає" || availability === "Виробництво припинено") ? "opacity-50" : ""} `}
             >
-                {sale_tk && <CountdownTimer
-                    startDate="2024-11-28T00:00:00" // default dates
-                    endDate="2024-12-01T00:00:00" // default dates
-                    className="absolute top-2 right-0 z-20"
-                />}
+                {sale &&
+                    date_on_sale &&
+                    date_off_sale &&
+                    <CountdownTimer
+                        startDate={date_on_sale} // default dates
+                        endDate={date_off_sale} // default dates
+                        className="absolute top-2 right-0 z-20"
+                    />}
 
                 <ImageWithLoader
                     alt={`Зображення товару ${name} із категорії ${category}`}
@@ -72,12 +77,12 @@ export default function CatalogCard({ productItem }: IProps) {
                     {/* {cashback === undefined ? null : <p className="absolute top-0 mobile:top-2 right-2 mobile:right-3">
                         <CoinIcon />
                     </p>} */}
-                    {sale_tk === null ? null :
+                    {sale === null ? null :
                         <p className="absolute right-0 -top-5 mobile:-top-7 inline-flex h-[18px] mobile:h-[25px] w-[89px] mobile:w-[113px] pr-1.5 mobile:pr-[11px] rounded-[36px] bg-[#FFEFD1] text-xxs mobile:text-xs text-[#F79D15] font-bold items-center justify-end animate-bounce">
                             <span className="absolute left-[5px] mobile:left-[7px] bottom-0.5 mobile:bottom-1">
                                 <FireIcon />
                             </span>
-                            Акція {parseFloat(sale_tk)}%
+                            Акція {parseFloat(sale)}%
                         </p>}
                     {/* isInStock and label info fields*/}
                     <div className="w-full flex items-center justify-between">

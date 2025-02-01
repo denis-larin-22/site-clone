@@ -114,3 +114,13 @@ export function capitalizeFirstLetter(word: string | null): string | null {
 export function isNumberInArray(number: number, arrayNumber: number[]): boolean {
     return arrayNumber.includes(number);
 }
+
+// Sort array (words/numbers)
+export function sortArray<T extends string | number>(arr: T[]): T[] {
+    return arr.slice().sort((a, b) => {
+        if (typeof a === "number" && typeof b === "number") {
+            return a - b;
+        }
+        return String(a).localeCompare(String(b));
+    });
+}

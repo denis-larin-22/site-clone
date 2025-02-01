@@ -25,7 +25,10 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
                     price_3: item.price.price_3,
                     price_4: item.price.price_4,
                     price_5: item.price.price_5,
-                    sale_tk: item.price.sale_tk
+                    sale: item.price.sale,
+                    date_on_sale: item.price.date_on_sale,
+                    date_off_sale: item.price.date_off_sale,
+
                 },
                 category: {
                     id: item.category.id,

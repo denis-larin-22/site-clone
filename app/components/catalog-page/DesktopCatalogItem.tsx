@@ -75,7 +75,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
                     visible: {
                         opacity: 1,
                         transition: {
-                            staggerChildren: 0.1, // пауза между элементами
+                            staggerChildren: 0.1, // pause between elements
                         },
                     },
                 }}

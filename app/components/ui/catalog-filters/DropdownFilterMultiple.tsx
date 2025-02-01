@@ -9,6 +9,7 @@ import { getFilterAnimation } from "@/app/lib/utils/animations";
 import { IFilterOption } from "@/app/lib/types";
 import { filterValuesIcons } from "@/app/lib/data/filter-values-icons";
 import { IActiveFilters } from "../../catalog-page/Catalog";
+import { sortArray } from "@/app/lib/utils/utils";
 
 export interface IProps {
     filterOption: IFilterOption,
@@ -69,27 +70,31 @@ export function DropdownFilterMultiple({
                         initial="hidden"
                         animate="visible"
                     >
-                        {filterOption.options.map((value, index) => (
-                            <li
-                                key={index}
-                                className={`${selectedOptions.includes(value) ? 'bg-t-blue text-white mobile:text-inherit mobile:bg-t-pale' : 'bg-white mobile:bg-none'} h-7 relative py-[9px] mobile:py-1 px-[18px] mobile:px-3 cursor-pointer p-1 rounded-3xl mobile:hover:bg-t-pale active:scale-95 duration-150 flex items-center`}
-                                onClick={() => {
-                                    toggleOption(value);
+                        {sortArray(filterOption.options)
+                            .map((value, index) => (
+                                <li
+                                    key={index}
+                                    className={`${selectedOptions.includes(value) ? 'bg-t-blue text-white mobile:text-inherit mobile:bg-t-pale' : 'bg-white mobile:bg-none'} h-7 relative py-[9px] mobile:py-1 px-[18px] mobile:px-3 cursor-pointer p-1 rounded-3xl mobile:hover:bg-t-pale active:scale-95 duration-150 flex items-center`}
+                                    onClick={() => {
+                                        toggleOption(value);
 
-                                    filtersHandler(filterOption.filter, value, true);
-                                }}
-                            >
-                                {/* {icon === undefined ? null : <span className="inline-block h-5 absolute left-1 bottom-[5px]">{icon}</span>} */}
-                                <OptionIcon filter={filterOption.filter} value={value} />
-                                <p className={`text-nowrap flex items-center gap-x-[5px] text-sm font-normal whitespace-nowrap`}>
-                                    {filterOption.filter === "price" ?
-                                        "категорія " + parseFloat(value)
-                                        :
-                                        value
-                                    }
-                                </p>
-                            </li>
-                        ))}
+                                        filtersHandler(filterOption.filter, value, true);
+                                    }}
+                                >
+                                    {/* {icon === undefined ? null : <span className="inline-block h-5 absolute left-1 bottom-[5px]">{icon}</span>} */}
+                                    <OptionIcon filter={filterOption.filter} value={value} />
+                                    <p className={`text-nowrap flex items-center gap-x-[5px] text-sm font-normal whitespace-nowrap`}>
+                                        {filterOption.filter === "price" ?
+                                            "категорія " + parseFloat(value)
+                                            :
+                                            filterOption.filter === "sale" ?
+                                                value + "%"
+                                                :
+                                                value
+                                        }
+                                    </p>
+                                </li>
+                            ))}
                     </motion.ul>
                     {/* Blured space (mobile) */}
                     <div onClick={onToggle} className="block mobile:hidden fixed inset-0 top-32 z-40 bg-[#7E7E7E]/60 backdrop-blur-sm"></div>

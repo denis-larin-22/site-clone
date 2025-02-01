@@ -19,6 +19,8 @@ function CatalogItem({ itemId }: IProps) {
     useEffect(() => {
         async function getProductItem(productId: string | number) {
             const result = await fetchProductItem(productId);
+            console.log(result);
+
             setProductItem(result);
         }
 

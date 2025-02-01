@@ -13,7 +13,9 @@ export interface IProductItem {
         price_3: StringOrNull,
         price_4: StringOrNull,
         price_5: StringOrNull,
-        sale_tk: StringOrNull
+        sale: StringOrNull,
+        date_on_sale: StringOrNull,
+        date_off_sale: StringOrNull
     },
     category: {
         id: number,

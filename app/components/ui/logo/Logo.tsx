@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function Logo() {
-    const SWITCH_DELAY = 3; // in seconds
+    const SWITCH_DELAY = 4; // in seconds
     const [isSwitched, setIsSwitched] = useState(false);
 
     useEffect(() => {
@@ -49,7 +49,7 @@ function Logo() {
                             src={"/assets/images/full_logo.png"}
                             width={130}
                             height={43}
-                            className="h-full w-full"
+                            className="h-[43px] w-[130px]"
                         />
                     </motion.div>
                 }

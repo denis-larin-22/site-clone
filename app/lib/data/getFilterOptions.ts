@@ -45,9 +45,15 @@ export function getFilterOptions(productList: IProductItem[]) {
         options: getAvailability(productList),
         multichoice: true
     }
+    const filterBySaleValue: IFilterOption = {
+        filter: "sale",
+        title: "Акція",
+        options: getSaleValues(productList),
+        multichoice: true
+    }
 
     // return [filterByCriteria, filterByColors, filterByDesigns, filterByTransparencies, filterByCollections, filterByPrice]; - init all filters
-    return [filterByColors, filterByTransparencies, filterByCollections, filterByPriceCategories, filterByAvailability];
+    return [filterByColors, filterByTransparencies, filterByCollections, filterByPriceCategories, filterByAvailability, filterBySaleValue];
 }
 
 function getColors(productList: IProductItem[]) {
@@ -133,5 +139,22 @@ function getPriceCategories(productList: IProductItem[]) {
     );
 
     return uniquePriceCategoriesArray;
+};
+
+function getSaleValues(productList: IProductItem[]) {
+    const uniqueCollectionsArray = Array.from(
+        productList.reduce<Set<string>>((acc, product) => {
+            const sale = product.price.sale;
+
+            // Check that the collection is not null and add it to the Set
+            if (sale !== null) {
+                acc.add(sale); // Adding collection to Set for uniqueness
+            }
+
+            return acc;
+        }, new Set<string>())
+    );
+
+    return uniqueCollectionsArray;
 };
 

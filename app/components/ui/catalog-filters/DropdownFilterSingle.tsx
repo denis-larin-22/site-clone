@@ -8,6 +8,7 @@ import { ArrowIcon } from "../../assets/icons";
 import { getFilterAnimation } from "@/app/lib/utils/animations";
 import { IFilterOption } from "@/app/lib/types";
 import { IActiveFilters } from "../../catalog-page/Catalog";
+import { sortArray } from "@/app/lib/utils/utils";
 
 export interface IProps {
     filterOption: IFilterOption,
@@ -53,23 +54,24 @@ export function DropdownFilterSingle({
                         initial="hidden"
                         animate="visible"
                     >
-                        {filterOption.options.map((value, index) => (
-                            <li
-                                key={index}
-                                className={`${selectedOption === value ? 'bg-white mobile:bg-t-pale' : 'bg-none'} h-[38px] mobile:h-7 px-[18px] mobile:px-3 mobile:py-1 cursor-pointer rounded-3xl text-sm hover:bg-t-pale duration-150 flex items-center gap-x-3 mobile:gap-x-1.5`}
-                                onClick={() => {
-                                    if (!filterOption.title) {
-                                        setOptionTitle(value);
-                                    }
-                                    setSelectedOption(value);
-                                    filtersHandler(filterOption.filter, value, false);
-                                    onToggle();
-                                }}
-                            >
-                                {/* {icon !== undefined ? <span className="inline-block h-fit">{icon}</span> : null} */}
-                                <p className="flex items-center gap-1 text-sm font-normal whitespace-nowrap">{value}</p>
-                            </li>
-                        ))}
+                        {sortArray(filterOption.options)
+                            .map((value, index) => (
+                                <li
+                                    key={index}
+                                    className={`${selectedOption === value ? 'bg-white mobile:bg-t-pale' : 'bg-none'} h-[38px] mobile:h-7 px-[18px] mobile:px-3 mobile:py-1 cursor-pointer rounded-3xl text-sm hover:bg-t-pale duration-150 flex items-center gap-x-3 mobile:gap-x-1.5`}
+                                    onClick={() => {
+                                        if (!filterOption.title) {
+                                            setOptionTitle(value);
+                                        }
+                                        setSelectedOption(value);
+                                        filtersHandler(filterOption.filter, value, false);
+                                        onToggle();
+                                    }}
+                                >
+                                    {/* {icon !== undefined ? <span className="inline-block h-fit">{icon}</span> : null} */}
+                                    <p className="flex items-center gap-1 text-sm font-normal whitespace-nowrap">{value}</p>
+                                </li>
+                            ))}
                     </motion.ul>
                     {/* Blured space (mobile) */}
                     <div onClick={onToggle} className="block mobile:hidden fixed inset-0 top-32 z-40 bg-[#7E7E7E]/60 backdrop-blur-sm"></div>
