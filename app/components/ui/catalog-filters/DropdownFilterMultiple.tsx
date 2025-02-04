@@ -90,7 +90,10 @@ export function DropdownFilterMultiple({
                                             filterOption.filter === "sale" ?
                                                 value + "%"
                                                 :
-                                                value
+                                                filterOption.filter === "rollWidth" ?
+                                                    value + " мм"
+                                                    :
+                                                    value
                                         }
                                     </p>
                                 </li>

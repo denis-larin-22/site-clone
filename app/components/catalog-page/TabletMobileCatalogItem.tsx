@@ -50,7 +50,7 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
         { item: "Фактура тканини", info: fabric_texture || 'відсутнє' },
         { item: "Склад", info: composition || 'відсутнє' },
         { item: "Гарантія", info: warranty || 'відсутнє' },
-        { item: "Ширина рулону", info: roll_width || 'відсутнє' }
+        { item: "Ширина рулону", info: roll_width + " мм" || 'відсутнє' }
     ];
 
     return (

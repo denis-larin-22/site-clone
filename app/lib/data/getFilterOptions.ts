@@ -33,6 +33,12 @@ export function getFilterOptions(productList: IProductItem[]) {
         options: getCollections(productList),
         multichoice: true
     }
+    const filterByRollWidth: IFilterOption = {
+        filter: "rollWidth",
+        title: "Ширина рулону",
+        options: getRollWidthValues(productList),
+        multichoice: true
+    }
     const filterByPriceCategories: IFilterOption = {
         filter: "price",
         title: "Категорія ціни",
@@ -53,7 +59,7 @@ export function getFilterOptions(productList: IProductItem[]) {
     }
 
     // return [filterByCriteria, filterByColors, filterByDesigns, filterByTransparencies, filterByCollections, filterByPrice]; - init all filters
-    return [filterByColors, filterByTransparencies, filterByCollections, filterByPriceCategories, filterByAvailability, filterBySaleValue];
+    return [filterByColors, filterByTransparencies, filterByCollections, filterByRollWidth, filterByPriceCategories, filterByAvailability, filterBySaleValue];
 }
 
 function getColors(productList: IProductItem[]) {
@@ -98,6 +104,23 @@ function getCollections(productList: IProductItem[]) {
             // Check that the collection is not null and add it to the Set
             if (collection !== null) {
                 acc.add(collection); // Adding collection to Set for uniqueness
+            }
+
+            return acc;
+        }, new Set<string>())
+    );
+
+    return uniqueCollectionsArray;
+};
+
+function getRollWidthValues(productList: IProductItem[]) {
+    const uniqueCollectionsArray = Array.from(
+        productList.reduce<Set<string>>((acc, product) => {
+            const rollWidthValue = product.technical_info.roll_width;
+
+            // Check that the collection is not null and add it to the Set
+            if (rollWidthValue !== null) {
+                acc.add((rollWidthValue).toString()); // Adding collection to Set for uniqueness
             }
 
             return acc;

@@ -53,7 +53,13 @@ function FeedbackForm() {
         setErrors(checkErrors);
         const hasErrors = Object.values(checkErrors).some(error => error);
 
-        if (!hasErrors && +currentSendingsCount <= MAXIMUM_COUNT_SENDS_PER_SESSION) {
+        if (+currentSendingsCount > MAXIMUM_COUNT_SENDS_PER_SESSION) {
+            // The limit of sendings per session has been reached
+            setSendingProcess(false);
+            setSendingStatus({ isVissible: true, status: false })
+
+            setTimeout(() => { setSendingStatus({ ...sendingStatus, isVissible: false }) }, 3000)
+        } else if (!hasErrors) {
             setSendingProcess(true);
             const responseResult = await sendFeedbackMail(nameValue, messageValue, ratingValue, "piramidspace.com" + currentPath);
 
@@ -73,13 +79,6 @@ function FeedbackForm() {
             setFormState(initFormState);
             // Close feedback
             setTimeout(() => { setIsFeedbackOpen(false) }, 3500)
-        } else {
-            // The limit of sendings per session has been reached
-            setSendingProcess(false);
-            setSendingStatus({ isVissible: true, status: false })
-
-            setTimeout(() => { setSendingStatus({ ...sendingStatus, isVissible: false }) }, 3000)
-            return;
         }
     };
 
@@ -89,15 +88,18 @@ function FeedbackForm() {
         <>
             {/* Feedback button */}
             <button
-                className={`fixed ${isCategoryPage ? "bottom-48" : "bottom-8"} md:bottom-5 right-9 lg:right-auto lg:left-3 z-[60] flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform`}
+                className={`fixed ${isCategoryPage ? "bottom-48" : "bottom-8"} md:bottom-5 right-3 md:right-5 z-[60] flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform`}
                 onClick={() => setIsFeedbackOpen(!isFeedbackOpen)}
             >
+                {/* Mobile pulse anim */}
                 <motion.span
-                    className="inline-block md:hidden w-16 h-16 rounded-full bg-t-blue/40 absolute z-0 -top-6 -left-1"
+                    className="inline-block md:hidden w-16 h-16 rounded-full bg-t-blue/40 absolute z-0 -top-[150%] -left-[90%]"
                     animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
                     transition={{ duration: 1.5, ease: "easeInOut", repeat: Infinity }}
                 />
-                <span className="w-14 h-14 flex items-center justify-center bg-white border-4 border-blue-600 rounded-full absolute left-0 z-45">
+
+                <span className="hidden md:inline mr-11">Feedback</span>
+                <span className="w-14 h-14 flex items-center justify-center bg-white border-4 border-blue-600 rounded-full absolute right-0 z-45">
                     <Image
                         src="/assets/images/feedback/feedback-icon.svg"
                         alt="Feedback Icon"
@@ -106,7 +108,6 @@ function FeedbackForm() {
                         className="w-9 h-9"
                     />
                 </span>
-                <span className="hidden md:inline ml-10">Feedback</span>
             </button >
 
             {/* REPORT MESSAGE */}

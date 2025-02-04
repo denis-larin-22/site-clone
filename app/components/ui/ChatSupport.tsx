@@ -9,7 +9,7 @@ function ChatSupport() {
     return (
         <>
             {/* DESKTOP Button to iframe */}
-            <div className="fixed bottom-5 right-5 z-[60] hidden md:flex flex-col items-end gap-5">
+            <div className="fixed bottom-20 right-5 z-[60] hidden md:flex flex-col items-end gap-5">
                 <AnimatePresence>
                     {
                         !isHidden &&

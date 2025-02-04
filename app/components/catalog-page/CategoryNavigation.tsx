@@ -163,6 +163,9 @@ function getCategoryIconSrc(category: string): string {
         case "Вертикальні":
             iconSrc = "/assets/images/categories-icons/vertical-blinds.svg";
             break;
+        case "Рекламна продукція":
+            iconSrc = "/assets/images/categories-icons/promotional-items.webp";
+            break;
         default:
             iconSrc = "/assets/images/categories-icons/default.svg";
             break;

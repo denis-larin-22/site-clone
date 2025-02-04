@@ -29,7 +29,7 @@ export interface IProductItem {
         fabric_texture: StringOrNull,
         composition: StringOrNull,
         warranty: StringOrNull,
-        roll_width: NumberOrNull,
+        roll_width: StringOrNull,
         tape_width: NumberOrNull,
         collection: StringOrNull,
         transparency: StringOrNull,

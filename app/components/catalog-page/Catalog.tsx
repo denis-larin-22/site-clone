@@ -47,6 +47,8 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
     useEffect(() => {
         async function fetchCatalogData() {
             const listProduct = await fetchProductsList(); // init catalog list
+            listProduct.forEach((item) => console.log(item.technical_info.roll_width))
+
             const categoriesList = await fetchCategories(); // category list
 
             const productListByActiveCategory = listProduct.filter((product) => product.category_id === Number(activeCategoryId)); // filtered list by active category
@@ -165,17 +167,18 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
 
 // get filtered product list by category and filters values
 function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId: number) {
-    const { availability, color, collection, transparency, price, sale } = activeFilters;
+    const { availability, color, collection, rollWidth, transparency, price, sale } = activeFilters;
 
     return products.filter((product) => {
         const categoryMatch = product.category_id === activeCategoryId;
         const colorMatch = color.length === 0 || color.includes(product.technical_info.color);
         const transparencyMatch = transparency.length === 0 || transparency.includes(product.technical_info.transparency);
         const collectionMatch = collection.length === 0 || collection.includes(product.technical_info.collection);
+        const rollWidthValueMatch = rollWidth.length === 0 || rollWidth.includes(product.technical_info.roll_width);
         const priceMatch = price.length === 0 || price.includes(product.price.price_5);
         const availabilityMatch = availability.length === 0 || availability.includes(product.availability);
         const saleValueMatch = sale.length === 0 || sale.includes(product.price.sale);
 
-        return categoryMatch && colorMatch && transparencyMatch && collectionMatch && priceMatch && availabilityMatch && saleValueMatch;
+        return categoryMatch && colorMatch && transparencyMatch && collectionMatch && rollWidthValueMatch && priceMatch && availabilityMatch && saleValueMatch;
     });
 };
