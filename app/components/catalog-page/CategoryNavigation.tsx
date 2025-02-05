@@ -143,7 +143,6 @@ export default function CategoryNavigation({ activeCategory, categoriesList, cat
     )
 }
 
-
 function getCategoryIconSrc(category: string): string {
     let iconSrc = "";
     switch (category) {

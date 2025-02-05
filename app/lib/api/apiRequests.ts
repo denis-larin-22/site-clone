@@ -19,6 +19,7 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
                 name: item.name,
                 category_id: item.category_id,
                 availability: getAvailabilityStatus(item.availability),
+                sort_order: item.sort_order,
                 price: {
                     price_1: item.price.price_1,
                     price_2: item.price.price_2,
@@ -47,8 +48,8 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
                     fabric_texture: item.technical_info.fabric_texture,
                     composition: item.technical_info.composition,
                     warranty: item.technical_info.warranty,
-                    roll_width: item.technical_info.roll_width ? (Math.floor(item.technical_info.roll_width)).toString() : null,
-                    tape_width: item.technical_info.tape_width,
+                    roll_width: item.technical_info.roll_width ? getStringFromNumber(item.technical_info.roll_width) : null,
+                    tape_width: item.technical_info.tape_width ? getStringFromNumber(item.technical_info.tape_width) : null,
                     collection: capitalizeFirstLetter(item.technical_info.collection),
                     transparency: capitalizeFirstLetter(item.technical_info.transparency),
                     color: capitalizeFirstLetter(item.technical_info.color),
@@ -80,6 +81,7 @@ export async function fetchProductItem(productId: string | number): Promise<Omit
             name: data.name,
             category_id: data.category_id,
             availability: getAvailabilityStatus(data.availability),
+            sort_order: data.sort_order,
             category: {
                 id: data.category.id,
                 name: data.category.name
@@ -97,8 +99,8 @@ export async function fetchProductItem(productId: string | number): Promise<Omit
                 fabric_texture: data.technical_info.fabric_texture,
                 composition: data.technical_info.composition,
                 warranty: data.technical_info.warranty,
-                roll_width: data.technical_info.roll_width ? (Math.floor(data.technical_info.roll_width)).toString() : null,
-                tape_width: data.technical_info.tape_width,
+                roll_width: data.technical_info.roll_width ? getStringFromNumber(data.technical_info.roll_width) : null,
+                tape_width: data.technical_info.tape_width ? getStringFromNumber(data.technical_info.tape_width) : null,
                 collection: capitalizeFirstLetter(data.technical_info.collection),
                 transparency: capitalizeFirstLetter(data.technical_info.transparency),
                 color: capitalizeFirstLetter(data.technical_info.color),
@@ -182,4 +184,8 @@ function getAvailabilityStatus(availabilityValue: string) {
     }
 
     return resultValue;
+}
+
+function getStringFromNumber(value: number) {
+    return (Math.floor(value)).toString()
 }

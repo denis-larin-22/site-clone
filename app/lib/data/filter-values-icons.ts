@@ -7,6 +7,7 @@ interface IFilterValuesIcons {
 export const filterValuesIcons: IFilterValuesIcons = {
     color: {
         "Білий": "#FFFFFF",
+        "Бузковий": "#A39AD7",
         "Чорний": "#000000",
         "Сірий": "#808080",
         "Світло-сірий": "#D3D3D3",
@@ -33,7 +34,7 @@ export const filterValuesIcons: IFilterValuesIcons = {
         "Лаймовий": "#00FF00",
         "М'ятний": "#F5FFFA",
         "Бірюзовий": "#40E0D0",
-        "Аквамариновий": "#7FFFD4",
+        "Аквамарин": "#788CB1",
         "Темно-бірюзовий": "#008080",
         "Блакитний": "#00FFFF",
         "Світло-блакитний": "#ADD8E6",

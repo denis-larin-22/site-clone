@@ -33,6 +33,7 @@ function Logo() {
                             src={"/assets/images/logo_anim_preview.gif"}
                             width={130}
                             height={43}
+                            unoptimized
                             className="absolute -top-2 w-[130px] h-[56px]"
                         />
                     </motion.div>

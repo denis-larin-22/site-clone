@@ -90,7 +90,7 @@ export function DropdownFilterMultiple({
                                             filterOption.filter === "sale" ?
                                                 value + "%"
                                                 :
-                                                filterOption.filter === "rollWidth" ?
+                                                filterOption.filter === "rollWidth" || filterOption.filter === "tapeWidth" ?
                                                     value + " мм"
                                                     :
                                                     value

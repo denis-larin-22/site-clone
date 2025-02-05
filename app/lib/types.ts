@@ -7,6 +7,7 @@ export interface IProductItem {
     name: string,
     category_id: number,
     availability: string,
+    sort_order: 0 | 1,
     price: {
         price_1: StringOrNull,
         price_2: StringOrNull,
@@ -30,7 +31,7 @@ export interface IProductItem {
         composition: StringOrNull,
         warranty: StringOrNull,
         roll_width: StringOrNull,
-        tape_width: NumberOrNull,
+        tape_width: StringOrNull,
         collection: StringOrNull,
         transparency: StringOrNull,
         color: StringOrNull,

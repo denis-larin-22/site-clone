@@ -39,6 +39,12 @@ export function getFilterOptions(productList: IProductItem[]) {
         options: getRollWidthValues(productList),
         multichoice: true
     }
+    const filterByTapeWidth: IFilterOption = {
+        filter: "tapeWidth",
+        title: "Ширина ламелі",
+        options: getTapeWidthValues(productList),
+        multichoice: true
+    }
     const filterByPriceCategories: IFilterOption = {
         filter: "price",
         title: "Категорія ціни",
@@ -59,7 +65,7 @@ export function getFilterOptions(productList: IProductItem[]) {
     }
 
     // return [filterByCriteria, filterByColors, filterByDesigns, filterByTransparencies, filterByCollections, filterByPrice]; - init all filters
-    return [filterByColors, filterByTransparencies, filterByCollections, filterByRollWidth, filterByPriceCategories, filterByAvailability, filterBySaleValue];
+    return [filterByColors, filterByTransparencies, filterByCollections, filterByRollWidth, filterByTapeWidth, filterByPriceCategories, filterByAvailability, filterBySaleValue];
 }
 
 function getColors(productList: IProductItem[]) {
@@ -118,9 +124,26 @@ function getRollWidthValues(productList: IProductItem[]) {
         productList.reduce<Set<string>>((acc, product) => {
             const rollWidthValue = product.technical_info.roll_width;
 
-            // Check that the collection is not null and add it to the Set
+            // Check that the value is not null and add it to the Set
             if (rollWidthValue !== null) {
-                acc.add((rollWidthValue).toString()); // Adding collection to Set for uniqueness
+                acc.add((rollWidthValue).toString()); // Adding value to Set for uniqueness
+            }
+
+            return acc;
+        }, new Set<string>())
+    );
+
+    return uniqueCollectionsArray;
+};
+
+function getTapeWidthValues(productList: IProductItem[]) {
+    const uniqueCollectionsArray = Array.from(
+        productList.reduce<Set<string>>((acc, product) => {
+            const tapeWidthValue = product.technical_info.tape_width;
+
+            // Check that the value is not null and add it to the Set
+            if (tapeWidthValue !== null) {
+                acc.add((tapeWidthValue).toString()); // Adding value to Set for uniqueness
             }
 
             return acc;
@@ -135,9 +158,9 @@ function getAvailability(productList: IProductItem[]) {
         productList.reduce<Set<string>>((acc, product) => {
             const availability = product.availability;
 
-            // Check that the collection is not null and add it to the Set
+            // Check that the availability value is not null and add it to the Set
             if (availability !== null) {
-                acc.add(availability); // Adding collection to Set for uniqueness
+                acc.add(availability); // Adding availability value to Set for uniqueness
             }
 
             return acc;
@@ -169,9 +192,9 @@ function getSaleValues(productList: IProductItem[]) {
         productList.reduce<Set<string>>((acc, product) => {
             const sale = product.price.sale;
 
-            // Check that the collection is not null and add it to the Set
+            // Check that the sale value is not null and add it to the Set
             if (sale !== null) {
-                acc.add(sale); // Adding collection to Set for uniqueness
+                acc.add(sale); // Adding sale value to Set for uniqueness
             }
 
             return acc;

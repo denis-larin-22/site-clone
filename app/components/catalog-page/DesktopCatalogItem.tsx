@@ -9,7 +9,8 @@ import ImageWithLoader from "../ui/ImageWithLoader"
 import { openSansFont } from "../ui/fonts"
 import Link from "next/link"
 import { motion, MotionProps } from "framer-motion"
-import { Description } from "./Description"
+import { Description } from "../ui/catalog/Description"
+import TopProductIcon from "../ui/catalog/TopProductIcon"
 
 interface IProps {
     productItem: Omit<IProductItem, 'price'> | null
@@ -24,6 +25,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
         name,
         images_url,
         availability,
+        sort_order,
         category,
         technical_info: {
             collection,
@@ -50,7 +52,8 @@ function DesktopCatalogItem({ productItem }: IProps) {
         { item: "Фактура тканини", info: fabric_texture || 'відсутнє' },
         { item: "Склад", info: composition || 'відсутнє' },
         { item: "Гарантія", info: warranty || 'відсутнє' },
-        { item: "Ширина рулону", info: (roll_width + " мм") || 'відсутнє' }
+        { item: "Ширина рулону", info: (roll_width + " мм") || 'відсутнє' },
+        { item: "Ширина ламелі", info: (tape_width + " мм") || 'відсутнє' }
     ];
 
     return (
@@ -117,6 +120,10 @@ function DesktopCatalogItem({ productItem }: IProps) {
                     watermark
                     watermarkPosition="center"
                 />
+
+                {/* Top product icon */}
+                {sort_order === 1 && <TopProductIcon className="absolute -top-5 -right-5" />}
+
                 <button onClick={onZoomed} className="w-[65px] h-[65px] absolute bottom-[30px] right-[30px] rounded-full bg-white flex items-center justify-center">
                     <ZoomIcon />
                 </button>
@@ -160,29 +167,31 @@ function DesktopCatalogItem({ productItem }: IProps) {
                         {...getMotionAttributes(0.1)}
                         className={`${openSansFont.className} flex items-center justify-between`}
                     >
-                        <p className="text-[#AEB1BA] text-xs uppercase">{category.name} <span className="text-t-blue-dark uppercase">/</span> {collection}</p>
-                        <p className={availability === 'В наявності'
-                            ? "text-t-green"
-                            : availability === 'Закінчується' ?
-                                "text-[#F79D15]"
-                                :
-                                "text-[#FF4242]"
-                        }>
-                            {availability}
-                        </p>
+                        {/* Availability, category and collection values */}
+                        <ProductTitles
+                            availability={availability}
+                            category={category.name}
+                            collection={collection}
+                        />
                     </motion.div>
+
+                    {/* Product name */}
                     <motion.h5
                         {...getMotionAttributes(0.2)}
                         className="text-[32px] mt-3 mb-8"
                     >
                         {name}
                     </motion.h5>
+
                     {/* Description */}
-                    {description && <motion.div
-                        {...getMotionAttributes(0.3)}
-                    >
-                        <Description descriptionText={description} />
-                    </motion.div>}
+                    {description &&
+                        <motion.div
+                            {...getMotionAttributes(0.3)}
+                        >
+                            <Description descriptionText={description} />
+                        </motion.div>}
+
+                    {/* TO_DO */}
                     {/* <div className="w-full flex items-center justify-between"> */}
                     {/* <div className="flex items-center justify-between gap-[15px]">
                             {sale_tk === null ? null : <p className="relative w-[113px] py-1 px-3 flex items-center justify-end text-xs font-bold text-[#F79D15] bg-[#FFEFD1] rounded-full">
@@ -241,3 +250,22 @@ function getMotionAttributes(delay: number): MotionProps {
         transition: { duration: 0.3, delay },
     };
 };
+
+// UI
+
+function ProductTitles({ availability, category, collection }: { availability: string, category: string, collection: string | null }) {
+    return (
+        <>
+            <p className="text-[#AEB1BA] text-xs uppercase">{category} <span className="text-t-blue-dark uppercase">/</span> {collection ? collection : "Відсутнє"}</p>
+            <p className={availability === 'В наявності'
+                ? "text-t-green"
+                : availability === 'Закінчується' ?
+                    "text-[#F79D15]"
+                    :
+                    "text-[#FF4242]"
+            }>
+                {availability}
+            </p>
+        </>
+    )
+}
