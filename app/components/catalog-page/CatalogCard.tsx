@@ -45,7 +45,7 @@ export default function CatalogCard({ productItem }: IProps) {
                         className="absolute top-2 right-0 z-20"
                     />}
                 {/* Top product icon */}
-                {(sort_order === 1) && <TopProductIcon className="absolute top-1 right-1 z-10" />}
+                {(sort_order === 1) && <TopProductIcon className="absolute top-1 right-1 z-10 w-12 h-12 md:w-fit md:h-fit" />}
 
                 <ImageWithLoader
                     alt={`Зображення товару ${name} із категорії ${category}`}
