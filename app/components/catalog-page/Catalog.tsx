@@ -164,20 +164,45 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
 }
 
 // get filtered product list by category and filters values
+// function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId: number) {
+//     const { availability, color, collection, rollWidth, tapeWidth, transparency, price, sale } = activeFilters;
+
+//     return products.filter((product) => {
+//         const categoryMatch = product.category_id === activeCategoryId;
+//         const colorMatch = color.length === 0 || color.includes(product.technical_info.color);
+//         const transparencyMatch = transparency.length === 0 || transparency.includes(product.technical_info.transparency);
+//         const collectionMatch = collection.length === 0 || collection.includes(product.technical_info.collection);
+//         const rollWidthValueMatch = rollWidth.length === 0 || rollWidth.includes(product.technical_info.roll_width);
+//         const tapeWidthValueMatch = tapeWidth.length === 0 || tapeWidth.includes(product.technical_info.tape_width);
+//         const priceMatch = price.length === 0 || price.includes(product.price.price_5);
+//         const availabilityMatch = availability.length === 0 || availability.includes(product.availability);
+//         const saleValueMatch = sale.length === 0 || sale.includes(product.price.sale);
+
+//         return categoryMatch && colorMatch && transparencyMatch && collectionMatch && rollWidthValueMatch && tapeWidthValueMatch && priceMatch && availabilityMatch && saleValueMatch;
+//     });
+// };
+
+
+// Code refactoring TEST version
 function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId: number) {
     const { availability, color, collection, rollWidth, tapeWidth, transparency, price, sale } = activeFilters;
 
     return products.filter((product) => {
-        const categoryMatch = product.category_id === activeCategoryId;
-        const colorMatch = color.length === 0 || color.includes(product.technical_info.color);
-        const transparencyMatch = transparency.length === 0 || transparency.includes(product.technical_info.transparency);
-        const collectionMatch = collection.length === 0 || collection.includes(product.technical_info.collection);
-        const rollWidthValueMatch = rollWidth.length === 0 || rollWidth.includes(product.technical_info.roll_width);
-        const tapeWidthValueMatch = tapeWidth.length === 0 || tapeWidth.includes(product.technical_info.tape_width);
-        const priceMatch = price.length === 0 || price.includes(product.price.price_5);
-        const availabilityMatch = availability.length === 0 || availability.includes(product.availability);
-        const saleValueMatch = sale.length === 0 || sale.includes(product.price.sale);
+        const { technical_info, price: productPrice, category_id, availability: productAvailability } = product;
+        const { color: productColor, transparency: productTransparency, collection: productCollection, roll_width, tape_width } = technical_info;
 
-        return categoryMatch && colorMatch && transparencyMatch && collectionMatch && rollWidthValueMatch && tapeWidthValueMatch && priceMatch && availabilityMatch && saleValueMatch;
+        const matches = [
+            category_id === activeCategoryId,
+            !color.length || color.includes(productColor),
+            !transparency.length || transparency.includes(productTransparency),
+            !collection.length || collection.includes(productCollection),
+            !rollWidth.length || rollWidth.includes(roll_width),
+            !tapeWidth.length || tapeWidth.includes(tape_width),
+            !price.length || price.includes(productPrice.price_5),
+            !availability.length || availability.includes(productAvailability),
+            !sale.length || sale.includes(productPrice.sale)
+        ];
+
+        return matches.every(Boolean);
     });
 };

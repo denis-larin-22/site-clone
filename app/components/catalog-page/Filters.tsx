@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useRef, useState } from "react"
-import { DropdownFilterMultiple } from "../ui/catalog-filters/DropdownFilterMultiple"
-import { DropdownFilterSingle } from "../ui/catalog-filters/DropdownFilterSingle"
-import { PriceOrder } from "../ui/catalog-filters/FilterByLevelPrice"
+import { DropdownFilterMultiple } from "../ui/catalog/DropdownFilterMultiple"
+import { DropdownFilterSingle } from "../ui/catalog/DropdownFilterSingle"
+import { PriceOrder } from "../ui/catalog/FilterByLevelPrice"
 import { IFilterOption } from "@/app/lib/types"
 import { IActiveFilters } from "./Catalog"
 import Image from "next/image"

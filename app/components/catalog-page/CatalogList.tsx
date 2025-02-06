@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { IProductItem } from "@/app/lib/types";
 import CatalogCard from "./CatalogCard";
 import { SS_CATALOG_PAGINATION_PAGE_KEY } from "./Catalog";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface IProps {
     listToRender: IProductItem[],
@@ -52,15 +53,27 @@ export default function CatalogList({ listToRender, className }: IProps) {
 
     return (
         <div ref={containerRef} className="relative z-20 mt-[-400px] pt-5 min-h-[50dvh]">
-            <ul className={`w-full px-0 tablet:px-10 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start mobile:justify-center gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className || ''}`}>
-                {currentItems.map((product, index) => (
-                    <li key={product.id + product.name + index}>
-                        <CatalogCard productItem={product} />
-                    </li>
-                ))}
-            </ul>
+            <motion.ul
+                className={`w-full px-0 tablet:px-10 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start mobile:justify-center gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className || ''}`}
+                layout
+            >
+                <AnimatePresence>
+                    {currentItems.map((product, index) => (
+                        <motion.li
+                            key={product.id + product.name + index}
+                            layout
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <CatalogCard productItem={product} />
+                        </motion.li>
+                    ))}
+                </AnimatePresence>
+            </motion.ul>
 
-            {/* Пагинация */}
+            {/* Pagination */}
             <div className="flex justify-center mt-4 mb-24 mobile:mb-0 w-full">
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
