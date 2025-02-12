@@ -5,6 +5,7 @@ import ImageWithLoader from "../ui/ImageWithLoader";
 import Link from "next/link";
 import CountdownTimer from "../ui/catalog/CountdownTimer";
 import TopProductIcon from "../ui/catalog/TopProductIcon";
+import { reverseDateValue } from "@/app/lib/utils/utils";
 
 interface IProps {
     productItem: IProductItem
@@ -17,6 +18,7 @@ export default function CatalogCard({ productItem }: IProps) {
         name,
         images_url,
         availability,
+        date_on_stock,
         sort_order,
         category,
         price: {
@@ -90,7 +92,16 @@ export default function CatalogCard({ productItem }: IProps) {
                         {/* TO_DO!!! */}
                         {/* <NewProduct label={label}/> */}
                     </div>
+
                 </div>
+
+
+                {/* If item is not availabile */}
+                {availability === 'Немає' ?
+                    <DateOnStockValue date_on_stock={date_on_stock} />
+                    :
+                    null
+                }
             </Link>
         </>
     )
@@ -141,6 +152,14 @@ function PriceCategory({ priceCategory, }: { priceCategory: string, }) {
     return (
         <p className={`${openSansFont.className} px-2 mobile:px-[14px] py-0 mobile:py-1 bg-t-pale absolute top-4 right-0 text-[10px] mobile:text-sm text-t-blue-dark rounded-tl-full rounded-bl-full ${roundingExternalCorners}`}>
             <span className="relative z-10">{priceCategory}</span>
+        </p>
+    )
+}
+
+function DateOnStockValue({ date_on_stock }: { date_on_stock: string | null }) {
+    return (
+        <p className={`${openSansFont.className} absolute z-30 top-1/3 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-t-blue w-[90%] md:w-fit text-center py-1 px-3 rounded-2xl text-white font-semibold text-sm ring-2 ring-t-blue/50 whitespace-normal md:whitespace-nowrap`}>
+            <span className="animate-spin inline-block">⏲</span> Очікується {date_on_stock ? reverseDateValue(date_on_stock) : ""}
         </p>
     )
 }

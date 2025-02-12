@@ -124,3 +124,8 @@ export function sortArray<T extends string | number>(arr: T[]): T[] {
         return String(a).localeCompare(String(b));
     });
 }
+
+export function reverseDateValue(inputDate: string) {
+    const [year, month, day] = inputDate.split('-');
+    return `${day}.${month}.${year}`;
+}

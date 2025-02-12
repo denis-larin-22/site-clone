@@ -11,6 +11,7 @@ import Link from "next/link"
 import { motion, MotionProps } from "framer-motion"
 import { Description } from "../ui/catalog/Description"
 import TopProductIcon from "../ui/catalog/TopProductIcon"
+import { reverseDateValue } from "@/app/lib/utils/utils"
 
 interface IProps {
     productItem: Omit<IProductItem, 'price'> | null
@@ -25,6 +26,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
         name,
         images_url,
         availability,
+        date_on_stock,
         sort_order,
         category,
         technical_info: {
@@ -170,6 +172,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
                         {/* Availability, category and collection values */}
                         <ProductTitles
                             availability={availability}
+                            date_on_stock={date_on_stock}
                             category={category.name}
                             collection={collection}
                         />
@@ -253,19 +256,29 @@ function getMotionAttributes(delay: number): MotionProps {
 
 // UI
 
-function ProductTitles({ availability, category, collection }: { availability: string, category: string, collection: string | null }) {
+function ProductTitles({ availability, date_on_stock, category, collection }: { availability: string, date_on_stock: string | null, category: string, collection: string | null }) {
     return (
         <>
             <p className="text-[#AEB1BA] text-xs uppercase">{category} <span className="text-t-blue-dark uppercase">/</span> {collection ? collection : "Відсутнє"}</p>
-            <p className={availability === 'В наявності'
-                ? "text-t-green"
-                : availability === 'Закінчується' ?
-                    "text-[#F79D15]"
+
+            <div className="flex flex-col items-end">
+                <p className={availability === 'В наявності'
+                    ? "text-t-green"
+                    : availability === 'Закінчується' ?
+                        "text-[#F79D15]"
+                        :
+                        "text-[#FF4242]"
+                }>
+                    {availability}
+                </p>
+                {availability === "Немає" ?
+                    <p className={`${openSansFont.className} text-t-red/80 font-semibold text-sm `}>
+                        <span className="animate-spin inline-block">⏲</span> Очікується {date_on_stock ? reverseDateValue(date_on_stock) : ""}
+                    </p>
                     :
-                    "text-[#FF4242]"
-            }>
-                {availability}
-            </p>
+                    null
+                }
+            </div>
         </>
     )
 }

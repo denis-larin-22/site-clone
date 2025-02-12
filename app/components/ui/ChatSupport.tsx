@@ -46,7 +46,7 @@ function ChatSupport() {
                         animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
                         transition={{ duration: 1.5, ease: "easeInOut", repeat: Infinity }}
                     />
-                    <img src="/assets/images/chat.svg" alt="" className="relative z-10 group-hover:rotate-[360deg] duration-400" />
+                    <img src="/assets/images/chat.svg" alt="Chat icon" className="relative z-10 group-hover:rotate-[360deg] duration-400" />
                 </button>
             </div >
 
