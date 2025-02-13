@@ -49,7 +49,7 @@ export function DropdownFilterMultiple({
     return (
         <div className={`text-t-blue-dark relative mt-1 ${isOptionsArrayEmpty ? 'hidden' : 'block'} ${wrapperStyles ? wrapperStyles : ''}`}>
             <Button
-                className="py-3 px-4 rounded-3xl text-t-blue-dark bg-white text-sm font-medium flex items-center justify-between gap-4"
+                className="py-3 px-4 rounded-3xl text-t-blue-dark bg-white text-sm font-medium flex items-center justify-between gap-4 shadow-none lg:shadow-sm"
                 onClick={onToggle}
             >
                 <p className="relative">
@@ -65,16 +65,19 @@ export function DropdownFilterMultiple({
             {isOpen && (
                 <>
                     <motion.ul
-                        className={`${openSansFont.className} fixed left-0 mobile:absolute z-[100] w-screen mobile:w-fit max-h-[450px] overflow-y-auto bg-t-pale mobile:bg-white p-5 mobile:p-2.5 rounded-bl-[35px] rounded-br-[35px] mobile:rounded-2xl -mt-0.5 flex flex-row flex-wrap mobile:flex-nowrap mobile:flex-col gap-1.5 mobile:gap-y-[2px]`}
+                        className={`${openSansFont.className} fixed left-0 mobile:absolute z-[100] w-screen mobile:w-fit max-h-[450px] overflow-y-auto bg-t-pale mobile:bg-white p-5 mobile:p-2.5 rounded-bl-[35px] rounded-br-[35px] mobile:rounded-2xl mt-1 flex flex-row flex-wrap mobile:flex-nowrap mobile:flex-col gap-1.5 mobile:gap-y-[2px] shadow-md`}
                         variants={containerAnimation}
                         initial="hidden"
                         animate="visible"
                     >
                         {sortArray(filterOption.options)
                             .map((value, index) => (
-                                <li
+                                <motion.li
                                     key={index}
-                                    className={`${selectedOptions.includes(value) ? 'bg-t-blue text-white mobile:text-inherit mobile:bg-t-pale' : 'bg-white mobile:bg-none'} h-7 relative py-[9px] mobile:py-1 px-[18px] mobile:px-3 cursor-pointer p-1 rounded-3xl mobile:hover:bg-t-pale active:scale-95 duration-150 flex items-center`}
+                                    className={`${selectedOptions.includes(value) ? 'bg-t-blue text-white mobile:text-inherit mobile:bg-t-blue/20' : 'bg-white mobile:bg-none'} h-7 relative py-[9px] mobile:py-1 px-[18px] mobile:px-3 cursor-pointer p-1 rounded-3xl mobile:hover:bg-t-blue/30 active:scale-[0.97] duration-150 flex items-center`}
+                                    initial={{ x: -5, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ duration: 0.2, delay: index * 0.05 }}
                                     onClick={() => {
                                         toggleOption(value);
 
@@ -85,7 +88,7 @@ export function DropdownFilterMultiple({
                                         itemValue={value}
                                         filterOption={filterOption}
                                     />
-                                </li>
+                                </motion.li>
                             ))}
                     </motion.ul>
                     {/* Blured space (mobile) */}

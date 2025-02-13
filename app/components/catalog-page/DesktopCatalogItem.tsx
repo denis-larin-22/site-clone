@@ -49,13 +49,13 @@ function DesktopCatalogItem({ productItem }: IProps) {
     const { isOpen: isZoomed, onOpen: onZoomed, onOpenChange: onZoomedChange } = useDisclosure();
 
     const technicalInformation = [
-        { item: "Затемнення", info: transparency || 'відсутнє' },
-        { item: "Водостійкість", info: water_resistance || 'відсутнє' },
-        { item: "Фактура тканини", info: fabric_texture || 'відсутнє' },
-        { item: "Склад", info: composition || 'відсутнє' },
-        { item: "Гарантія", info: warranty || 'відсутнє' },
-        { item: "Ширина рулону", info: (roll_width + " мм") || 'відсутнє' },
-        { item: "Ширина ламелі", info: (tape_width + " мм") || 'відсутнє' }
+        { item: "Затемнення", info: transparency },
+        { item: "Водостійкість", info: water_resistance },
+        { item: "Фактура тканини", info: fabric_texture },
+        { item: "Склад", info: composition },
+        { item: "Гарантія", info: warranty },
+        { item: "Ширина рулону", info: roll_width ? (roll_width + " мм") : null },
+        { item: "Ширина ламелі", info: tape_width ? (tape_width + " мм") : null }
     ];
 
     return (
@@ -223,20 +223,26 @@ function DesktopCatalogItem({ productItem }: IProps) {
                     </motion.p>
 
                     <ul className="text-lg grid grid-cols-3 gap-x-2 gap-y-[30px]">
-                        {technicalInformation.map((infoItem, index) => (
-                            <motion.li
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    duration: 0.3,
-                                    delay: 0.5 + index * 0.07,
-                                }}
-                            >
-                                <p>{infoItem.item}</p>
-                                <p className="mt-1 text-sm text-[#AEB1BA]">{infoItem.info}</p>
-                            </motion.li>
-                        ))}
+                        {technicalInformation.map((infoItem, index) => {
+                            if (infoItem.info !== null) {
+                                return (
+                                    <motion.li
+                                        key={index}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{
+                                            duration: 0.3,
+                                            delay: 0.5 + index * 0.07,
+                                        }}
+                                    >
+                                        <p>{infoItem.item}</p>
+                                        <p className="mt-1 text-sm text-[#AEB1BA]">{infoItem.info}</p>
+                                    </motion.li>
+                                )
+                            } else {
+                                return null;
+                            }
+                        })}
                     </ul>
                 </div>
             </article>
