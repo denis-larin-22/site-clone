@@ -7,7 +7,7 @@ import { ICategory, IFilterOption, IProductItem } from '@/app/lib/types';
 import { fetchCategories, fetchProductsList } from '@/app/lib/api/apiRequests';
 import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 export interface IProductList {
@@ -30,6 +30,8 @@ export const SS_CATALOG_FILTERS_PARAMS_KEY = "piramid_ss_filters";
 export const SS_CATALOG_PAGINATION_PAGE_KEY = "piramid_ss_pagination_page";
 
 export default function Catalog({ activeCategoryId }: { activeCategoryId: string }) {
+    const catalogContainerRef = useRef<HTMLDivElement>(null);
+
     const [productList, setProductList] = useState<IProductList>({
         initList: [],
         listToRender: []
@@ -135,7 +137,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                 categoriesHandler={categoriesHandler}
             />
 
-            <div className="flex flex-col items-center flex-grow overflow-y-auto overflow-x-hidden ml-0 mobile:ml-24 p-3 mobile:py-[60px]">
+            <div ref={catalogContainerRef} className="flex flex-col items-center flex-grow overflow-y-auto overflow-x-hidden ml-0 mobile:ml-24 p-3 mobile:py-[60px]">
                 <div className="flex mobile:hidden w-screen pl-5 mb-8">
                     <Link href={"/catalog"}>
                         {/* Default logo */}
@@ -157,6 +159,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                 />
                 <CatalogList
                     listToRender={productList.listToRender}
+                    catalogContainerRef={catalogContainerRef}
                 />
             </div>
         </>
