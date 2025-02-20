@@ -19,6 +19,7 @@ export default function CatalogCard({ productItem }: IProps) {
         images_url,
         availability,
         date_on_stock,
+        low_stock_meters,
         sort_order,
         category,
         price: {
@@ -54,7 +55,7 @@ export default function CatalogCard({ productItem }: IProps) {
                     src={images_url[0] !== null ? images_url[0] : "/assets/images/default-item.webp"}
                     width={282}
                     height={381}
-                    className="w-full h-full object-cover group-hover:scale-105 duration-150"
+                    className="min-w-full h-full object-cover group-hover:scale-105 duration-150"
                 />
 
                 {/* TO_DO!!! */}
@@ -72,6 +73,11 @@ export default function CatalogCard({ productItem }: IProps) {
                         }
                     </p>
 
+
+                    {availability === "Закінчується" &&
+                        low_stock_meters &&
+                        <RemainderStockMeters lowStockMeters={low_stock_meters} />
+                    }
                     {/* Product name field*/}
                     <p className={`mb-[18px] text-sm text-left mobile:text-xl font-bold  ${sort_order === 1 ? "text-white" : "text-t-blue-dark"}`}>{name}</p>
 
@@ -98,7 +104,7 @@ export default function CatalogCard({ productItem }: IProps) {
 
                 {/* If item is not availabile */}
                 {availability === 'Немає' ?
-                    <DateOnStockValue date_on_stock={date_on_stock} />
+                    <DateOnStockValue dateOnStock={date_on_stock} />
                     :
                     null
                 }
@@ -156,10 +162,18 @@ function PriceCategory({ priceCategory, }: { priceCategory: string, }) {
     )
 }
 
-function DateOnStockValue({ date_on_stock }: { date_on_stock: string | null }) {
+function DateOnStockValue({ dateOnStock }: { dateOnStock: string | null }) {
     return (
         <p className={`${openSansFont.className} absolute z-30 top-1/3 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-t-blue w-[90%] md:w-fit text-center py-1 px-3 rounded-2xl text-white font-semibold text-sm ring-2 ring-t-blue/50 whitespace-normal md:whitespace-nowrap`}>
-            <span className="animate-spin inline-block">⏲</span> Очікується {date_on_stock ? reverseDateValue(date_on_stock) : ""}
+            <span className="animate-spin inline-block">⏲</span> Очікується {dateOnStock ? reverseDateValue(dateOnStock) : ""}
+        </p>
+    )
+}
+
+function RemainderStockMeters({ lowStockMeters }: { lowStockMeters: string }) {
+    return (
+        <p className={`${openSansFont.className} text-[10px] md:text-sm text-white font-medium absolute -top-[25px] md:-top-[35px] right-0 py-0.5 px-1 md:px-2 rounded-3xl bg-[#F79D15]/60 border-2 border-[#F79D15] opacity-70 md:opacity-50 md:scale-85 lg:group-hover:opacity-100 lg:group-hover:scale-100 duration-150`}>
+            <span className="w-3 md:w-4 h-3 md:h-4 inline-flex items-center justify-center rounded-full border-white/70 border-2 font-semibold group-hover:animate-appearance-in">!</span> Лишилось {lowStockMeters ? lowStockMeters : ""} м.
         </p>
     )
 }

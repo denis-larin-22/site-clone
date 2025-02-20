@@ -20,6 +20,7 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
                 category_id: item.category_id,
                 availability: getAvailabilityStatus(item.availability),
                 date_on_stock: item.date_on_stock,
+                low_stock_meters: item.low_stock_meters,
                 sort_order: item.sort_order,
                 price: {
                     price_1: item.price.price_1,
@@ -83,6 +84,7 @@ export async function fetchProductItem(productId: string | number): Promise<Omit
             category_id: data.category_id,
             availability: getAvailabilityStatus(data.availability),
             date_on_stock: data.date_on_stock,
+            low_stock_meters: data.low_stock_meters,
             sort_order: data.sort_order,
             category: {
                 id: data.category.id,

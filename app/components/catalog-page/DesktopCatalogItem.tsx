@@ -27,6 +27,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
         images_url,
         availability,
         date_on_stock,
+        low_stock_meters,
         sort_order,
         category,
         technical_info: {
@@ -186,10 +187,15 @@ function DesktopCatalogItem({ productItem }: IProps) {
                         {name}
                     </motion.h5>
 
+                    {availability === "Закінчується" &&
+                        low_stock_meters &&
+                        <RemainderStockMeters lowStockMeters={low_stock_meters} />
+                    }
+
                     {/* Description */}
                     {description &&
                         <motion.div
-                            {...getMotionAttributes(0.3)}
+                            {...getMotionAttributes(0.4)}
                         >
                             <Description descriptionText={description} />
                         </motion.div>}
@@ -216,7 +222,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
 
                 <div className={`${openSansFont.className} text-lg font-normal mt-7`}>
                     <motion.p
-                        {...getMotionAttributes(0.4)}
+                        {...getMotionAttributes(0.5)}
                         className="inline-block w-full pb-5 mb-5 border-b-1 border-[#DDE0E9]"
                     >
                         Технічна інформація
@@ -288,3 +294,15 @@ function ProductTitles({ availability, date_on_stock, category, collection }: { 
         </>
     )
 }
+
+function RemainderStockMeters({ lowStockMeters }: { lowStockMeters: string }) {
+    return (
+        <motion.p
+            {...getMotionAttributes(0.3)}
+            className={`${openSansFont.className} text-sm font-semibold text-t-orange mb-4`}
+        >
+            <span className="w-4 h-4 inline-flex items-center justify-center rounded-full border-t-orange/70 border-2 font-semibold">!</span> Лишилось {lowStockMeters ? lowStockMeters : ""} м.
+        </motion.p>
+    )
+}
+

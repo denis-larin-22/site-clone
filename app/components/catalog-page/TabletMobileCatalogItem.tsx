@@ -26,6 +26,7 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
         images_url,
         availability,
         date_on_stock,
+        low_stock_meters,
         sort_order,
         category,
         technical_info: {
@@ -139,6 +140,11 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
                             {name}
                         </motion.h5>
 
+                        {availability === "Закінчується" &&
+                            low_stock_meters &&
+                            <RemainderStockMeters lowStockMeters={low_stock_meters} />
+                        }
+
                         {/* TO_DO */}
                         {/* <div className="w-full flex items-center justify-between">
                             {sale_tk === null ? null : <p className="relative w-[113px] h-[25px] py-1 px-3 flex items-center justify-end text-xs font-bold text-[#F79D15] bg-[#FFEFD1] rounded-full">
@@ -160,13 +166,13 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
                     {/* Description */}
                     {description &&
                         <motion.div
-                            {...getMotionAttributes(0.3)}
+                            {...getMotionAttributes(0.4)}
                         >
                             <Description descriptionText={description} />
                         </motion.div>}
 
                     <motion.div
-                        {...getMotionAttributes(0.4)}
+                        {...getMotionAttributes(0.5)}
                         className={`${openSansFont.className} text-base mobile:text-lg font-normal mt-10 mobile:mt-11`}
                     >
                         <p className="inline-block w-full pb-[14px] mobile:pb-5 mb-4 mobile:mb-5 border-b-1 border-[#DDE0E9]">Технічна інформація</p>
@@ -235,5 +241,16 @@ function ProductTitles({ availability, date_on_stock, category, collection }: { 
                 }
             </div>
         </>
+    )
+}
+
+function RemainderStockMeters({ lowStockMeters }: { lowStockMeters: string }) {
+    return (
+        <motion.p
+            {...getMotionAttributes(0.3)}
+            className={`${openSansFont.className} text-sm font-semibold text-t-orange mb-3`}
+        >
+            <span className="w-4 h-4 inline-flex items-center justify-center rounded-full border-t-orange/70 border-2 font-semibold">!</span> Лишилось {lowStockMeters ? lowStockMeters : ""} м.
+        </motion.p>
     )
 }

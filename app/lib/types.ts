@@ -8,6 +8,7 @@ export interface IProductItem {
     category_id: number,
     availability: string,
     date_on_stock: StringOrNull,
+    low_stock_meters: StringOrNull,
     sort_order: 0 | 1,
     price: {
         price_1: StringOrNull,
