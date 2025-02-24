@@ -3,7 +3,7 @@
 import { fetchCategories, fetchProductsList } from "@/app/lib/api/apiRequests";
 import Header from "../ui/Header";
 import Footer from "../ui/Footer";
-import { isNumberInArray, replaceOWithPaintedO } from "@/app/lib/utils/utils";
+import { DetailsWords, getCorrectWordDeclension, isNumberInArray, replaceOWithPaintedO } from "@/app/lib/utils/utils";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { openSansFont } from "../ui/fonts";
@@ -12,6 +12,7 @@ import { ICategory, IProductItem } from "@/app/lib/types";
 import Loader from "../ui/Loader";
 import { DecorSpot } from "../ui/Carousel";
 import Image from "next/image";
+import { Button } from "@nextui-org/react";
 
 type CategoriesListWithImages = Array<ICategory & { imageSrc: string }>;
 
@@ -44,7 +45,7 @@ function CatalogMenu() {
                     initial={{ opacity: 0, x: 150 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
-                    className="max-w-[942px] mt-5 text-xl mobile-xs:text-2xl mobile:text-[38px] xl:text-5xl leading-none font-bold uppercase"
+                    className="max-w-[942px] mt-5 text-xl mobile-xs:text-2xl mobile:text-[38px] xl:text-5xl leading-none font-bold uppercase "
                 >
                     {replaceOWithPaintedO(pageTitle, "black", "white")}
                 </motion.h1>
@@ -117,7 +118,7 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
         if (elementIndex <= 3) {
             return styles[elementIndex];
         } else {
-            return styles[Math.floor(Math.random() * 3) + 0] //Random index animation from 0 to 3
+            return styles[Math.floor(Math.random() * 3) + 0] // Random index animation from 0 to 3
         }
     };
 
@@ -137,16 +138,17 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
                             style={getAnimInView(isInView, index)}
                             className="relative"
                         >
-                            <Link
+                            <Button
+                                as={Link}
                                 href={`/catalog/${category.id}/category`}
-                                className="group flex-shrink-0 flex-grow-0 rounded-[14px]"
+                                className="group flex-shrink-0 flex-grow-0 rounded-[14px] w-[294px] h-[438px] p-0 border-none"
                             >
                                 <Image
                                     alt={`Зображення для категорії ${category.name}`}
                                     src={category.imageSrc}
                                     width={294}
                                     height={438}
-                                    className="w-[294px] h-[438px] object-cover rounded-[14px]"
+                                    className="w-full h-full object-cover scale-105 group-hover:scale-100 duration-500"
                                 />
                                 <p style={{
                                     opacity: isInView ? "100" : "0",
@@ -174,7 +176,7 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
                                 }}
                                     className="rounded-[14px] absolute top-0 bottom-0 left-0 right-0 overflow-hidden after:block after:w-full after:h-full after:top-0 after:left-0 after:bg-t-blue after:bg-opacity-0 group-hover:after:bg-opacity-50 after:duration-250"
                                 ></div>
-                            </Link>
+                            </Button>
 
 
 
@@ -261,7 +263,7 @@ function CategoryDetailItem({ value, label, delay }: { value: number, label: str
             transition={{ delay }}
             className="text-[10px] sm:text-xs pr-1 lg:pr-3 border-2 border-t-blue rounded-full text-white bg-t-blue whitespace-nowrap"
         >
-            <span className="w-5 lg:w-8 h-5 lg:h-8 bg-white text-t-blue rounded-full inline-flex items-center justify-center leading-none">{value}</span> {label}
+            <span className="w-5 lg:w-8 h-5 lg:h-8 bg-white text-t-blue rounded-full inline-flex items-center justify-center leading-none">{value}</span> {getCorrectWordDeclension(value, label as DetailsWords)}
         </motion.p>
     );
 };
@@ -283,6 +285,12 @@ function getCategoriesImages(categoriesList: ICategory[]): CategoriesListWithIma
                 break;
             case 4:
                 path = "/assets/images/vertical-blinds.webp";
+                break;
+            case 5:
+                path = "/assets/images/components.webp";
+                break;
+            case 6:
+                path = "/assets/images/promotional-items.webp";
                 break;
             default:
                 path = "/assets/images/default-item.webp";

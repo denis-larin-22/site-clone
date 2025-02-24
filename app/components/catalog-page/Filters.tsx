@@ -7,7 +7,7 @@ import { PriceOrder } from "../ui/catalog/FilterByLevelPrice"
 import { IFilterOption } from "@/app/lib/types"
 import { IActiveFilters } from "./Catalog"
 import Image from "next/image"
-import { Button } from "@nextui-org/react"
+import { Button, Tooltip } from "@nextui-org/react"
 
 interface IProps {
     filterOptions: IFilterOption[],
@@ -100,19 +100,25 @@ export function Filters({
 
             {/* TO DO - price filter */}
             {/* <FilterByLevelPrice sortByPriceHandler={sortByPriceHandler} /> */}
-            {isResetButtonVissible && <Button
-                isIconOnly
-                className="w-10 h-10 rounded-full bg-white flex items-center justify-center mt-1 opacity-80"
-                title="Скинути фільтри"
-                onClick={resetFiltersButtonHandler}
-            >
-                <Image
-                    src={"/assets/images/reset-filters-icon.svg"}
-                    alt="Reset filters icon"
-                    width={22}
-                    height={22}
-                />
-            </Button>}
+            {isResetButtonVissible &&
+                <Tooltip
+                    content="Скинути фільтри"
+                    size="sm"
+                >
+                    <Button
+                        isIconOnly
+                        className="w-10 h-10 rounded-full bg-white flex items-center justify-center mt-1 opacity-80"
+                        onClick={resetFiltersButtonHandler}
+                    >
+                        <Image
+                            src={"/assets/images/reset-filters-icon.svg"}
+                            alt="Reset filters icon"
+                            width={22}
+                            height={22}
+                        />
+                    </Button>
+                </Tooltip>
+            }
         </div>
     )
 }

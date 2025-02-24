@@ -39,6 +39,7 @@ const config: Config = {
         't-green': '#1EBF91',
         't-red': '#FF0A0A',
         't-pale': '#F6F5F8',
+        't-orange': '#F79D15'
       },
       fontSize: {
         '3xs': '8px',

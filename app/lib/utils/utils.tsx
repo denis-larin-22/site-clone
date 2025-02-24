@@ -129,3 +129,27 @@ export function reverseDateValue(inputDate: string) {
     const [year, month, day] = inputDate.split('-');
     return `${day}.${month}.${year}`;
 }
+
+// Correct declension of words in category details in the main menu of the catalog
+export type DetailsWords = "пропозицій" | "кольорів" | "колекцій";
+
+const declensions = {
+    "пропозицій": ["пропозиція", "пропозиції", "пропозицій"],
+    "кольорів": ["колір", "кольори", "кольорів"],
+    "колекцій": ["колекція", "колекції", "колекцій"]
+};
+
+export function getCorrectWordDeclension(numberValue: number, word: DetailsWords): string {
+    const declinationNumberOne = numberValue % 10;
+    const declinationNumberTwo = numberValue % 100;
+
+    if (declinationNumberTwo >= 11 && declinationNumberTwo <= 19) {
+        return declensions[word][2]; // "пропозицій", "кольорів", "колекцій"
+    } else if (declinationNumberOne === 1) {
+        return declensions[word][0]; // "пропозиція", "колір", "колекція"
+    } else if (declinationNumberOne >= 2 && declinationNumberOne <= 4) {
+        return declensions[word][1]; // "пропозиції", "кольори", "колекції"
+    } else {
+        return declensions[word][2]; // "пропозицій", "кольорів", "колекцій"
+    }
+}
