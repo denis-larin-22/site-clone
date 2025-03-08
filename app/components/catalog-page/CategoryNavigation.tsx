@@ -6,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ICategory } from "@/app/lib/types";
 import Loader from "../ui/Loader";
-import { SS_CATALOG_PAGINATION_PAGE_KEY } from "./Catalog";
 
 interface IProps {
     activeCategory: number | null,
@@ -51,7 +50,6 @@ export default function CategoryNavigation({ activeCategory, categoriesList, cat
             >
                 <Link
                     href={"/catalog"}
-                    onClick={() => sessionStorage.removeItem(SS_CATALOG_PAGINATION_PAGE_KEY)} // Reset saved last active page
                 >
                     {/* Default logo */}
                     <span className="inline-block h-9">
