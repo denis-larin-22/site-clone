@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo, RefObject } from "react";
+import { useState, useEffect, useMemo, RefObject } from "react";
 import { IProductItem } from "@/app/lib/types";
 import CatalogCard from "./CatalogCard";
-import { SS_CATALOG_PAGINATION_PAGE_KEY } from "./Catalog";
 import { motion, AnimatePresence } from "framer-motion";
 import { Pagination } from "@nextui-org/react";
+import { IProductList } from "./Catalog";
 
 interface IProps {
     listToRender: IProductItem[],
@@ -16,20 +16,18 @@ interface IProps {
 const ITEMS_PER_PAGE = 20;
 
 export default function CatalogList({ listToRender, className, catalogContainerRef }: IProps) {
-    const lastActivePageFromSS = sessionStorage.getItem(SS_CATALOG_PAGINATION_PAGE_KEY);
-    const pageNumber = lastActivePageFromSS === null ? 1 : +lastActivePageFromSS;
-
-    const [currentPage, setCurrentPage] = useState(pageNumber);
-    // const containerRef = useRef<HTMLDivElement>(null);
+    const startPageNumber = 1;
+    const [currentPage, setCurrentPage] = useState(startPageNumber);
 
     // Сортируем listToRender по name перед отрисовкой
     const sortedList = useMemo(() => {
-        return [...listToRender].sort((a, b) => a.name.localeCompare(b.name));
+        const sortedList = sortByName(listToRender);
+        return sortedList;
     }, [listToRender]);
 
     // Сбрасываем страницу при изменении списка товаров
     useEffect(() => {
-        setCurrentPage(pageNumber);
+        setCurrentPage(1);
     }, [sortedList]);
 
     // Вычисляем общее количество страниц
@@ -42,7 +40,6 @@ export default function CatalogList({ listToRender, className, catalogContainerR
     // Обработчик смены страницы
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
-        sessionStorage.setItem(SS_CATALOG_PAGINATION_PAGE_KEY, JSON.stringify(page));
 
         // Прокручиваем к началу списка товаров
         if (catalogContainerRef.current) {
@@ -117,4 +114,11 @@ function CatalogPagination({ totalPages, currentPage, changeHandler }: { totalPa
             />
         )
     } else return null;
+}
+
+function sortByName(productList: IProductItem[]) {
+    if (productList.length === 0) return productList;
+
+    const sortedList = [...productList].sort((a, b) => a.name.localeCompare(b.name));
+    return sortedList;
 }

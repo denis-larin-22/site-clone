@@ -27,7 +27,6 @@ export interface IActiveFilters {
 }
 
 export const SS_CATALOG_FILTERS_PARAMS_KEY = "piramid_ss_filters";
-export const SS_CATALOG_PAGINATION_PAGE_KEY = "piramid_ss_pagination_page";
 
 export default function Catalog({ activeCategoryId }: { activeCategoryId: string }) {
     const catalogContainerRef = useRef<HTMLDivElement>(null);
@@ -92,7 +91,6 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
         setCategories({ ...categories, activeCategory: categoryId });
         // remoove previous saved filter params in the session storage
         sessionStorage.removeItem(SS_CATALOG_FILTERS_PARAMS_KEY);
-        sessionStorage.removeItem(SS_CATALOG_PAGINATION_PAGE_KEY);
     }
 
     // FILTERS HANDLER
@@ -125,7 +123,6 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
     function resetFiltersHandler() {
         setActiveFilters({});
         sessionStorage.removeItem(SS_CATALOG_FILTERS_PARAMS_KEY);
-        sessionStorage.removeItem(SS_CATALOG_PAGINATION_PAGE_KEY);
         window.location.reload();
     }
 
