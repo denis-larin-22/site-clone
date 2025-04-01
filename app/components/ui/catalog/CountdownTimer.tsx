@@ -58,12 +58,12 @@ function CountdownTimer({ className = '', startDate, endDate }: IProps) {
         <div
             className={`min-w-fit h-fit p-1 rounded-lg flex flex-col items-center opacity-80 group-hover:opacity-100 scale-90 group-hover:scale-100  bg-white/30 group-hover:bg-t-blue/75 duration-150 ${className}`}
         >
-            <p className="text-[10px] font-bold text-t-dark-text group-hover:text-white/80 duration-150">
+            <p className="text-[8px] mobile:text-[10px] font-bold text-t-dark-text group-hover:text-white/80 duration-150">
                 До кінця пропозиції:
             </p>
             <div className="flex items-center gap-1 text-black/70 group-hover:text-white font-bold duration-150">
                 {['days', 'hours', 'minutes', 'seconds'].map((unit, index) => (
-                    <p key={unit} className="text-sm text-center inline-flex min-w-5 flex-col">
+                    <p key={unit} className="text-[9px] mobile:text-sm text-center inline-flex min-w-5 flex-col">
                         <motion.span
                             key={`${unit}-${timeLeft[unit as keyof IInitCountdown]}`}
                             initial={{ opacity: 0, y: -5 }}
@@ -72,7 +72,7 @@ function CountdownTimer({ className = '', startDate, endDate }: IProps) {
                         >
                             {timeLeft[unit as keyof IInitCountdown]}
                         </motion.span>
-                        <span className="text-[8px] leading-none">
+                        <span className="text-[6px] mobile:text-[8px] leading-none">
                             {index === 0 ?
                                 getCorrectTimeDeclension(timeLeft[unit as keyof IInitCountdown], 'дні')
                                 :

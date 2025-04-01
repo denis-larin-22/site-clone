@@ -48,9 +48,7 @@ export default function CategoryNavigation({ activeCategory, categoriesList, cat
                 onMouseOver={() => setIsCollapsed(false)}
                 onMouseOut={() => setIsCollapsed(true)}
             >
-                <Link
-                    href={"/catalog"}
-                >
+                <Link href={"/"}>
                     {/* Default logo */}
                     <span className="inline-block h-9">
                         <Image

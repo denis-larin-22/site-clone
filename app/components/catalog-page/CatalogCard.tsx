@@ -6,6 +6,7 @@ import Link from "next/link";
 import CountdownTimer from "../ui/catalog/CountdownTimer";
 import TopProductIcon from "../ui/catalog/TopProductIcon";
 import { reverseDateValue } from "@/app/lib/utils/utils";
+import SaleValue from "../ui/catalog/SaleValue";
 
 interface IProps {
     productItem: IProductItem
@@ -38,6 +39,8 @@ export default function CatalogCard({ productItem }: IProps) {
                 href={`/catalog/${category.id}/category/${id}/catalog-item`}
                 className={`group relative inline-flex w-full mobile:w-[282px] h-[231px] mobile:h-[381px] rounded-xl overflow-hidden mobile:hover:ring-4 ring-offset-4 ring-t-blue/40 duration-400 ${(availability === "Немає" || availability === "Виробництво припинено") ? "opacity-50" : ""} `}
             >
+                {/* Sale offer */}
+                {sale === null ? null : <SaleValue saleValue={sale} className="absolute top-2 left-2 z-10" />}
                 {/* Availability of promotional offer */}
                 {sale &&
                     date_on_sale &&
@@ -45,10 +48,17 @@ export default function CatalogCard({ productItem }: IProps) {
                     <CountdownTimer
                         startDate={date_on_sale} // default dates
                         endDate={date_off_sale} // default dates
-                        className="absolute top-2 right-0 z-20"
+                        className="absolute -top-1 mobile:top-2 -right-2 mobile:right-0 z-20"
                     />}
                 {/* Top product icon */}
-                {(sort_order === 1) && <TopProductIcon className="absolute top-1 right-1 z-10 w-12 h-12 md:w-fit md:h-fit" />}
+                {(sort_order === 1) &&
+                    <TopProductIcon
+                        className={`absolute left-0.5 mobile:left-1 z-10 w-12 h-12 md:w-fit md:h-fit ${sale ?
+                            "top-[52px] mobile:top-20"
+                            :
+                            "top-1 "
+                            }`}
+                    />}
 
                 <ImageWithLoader
                     alt={`Зображення товару ${name} із категорії ${category}`}
@@ -86,9 +96,6 @@ export default function CatalogCard({ productItem }: IProps) {
                         <CoinIcon />
                     </p>} */}
 
-                    {/* Sale offer */}
-                    {sale === null ? null : <SaleOffer sale={sale} />}
-
                     {/* isInStock and label info fields*/}
                     <div className="w-full flex items-center justify-between">
                         <AvailabilityStatus
@@ -98,7 +105,6 @@ export default function CatalogCard({ productItem }: IProps) {
                         {/* TO_DO!!! */}
                         {/* <NewProduct label={label}/> */}
                     </div>
-
                 </div>
 
 
@@ -115,16 +121,16 @@ export default function CatalogCard({ productItem }: IProps) {
 
 // UI elements
 
-function SaleOffer({ sale }: { sale: string }) {
-    return (
-        <p className="absolute right-0 -top-5 mobile:-top-7 inline-flex h-[18px] mobile:h-[25px] w-[89px] mobile:w-[113px] pr-1.5 mobile:pr-[11px] rounded-[36px] bg-[#FFEFD1] text-xxs mobile:text-xs text-[#F79D15] font-bold items-center justify-end animate-bounce">
-            <span className="absolute left-[5px] mobile:left-[7px] bottom-0.5 mobile:bottom-1">
-                <FireIcon />
-            </span>
-            Акція {parseFloat(sale)}%
-        </p>
-    )
-}
+// function SaleOffer({ sale }: { sale: string }) {
+//     return (
+//         <p className="absolute right-0 -top-5 mobile:-top-7 inline-flex h-[18px] mobile:h-[25px] w-[89px] mobile:w-[113px] pr-1.5 mobile:pr-[11px] rounded-[36px] bg-[#FFEFD1] text-xxs mobile:text-xs text-[#F79D15] font-bold items-center justify-end animate-bounce">
+//             <span className="absolute left-[5px] mobile:left-[7px] bottom-0.5 mobile:bottom-1">
+//                 <FireIcon />
+//             </span>
+//             Акція {parseFloat(sale)}%
+//         </p>
+//     )
+// }
 
 function AvailabilityStatus({ availability, blueTheme }: { availability: string, blueTheme: boolean }) {
     return (

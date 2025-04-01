@@ -54,10 +54,16 @@ const config: Config = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0' },
         },
+        'blink-border': {
+          '0%': { borderColor: 'transparent' },
+          '50%': { borderColor: '#3372F9' },
+          '100%': { borderColor: 'transparent' },
+        },
       },
       animation: {
         fillBar: 'fillBar forwards linear',
         blink: 'blink 1s step-end infinite',
+        'blink-border': 'blink-border 2.5s infinite',
       },
       content: {
         'arrow': 'url("/assets/images/content-arrow.svg")',

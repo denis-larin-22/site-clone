@@ -65,7 +65,7 @@ export function getFilterOptions(productList: IProductItem[]) {
     }
 
     // return [filterByCriteria, filterByColors, filterByDesigns, filterByTransparencies, filterByCollections, filterByPrice]; - init all filters
-    return [filterByColors, filterByTransparencies, filterByCollections, filterByRollWidth, filterByTapeWidth, filterByPriceCategories, filterByAvailability, filterBySaleValue];
+    return [filterBySaleValue, filterByColors, filterByTransparencies, filterByCollections, filterByRollWidth, filterByTapeWidth, filterByPriceCategories, filterByAvailability];
 }
 
 function getColors(productList: IProductItem[]) {

@@ -49,9 +49,11 @@ export function DropdownFilterMultiple({
     return (
         <div className={`text-t-blue-dark relative mt-1 ${isOptionsArrayEmpty ? 'hidden' : 'block'} ${wrapperStyles ? wrapperStyles : ''}`}>
             <Button
-                className="py-3 px-4 rounded-3xl text-t-blue-dark bg-white text-sm font-medium flex items-center justify-between gap-4 shadow-none lg:shadow-sm"
+                className={`py-3 px-4 rounded-3xl text-t-blue-dark bg-white text-sm font-medium flex items-center justify-between gap-4 shadow-none lg:shadow-sm 
+                    ${filterOption.filter === "sale" ? "border-2 border-transparent border-t-blue-dark animate-blink-border" : ""}`}
                 onClick={onToggle}
             >
+
                 <p className="relative">
                     {filterOption.title}
                     {selectedOptions.length !== 0 ?

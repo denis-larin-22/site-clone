@@ -9,6 +9,7 @@ import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { Button } from '@nextui-org/react';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -135,8 +136,8 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
             />
 
             <div ref={catalogContainerRef} className="flex flex-col items-center flex-grow overflow-y-auto overflow-x-hidden ml-0 mobile:ml-24 p-3 mobile:py-[60px]">
-                <div className="flex mobile:hidden w-screen pl-5 mb-8">
-                    <Link href={"/catalog"}>
+                <div className="flex justify-between items-center mobile:hidden w-screen px-5 mb-8">
+                    <Link href={"/"}>
                         {/* Default logo */}
                         <Image
                             alt='Piramid logo'
@@ -145,6 +146,15 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                             height={25}
                         />
                     </Link>
+
+                    <Button
+                        as={Link}
+                        href='/catalog'
+                        variant='light'
+                        className='flex items-center mobile:hidden text-xs text-white font-bold pt-0.5 px-2 h-7 bg-t-blue'
+                    >
+                        <span className="text-base inline-block w-3 overflow-hidden">⬅</span>  Усі категорії
+                    </Button>
                 </div>
 
                 <Filters
