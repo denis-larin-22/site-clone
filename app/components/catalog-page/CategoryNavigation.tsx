@@ -8,6 +8,7 @@ import { ICategory } from "@/app/lib/types";
 import Loader from "../ui/Loader";
 
 interface IProps {
+    isLoading: boolean,
     activeCategory: number | null,
     categoriesList: ICategory[],
     categoriesHandler: (categoryId: number) => void
@@ -15,7 +16,7 @@ interface IProps {
 
 type CategoriesListWithIcons = Array<ICategory & { iconSrc: string }>;
 
-export default function CategoryNavigation({ activeCategory, categoriesList, categoriesHandler }: IProps) {
+export default function CategoryNavigation({ isLoading, activeCategory, categoriesList, categoriesHandler }: IProps) {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
     // Get icons for each category
@@ -44,13 +45,13 @@ export default function CategoryNavigation({ activeCategory, categoriesList, cat
         <>
             {/* Desktop, tablet versions */}
             <aside
-                className={`hidden mobile:block fixed top-0 left-0 z-50 bg-[#FAFAFA] ${isCollapsed ? 'max-w-[121px] pr-6' : 'max-w-[343px] pr-5 shadow-none tablet:shadow-2xl'}  h-screen py-[42px] pl-6 rounded-tr-[42px] rounded-br-[42px] duration-150`}
+                className={`hidden mobile:flex flex-col justify-center fixed top-0 left-0 z-50 bg-[#FAFAFA] ${isCollapsed ? 'max-w-[121px] pr-6' : 'max-w-[343px] pr-5 shadow-none tablet:shadow-2xl'}  h-screen py-[42px] pl-6 rounded-tr-[42px] rounded-br-[42px] duration-150`}
                 onMouseOver={() => setIsCollapsed(false)}
                 onMouseOut={() => setIsCollapsed(true)}
             >
                 <Link href={"/"}>
                     {/* Default logo */}
-                    <span className="inline-block h-9">
+                    <span className="inline-block h-9 absolute top-7">
                         <Image
                             alt="Piramid logo"
                             src={"/assets/images/logo.svg"}
@@ -68,7 +69,7 @@ export default function CategoryNavigation({ activeCategory, categoriesList, cat
                     </span>
                 </Link>
 
-                <nav className="mt-52 flex flex-col items-start">
+                <nav className="flex flex-col items-start">
                     {categoriesList.length ?
                         categoriesListWithIcons.map((category) => (
                             <Link
@@ -160,6 +161,12 @@ function getCategoryIconSrc(category: string): string {
             break;
         case "Комплектуючі":
             iconSrc = "/assets/images/categories-icons/components.png";
+            break;
+        case "Акція":
+            iconSrc = "/assets/images/categories-icons/sale.svg";
+            break;
+        case "Топ-продукція":
+            iconSrc = "/assets/images/categories-icons/top-product.png";
             break;
         case "Рекламна продукція":
             iconSrc = "/assets/images/categories-icons/promotional-items.webp";

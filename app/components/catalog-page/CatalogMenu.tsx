@@ -1,6 +1,6 @@
 'use client'
 
-import { fetchCategories, fetchProductsList } from "@/app/lib/api/apiRequests";
+import { SYSTEM_SALE_CATEGORY_ID, SYSTEM_TOP_CATEGORY_ID } from "@/app/lib/api/apiRequests";
 import Header from "../ui/Header";
 import Footer from "../ui/Footer";
 import { DetailsWords, getCorrectWordDeclension, isNumberInArray, replaceOWithPaintedO } from "@/app/lib/utils/utils";
@@ -8,32 +8,17 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { openSansFont } from "../ui/fonts";
 import { useEffect, useMemo, useState } from "react";
-import { ICategory, IProductItem } from "@/app/lib/types";
+import { IProductItem } from "@/app/lib/types";
 import Loader from "../ui/Loader";
 import { DecorSpot } from "../ui/Carousel";
 import Image from "next/image";
 import { Button } from "@nextui-org/react";
+import { CategoriesListWithImages, useCategoriesList, useProductList } from "@/app/lib/hooks/catalogHooks";
 
-type CategoriesListWithImages = Array<ICategory & { imageSrc: string }>;
 
 function CatalogMenu() {
-    const [productList, setProductList] = useState<IProductItem[] | null>(null);
-    const [categoriesList, setCategoriesList] = useState<CategoriesListWithImages | null>(null);
-
-    useEffect(() => {
-        async function getCategories() {
-            const products = await fetchProductsList();
-            const categories = await fetchCategories();
-
-            const categoriesWithImages = getCategoriesImages(categories);
-
-            setProductList(products);
-            setCategoriesList(categoriesWithImages);
-        }
-
-        getCategories();
-    }, []);
-
+    const { productList, isLoading: isProductListLoading } = useProductList();
+    const { categoriesList, isLoading: isCategoriesListLoading } = useCategoriesList();
 
     const pageTitle = "Дослідіть широкий вибір наших віконних рішень";
 
@@ -50,7 +35,7 @@ function CatalogMenu() {
                     {replaceOWithPaintedO(pageTitle, "black", "white")}
                 </motion.h1>
 
-                {categoriesList && productList ?
+                {!isProductListLoading && !isCategoriesListLoading ?
                     <CategoriesList
                         categoriesList={categoriesList}
                         productList={productList}
@@ -68,6 +53,7 @@ function CatalogMenu() {
 
 export default CatalogMenu;
 
+// CATEGORIES LIST
 function CategoriesList({ categoriesList, productList }: { categoriesList: CategoriesListWithImages, productList: IProductItem[] }) {
     const [isInView, setIsInView] = useState<boolean>(false);
     const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
@@ -128,6 +114,8 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
             <ul className="relative z-20 mb-28 hidden xl:flex gap-x-5 duration-500 ease-in-out mt-[100px] flex-wrap gap-y-24 justify-center">
                 {categoriesList.map((category, index) => {
                     const details = categoryDetails[category.id];
+
+                    if (details.quantity === 0) return null;
 
                     return (
                         <motion.li
@@ -253,6 +241,7 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
     )
 }
 
+// CATEGOIES DETAILS
 function CategoryDetailItem({ value, label, delay }: { value: number, label: string, delay: number }) {
     if (value === 0) return null;
 
@@ -268,41 +257,6 @@ function CategoryDetailItem({ value, label, delay }: { value: number, label: str
     );
 };
 
-function getCategoriesImages(categoriesList: ICategory[]): CategoriesListWithImages {
-
-    return categoriesList.map((category) => {
-        let path: string;
-
-        switch (category.id) {
-            case 1:
-                path = "/assets/images/day-night.webp";
-                break;
-            case 2:
-                path = "/assets/images/roller-blinds.webp";
-                break;
-            case 3:
-                path = "/assets/images/horizontal-blinds.webp";
-                break;
-            case 4:
-                path = "/assets/images/vertical-blinds.webp";
-                break;
-            case 5:
-                path = "/assets/images/components.webp";
-                break;
-            case 6:
-                path = "/assets/images/promotional-items.webp";
-                break;
-            default:
-                path = "/assets/images/default-item.webp";
-        }
-
-        return {
-            ...category,
-            imageSrc: path
-        }
-    });
-}
-
 interface IProductDetails {
     quantity: number,
     colors: number,
@@ -314,7 +268,19 @@ function getCategoryDetails(categoryId: number, productList: IProductItem[]): IP
     const collections = new Set;
 
     const listByCategory = productList.filter((product) => {
-        if (product.category_id === categoryId) {
+        if (categoryId === SYSTEM_SALE_CATEGORY_ID && product.price.sale !== null) {
+            if (product.technical_info.color !== null) colors.add(product.technical_info.color);
+            if (product.technical_info.collection !== null) collections.add(product.technical_info.collection);
+
+            return product;
+
+        } else if (categoryId === SYSTEM_TOP_CATEGORY_ID && product.sort_order === 1) {
+            if (product.technical_info.color !== null) colors.add(product.technical_info.color);
+            if (product.technical_info.collection !== null) collections.add(product.technical_info.collection);
+
+            return product;
+
+        } else if (product.category_id === categoryId) {
             if (product.technical_info.color !== null) colors.add(product.technical_info.color);
             if (product.technical_info.collection !== null) collections.add(product.technical_info.collection);
 

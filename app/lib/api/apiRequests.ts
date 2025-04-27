@@ -122,6 +122,10 @@ export async function fetchProductItem(productId: string | number): Promise<Omit
 };
 
 // Categories
+// Reserved category IDs (not from backend)
+export const SYSTEM_SALE_CATEGORY_ID = 101;  // Special category: "Sale"
+export const SYSTEM_TOP_CATEGORY_ID = 102; // Special category: "Top"
+
 export async function fetchCategories(): Promise<ICategory[]> {
     try {
         const response = await fetch(`${BASE_URL}/api/cms/jaluji/categories`);
@@ -129,10 +133,25 @@ export async function fetchCategories(): Promise<ICategory[]> {
             throw new Error(`HTTP error! status: ${response.status} `);
         }
         const data = await response.json();
-        return data.map((item: any) => ({
+        const result = data.map((item: any) => ({
             id: item.id,
             name: item.name
-        }))
+        }));
+        // Add categories Sale and Top to default categories list
+        return [
+            // Sale category
+            {
+                id: SYSTEM_SALE_CATEGORY_ID,
+                name: 'Акція'
+            },
+            // Top category
+            {
+                id: SYSTEM_TOP_CATEGORY_ID,
+                name: 'Топ-продукція'
+            },
+            // Default API categories
+            ...result
+        ]
     } catch (error) {
         console.error('Error fetching data:', error);
         return [];

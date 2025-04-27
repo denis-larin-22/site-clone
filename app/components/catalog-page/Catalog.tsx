@@ -4,12 +4,15 @@ import CatalogList from './CatalogList';
 import Link from "next/link";
 import { Filters } from './Filters';
 import { ICategory, IFilterOption, IProductItem } from '@/app/lib/types';
-import { fetchCategories, fetchProductsList } from '@/app/lib/api/apiRequests';
+import { fetchCategories, fetchProductsList, SYSTEM_SALE_CATEGORY_ID, SYSTEM_TOP_CATEGORY_ID } from '@/app/lib/api/apiRequests';
 import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@nextui-org/react';
+import { SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY } from '@/app/lib/data/sessionStorage';
+import { useCategoriesList, useProductList } from '@/app/lib/hooks/catalogHooks';
+import Loader from '../ui/Loader';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -27,18 +30,19 @@ export interface IActiveFilters {
     [key: string]: any[];
 }
 
-export const SS_CATALOG_FILTERS_PARAMS_KEY = "piramid_ss_filters";
 
 export default function Catalog({ activeCategoryId }: { activeCategoryId: string }) {
     const catalogContainerRef = useRef<HTMLDivElement>(null);
 
+    const { productList: productListInit, isLoading: isProductListLoading } = useProductList();
     const [productList, setProductList] = useState<IProductList>({
-        initList: [],
+        initList: productListInit,
         listToRender: []
     });
 
+    const { categoriesList, isLoading: isCategoriesListLoading } = useCategoriesList();
     const [categories, setCategories] = useState<ICategoryList>({
-        allCategories: [],
+        allCategories: categoriesList,
         activeCategory: Number(activeCategoryId)
     });
 
@@ -48,16 +52,13 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
     // GET CATALOG DATA
     useEffect(() => {
         async function fetchCatalogData() {
-            const listProduct = await fetchProductsList(); // init catalog list
-            const categoriesList = await fetchCategories(); // category list
-
-            const productListByActiveCategory = listProduct.filter((product) => product.category_id === Number(activeCategoryId)); // filtered list by active category
+            const productListByActiveCategory = getFiltredCatalogBySelectedCategory(+activeCategoryId, productListInit); // filtered list by active category
             const optionsFilter = getFilterOptions(productListByActiveCategory); // all filters/filter values by selected products
 
             setCategories({ ...categories, allCategories: categoriesList });
             setFilterOptions(optionsFilter);
 
-            const filterParamsFromSS = sessionStorage.getItem(SS_CATALOG_FILTERS_PARAMS_KEY); // saved filter params from the session storage
+            const filterParamsFromSS = sessionStorage.getItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY); // saved filter params from the session storage
 
             if (filterParamsFromSS) {
                 const savedFilterParams = JSON.parse(filterParamsFromSS) as IActiveFilters;
@@ -85,13 +86,13 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
         }
 
         fetchCatalogData();
-    }, []);
+    }, [isProductListLoading, isCategoriesListLoading]);
 
     // CATEGORY HANDLER
     function categoriesHandler(categoryId: number) {
         setCategories({ ...categories, activeCategory: categoryId });
         // remoove previous saved filter params in the session storage
-        sessionStorage.removeItem(SS_CATALOG_FILTERS_PARAMS_KEY);
+        sessionStorage.removeItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY);
     }
 
     // FILTERS HANDLER
@@ -117,19 +118,20 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
         setActiveFilters(updatedActiveFilters);
         setProductList({ ...productList, listToRender: filteredItems });
         // saving updated filter params to the session storage
-        sessionStorage.setItem(SS_CATALOG_FILTERS_PARAMS_KEY, JSON.stringify(updatedActiveFilters));
+        sessionStorage.setItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY, JSON.stringify(updatedActiveFilters));
     }
 
     // RESET FILTERS
     function resetFiltersHandler() {
         setActiveFilters({});
-        sessionStorage.removeItem(SS_CATALOG_FILTERS_PARAMS_KEY);
+        sessionStorage.removeItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY);
         window.location.reload();
     }
 
     return (
         <>
             <CategoryNavigation
+                isLoading={isCategoriesListLoading}
                 activeCategory={categories.activeCategory}
                 categoriesList={categories.allCategories}
                 categoriesHandler={categoriesHandler}
@@ -164,45 +166,44 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                     resetFiltersButtonHandler={resetFiltersHandler}
                     sortByPriceHandler={() => { }}
                 />
-                <CatalogList
-                    listToRender={productList.listToRender}
-                    catalogContainerRef={catalogContainerRef}
-                />
+                {!isProductListLoading ?
+                    <CatalogList
+                        listToRender={productList.listToRender}
+                        catalogContainerRef={catalogContainerRef}
+                    />
+                    :
+                    <Loader />
+                }
             </div>
         </>
     );
 }
 
-// get filtered product list by category and filters values
-// function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId: number) {
-//     const { availability, color, collection, rollWidth, tapeWidth, transparency, price, sale } = activeFilters;
+function getFiltredCatalogBySelectedCategory(activeCategoryId: number, catalogList: IProductItem[]) {
+    let filtredList: IProductItem[];
 
-//     return products.filter((product) => {
-//         const categoryMatch = product.category_id === activeCategoryId;
-//         const colorMatch = color.length === 0 || color.includes(product.technical_info.color);
-//         const transparencyMatch = transparency.length === 0 || transparency.includes(product.technical_info.transparency);
-//         const collectionMatch = collection.length === 0 || collection.includes(product.technical_info.collection);
-//         const rollWidthValueMatch = rollWidth.length === 0 || rollWidth.includes(product.technical_info.roll_width);
-//         const tapeWidthValueMatch = tapeWidth.length === 0 || tapeWidth.includes(product.technical_info.tape_width);
-//         const priceMatch = price.length === 0 || price.includes(product.price.price_5);
-//         const availabilityMatch = availability.length === 0 || availability.includes(product.availability);
-//         const saleValueMatch = sale.length === 0 || sale.includes(product.price.sale);
+    if (activeCategoryId === SYSTEM_SALE_CATEGORY_ID) {
+        filtredList = catalogList.filter((product) => product.price.sale !== null);
+    } else if (activeCategoryId === SYSTEM_TOP_CATEGORY_ID) {
+        filtredList = catalogList.filter((product) => product.sort_order === 1);
+    } else {
+        filtredList = catalogList.filter((product) => product.category_id === +activeCategoryId);
+    }
 
-//         return categoryMatch && colorMatch && transparencyMatch && collectionMatch && rollWidthValueMatch && tapeWidthValueMatch && priceMatch && availabilityMatch && saleValueMatch;
-//     });
-// };
+    return filtredList;
+}
 
 
 // Code refactoring TEST version
 function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId: number) {
     const { availability, color, collection, rollWidth, tapeWidth, transparency, price, sale } = activeFilters;
 
-    return products.filter((product) => {
+    const result = products.filter((product) => {
         const { technical_info, price: productPrice, category_id, availability: productAvailability } = product;
         const { color: productColor, transparency: productTransparency, collection: productCollection, roll_width, tape_width } = technical_info;
 
         const matches = [
-            category_id === activeCategoryId,
+            category_id === activeCategoryId, // ВОТЗДЕСЬ НУЖНО УЧИТІВАТЬ SYSTEM_SALE_CATEGORY_ID И  SYSTEM_TOP_CATEGORY_ID
             !color.length || color.includes(productColor),
             !transparency.length || transparency.includes(productTransparency),
             !collection.length || collection.includes(productCollection),
@@ -215,4 +216,5 @@ function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilter
 
         return matches.every(Boolean);
     });
+    return result;
 };

@@ -5,7 +5,6 @@ import { IProductItem } from "@/app/lib/types";
 import CatalogCard from "./CatalogCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { Pagination } from "@nextui-org/react";
-import { IProductList } from "./Catalog";
 
 interface IProps {
     listToRender: IProductItem[],
@@ -61,23 +60,27 @@ export default function CatalogList({ listToRender, className, catalogContainerR
                     />
                 </div>
 
-                <motion.ul
-                    className={`w-full px-0 tablet:px-10 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start mobile:justify-center gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className || ''}`}
-                >
-                    <AnimatePresence>
-                        {currentItems.map((product, index) => (
-                            <motion.li
-                                key={product.id + product.name + index}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                transition={{ duration: 0.3 }}
-                            >
-                                <CatalogCard productItem={product} />
-                            </motion.li>
-                        ))}
-                    </AnimatePresence>
-                </motion.ul>
+                {listToRender.length === 0 ?
+                    <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-t-gray-text">Товарів не знайдено</p>
+                    :
+                    <motion.ul
+                        className={`w-full px-0 tablet:px-10 grid grid-cols-2 justify-items-center mobile:flex flex-wrap justify-start mobile:justify-center gap-x-2 mobile:gap-x-5 gap-y-4 mobile:gap-y-10 ${className || ''}`}
+                    >
+                        <AnimatePresence>
+                            {currentItems.map((product, index) => (
+                                <motion.li
+                                    key={product.id + product.name + index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <CatalogCard productItem={product} />
+                                </motion.li>
+                            ))}
+                        </AnimatePresence>
+                    </motion.ul>
+                }
             </div>
 
             {/* Pagination at the bottom, fixed */}
@@ -85,7 +88,7 @@ export default function CatalogList({ listToRender, className, catalogContainerR
                 <motion.div
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 2 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
                     className="py-1 px-3 bg-t-pale/30 rounded-3xl drop-shadow-2xl"
                 >
                     <CatalogPagination
