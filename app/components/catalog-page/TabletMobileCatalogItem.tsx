@@ -13,13 +13,14 @@ import TopProductIcon from "../ui/catalog/TopProductIcon";
 import { reverseDateValue } from "@/app/lib/utils/utils";
 
 interface IProps {
-    productItem: Omit<IProductItem, 'price'> | null
+    productItem: Omit<IProductItem, 'price'> | IProductItem | null
 }
 
 function TabletMobileCatalogItem({ productItem }: IProps) {
-    if (productItem === null) return;
+    if (productItem === null) return null;
 
-    const DEFAULT_IMAGE = "https://piramidspace.com/admin/storage/default.jpg";
+    const DEFAULT_IMAGE = "https://api.piramidspace.com/storage/default.jpg";
+
     // Catalog item properties
     const {
         name,
@@ -92,29 +93,33 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
                 {sort_order === 1 && <TopProductIcon className="absolute -top-7 right-0" />}
 
                 <ul className="flex gap-2.5 pl-5 mobile:pl-0">
-                    {images_url.map((url, index) => (
-                        <motion.li
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{
-                                duration: 0.3,
-                                delay: 0.05 + index * 0.07,
-                            }}
-                            onClick={() => {
-                                setSelectedImage(url);
-                            }}
-                        >
-                            <Image
-                                src={url || DEFAULT_IMAGE}
-                                alt="Варіант тканини"
-                                width={47}
-                                height={46}
-                                loading="lazy"
-                                className={`w-[47px] h-[46px] cursor-pointer rounded-md ring-1 duration-150 ${selectedImage === url ? "ring-[#10005B]" : "ring-t-gray-text"}`}
-                            />
-                        </motion.li>
-                    ))}
+                    {images_url.map((url, index) => {
+                        if (url === DEFAULT_IMAGE) return null;
+
+                        return (
+                            <motion.li
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    duration: 0.3,
+                                    delay: 0.05 + index * 0.07,
+                                }}
+                                onClick={() => {
+                                    setSelectedImage(url);
+                                }}
+                            >
+                                <Image
+                                    src={url || DEFAULT_IMAGE}
+                                    alt="Варіант тканини"
+                                    width={47}
+                                    height={46}
+                                    loading="lazy"
+                                    className={`w-[47px] h-[46px] cursor-pointer rounded-md ring-1 duration-150 ${selectedImage === url ? "ring-[#10005B]" : "ring-t-gray-text"}`}
+                                />
+                            </motion.li>
+                        )
+                    })}
                 </ul>
 
                 {!isHide && <section className="p-9 mobile:p-10 mt-5 max-h-[50vh] rounded-2xl bg-[#FAFAFA] text-t-blue-dark overflow-y-auto hide-scrollbar">

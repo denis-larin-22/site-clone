@@ -14,13 +14,13 @@ import TopProductIcon from "../ui/catalog/TopProductIcon"
 import { reverseDateValue } from "@/app/lib/utils/utils"
 
 interface IProps {
-    productItem: Omit<IProductItem, 'price'> | null
+    productItem: Omit<IProductItem, 'price'> | IProductItem | null
 }
 
 function DesktopCatalogItem({ productItem }: IProps) {
-    if (productItem === null) return;
+    if (productItem === null) return null;
 
-    const DEFAULT_IMAGE = "https://piramidspace.com/admin/storage/default.jpg";
+    const DEFAULT_IMAGE = "https://api.piramidspace.com/storage/default.jpg";
     // Catalog item properties
     const {
         name,
@@ -43,8 +43,6 @@ function DesktopCatalogItem({ productItem }: IProps) {
             water_resistance
         }
     } = productItem;
-
-    const imagesToRender = images_url.filter((url) => url !== DEFAULT_IMAGE);
 
     const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
     const { isOpen: isZoomed, onOpen: onZoomed, onOpenChange: onZoomedChange } = useDisclosure();
@@ -83,28 +81,32 @@ function DesktopCatalogItem({ productItem }: IProps) {
                     },
                 }}
             >
-                {imagesToRender.map((url, index) => (
-                    <motion.li
-                        key={index}
-                        onClick={() => {
-                            setSelectedImage(url);
-                        }}
-                        variants={{
-                            hidden: { opacity: 0, x: -50 },
-                            visible: { opacity: 1, x: 0 },
-                        }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <Image
-                            src={url || DEFAULT_IMAGE}
-                            alt="Варіант тканини"
-                            width={47}
-                            height={46}
-                            loading="lazy"
-                            className={`w-[47px] h-[46px] cursor-pointer rounded-md ring-1 hover:ring-offset-1 hover:ring-[#10005B] duration-150 ${selectedImage === url ? "ring-[#10005B]" : "ring-t-gray-text"}`}
-                        />
-                    </motion.li>
-                ))}
+                {images_url.map((url, index) => {
+                    if (url === DEFAULT_IMAGE) return null;
+
+                    return (
+                        <motion.li
+                            key={index}
+                            onClick={() => {
+                                setSelectedImage(url);
+                            }}
+                            variants={{
+                                hidden: { opacity: 0, x: -50 },
+                                visible: { opacity: 1, x: 0 },
+                            }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <Image
+                                src={url || DEFAULT_IMAGE}
+                                alt="Варіант тканини"
+                                width={47}
+                                height={46}
+                                loading="lazy"
+                                className={`w-[47px] h-[46px] cursor-pointer rounded-md ring-1 hover:ring-offset-1 hover:ring-[#10005B] duration-150 ${selectedImage === url ? "ring-[#10005B]" : "ring-t-gray-text"}`}
+                            />
+                        </motion.li>
+                    )
+                })}
             </motion.ul>
 
             <motion.div

@@ -8,26 +8,16 @@ import Loader from "../ui/Loader";
 import Footer from "../ui/Footer";
 import DesktopCatalogItem from "./DesktopCatalogItem";
 import TabletMobileCatalogItem from "./TabletMobileCatalogItem";
+import { useProductItem } from "@/app/lib/hooks/catalogHooks";
 
 interface IProps {
     itemId: string | number
 }
 
 function CatalogItem({ itemId }: IProps) {
-    const [productItem, setProductItem] = useState<Omit<IProductItem, 'price'> | null>(null);
+    const { productItem, isLoading } = useProductItem(itemId);
 
-    useEffect(() => {
-        async function getProductItem(productId: string | number) {
-            const result = await fetchProductItem(productId);
-
-            setProductItem(result);
-        }
-
-        getProductItem(itemId);
-    }, []);
-
-
-    if (productItem === null) {
+    if (isLoading) {
         return (
             <>
                 <Header />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ICategory, IProductItem } from '../types';
 import { SS_PIRAMID_CATALOG_CATEGORIES_LIST_KEY, SS_PIRAMID_CATALOG_LIST_KEY } from '../data/sessionStorage';
-import { fetchCategories, fetchProductsList, SYSTEM_SALE_CATEGORY_ID, SYSTEM_TOP_CATEGORY_ID } from '../api/apiRequests';
+import { fetchCategories, fetchProductItem, fetchProductsList, SYSTEM_SALE_CATEGORY_ID, SYSTEM_TOP_CATEGORY_ID } from '../api/apiRequests';
 
 // hook for catalog list state
 export function useProductList() {
@@ -53,7 +53,6 @@ export function useCategoriesList() {
 
                 setCategoriesList(categoriesWithImages);
             }
-
             setIsLoading(false);
         }
 
@@ -103,4 +102,31 @@ function getCategoriesImages(categoriesList: ICategory[]): CategoriesListWithIma
             imageSrc: path
         }
     });
-}
+};
+
+export function useProductItem(productId: string | number) {
+    const [productItem, setProductItem] = useState<Omit<IProductItem, 'price'> | IProductItem | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        async function getProductItem() {
+            setIsLoading(true);
+            const catalogListFromSessionStorage = sessionStorage.getItem(SS_PIRAMID_CATALOG_LIST_KEY);
+
+            if (catalogListFromSessionStorage === null) {
+                const result = await fetchProductItem(productId);
+                setProductItem(result);
+            } else {
+                const catalogList = JSON.parse(catalogListFromSessionStorage) as IProductItem[];
+                const product = catalogList.find((product) => product.id === +productId);
+
+                setProductItem(product || null);
+            }
+            setIsLoading(false);
+        }
+
+        getProductItem();
+    }, [productId]);
+
+    return { productItem, isLoading };
+};
