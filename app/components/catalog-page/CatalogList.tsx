@@ -51,7 +51,7 @@ export default function CatalogList({ listToRender, className, catalogContainerR
 
     return (
         <>
-            <div className="relative z-20 mt-[-400px] mb-[100px] mobile:mb-0 pt-5 min-h-[50dvh]">
+            <div className="relative z-20 mt-[-400px] mb-5 mobile:mb-0 pt-5 min-h-[50dvh]">
                 <div className="mobile:hidden flex justify-center absolute -top-7 left-1/2 -translate-x-1/2">
                     <CatalogPagination
                         totalPages={totalPages}
@@ -84,7 +84,7 @@ export default function CatalogList({ listToRender, className, catalogContainerR
             </div>
 
             {/* Pagination at the bottom, fixed */}
-            <div className="relative mobile:fixed z-50 bottom-24 mobile:bottom-2 flex justify-center">
+            <div className="relative mobile:fixed z-50 bottom-2 flex justify-center">
                 <motion.div
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}

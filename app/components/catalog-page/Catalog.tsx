@@ -4,7 +4,7 @@ import CatalogList from './CatalogList';
 import Link from "next/link";
 import { Filters } from './Filters';
 import { ICategory, IFilterOption, IProductItem } from '@/app/lib/types';
-import { fetchCategories, fetchProductsList, SYSTEM_SALE_CATEGORY_ID, SYSTEM_TOP_CATEGORY_ID } from '@/app/lib/api/apiRequests';
+import { SYSTEM_SALE_CATEGORY_ID, SYSTEM_TOP_CATEGORY_ID } from '@/app/lib/api/apiRequests';
 import { getFilterOptions } from '@/app/lib/data/getFilterOptions';
 import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useRef, useState } from 'react';
@@ -34,28 +34,27 @@ export interface IActiveFilters {
 export default function Catalog({ activeCategoryId }: { activeCategoryId: string }) {
     const catalogContainerRef = useRef<HTMLDivElement>(null);
 
+    // Catalog list - init and render states
     const { productList: productListInit, isLoading: isProductListLoading } = useProductList();
     const [productList, setProductList] = useState<IProductList>({
         initList: productListInit,
         listToRender: []
     });
 
+    // Categories list and active category value
     const { categoriesList, isLoading: isCategoriesListLoading } = useCategoriesList();
-    const [categories, setCategories] = useState<ICategoryList>({
-        allCategories: categoriesList,
-        activeCategory: Number(activeCategoryId)
-    });
+    const [activeCategory, setActiveCategory] = useState<number>(Number(activeCategoryId));
 
+    // Filters options, all and active
     const [filterOptions, setFilterOptions] = useState<FilterOptions>([]);
     const [activeFilters, setActiveFilters] = useState<IActiveFilters>({});
 
     // GET CATALOG DATA
     useEffect(() => {
-        async function fetchCatalogData() {
+        async function getCatalogData() {
             const productListByActiveCategory = getFiltredCatalogBySelectedCategory(+activeCategoryId, productListInit); // filtered list by active category
             const optionsFilter = getFilterOptions(productListByActiveCategory); // all filters/filter values by selected products
 
-            setCategories({ ...categories, allCategories: categoriesList });
             setFilterOptions(optionsFilter);
 
             const filterParamsFromSS = sessionStorage.getItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY); // saved filter params from the session storage
@@ -85,12 +84,12 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
             }
         }
 
-        fetchCatalogData();
+        getCatalogData();
     }, [isProductListLoading, isCategoriesListLoading]);
 
     // CATEGORY HANDLER
     function categoriesHandler(categoryId: number) {
-        setCategories({ ...categories, activeCategory: categoryId });
+        setActiveCategory(categoryId);
         // remoove previous saved filter params in the session storage
         sessionStorage.removeItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY);
     }
@@ -132,13 +131,13 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
         <>
             <CategoryNavigation
                 isLoading={isCategoriesListLoading}
-                activeCategory={categories.activeCategory}
-                categoriesList={categories.allCategories}
+                activeCategory={activeCategory}
+                categoriesList={categoriesList}
                 categoriesHandler={categoriesHandler}
             />
 
             <div ref={catalogContainerRef} className="flex flex-col items-center flex-grow overflow-y-auto overflow-x-hidden ml-0 mobile:ml-24 p-3 mobile:py-[60px]">
-                <div className="flex justify-between items-center mobile:hidden w-screen px-5 mb-8">
+                <div className="flex justify-between items-center mobile:hidden w-screen px-5 mb-2">
                     <Link href={"/"}>
                         {/* Default logo */}
                         <Image
@@ -199,18 +198,28 @@ function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilter
     const { availability, color, collection, rollWidth, tapeWidth, transparency, price, sale } = activeFilters;
 
     const result = products.filter((product) => {
-        const { technical_info, price: productPrice, category_id, availability: productAvailability } = product;
+        const { technical_info, price: productPrice, category_id, availability: productAvailability, sort_order } = product;
         const { color: productColor, transparency: productTransparency, collection: productCollection, roll_width, tape_width } = technical_info;
 
+        // category match include Defaults API categories, TOP and SALE system categories
+        const categoryMatch = activeCategoryId === SYSTEM_SALE_CATEGORY_ID ?
+            Boolean(productPrice.sale)
+            :
+            activeCategoryId === SYSTEM_TOP_CATEGORY_ID ?
+                Boolean(sort_order)
+                :
+                category_id === activeCategoryId
+
+
         const matches = [
-            category_id === activeCategoryId, // ВОТЗДЕСЬ НУЖНО УЧИТІВАТЬ SYSTEM_SALE_CATEGORY_ID И  SYSTEM_TOP_CATEGORY_ID
-            !color.length || color.includes(productColor),
-            !transparency.length || transparency.includes(productTransparency),
-            !collection.length || collection.includes(productCollection),
-            !rollWidth.length || rollWidth.includes(roll_width),
-            !tapeWidth.length || tapeWidth.includes(tape_width),
-            !price.length || price.includes(productPrice.price_5),
-            !availability.length || availability.includes(productAvailability),
+            categoryMatch, // category match (include TOP and SALE system categories)
+            !color.length || color.includes(productColor), // color match
+            !transparency.length || transparency.includes(productTransparency), // transparency match
+            !collection.length || collection.includes(productCollection), // collection match
+            !rollWidth.length || rollWidth.includes(roll_width), // roll width match
+            !tapeWidth.length || tapeWidth.includes(tape_width), // tape width match
+            !price.length || price.includes(productPrice.price_5), // price category match
+            !availability.length || availability.includes(productAvailability), // sale value match
             !sale.length || sale.includes(productPrice.sale)
         ];
 

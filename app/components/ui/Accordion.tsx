@@ -70,7 +70,7 @@ export function Accordion({ componentContent }: { componentContent: IAccordionSe
                 className="bg-m-blue-dark"
                 initial={{ height: 0 }}
                 animate={isInView && { height: 'fit-content' }}
-                transition={{ duration: 1.5, delay: 0.5 }}
+                transition={{ duration: 1, delay: 0.3 }}
             >
                 <div className="container px-4 py-[35px] mobile:pt-[76px] lg:pt-[53px] xl:pt-[69px] mobile:pb-[57px] flex flex-col items-center mobile:items-stretch gap-3">
                     <article className="flex justify-between">

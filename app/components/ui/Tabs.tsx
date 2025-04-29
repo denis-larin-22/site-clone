@@ -94,7 +94,7 @@ function DesktopTabs({ tabsList, isInView, selectedTab, animationStarted, handle
         <div className="hidden md:flex flex-col items-center px-4">
             <motion.ul
                 className={`${openSansFont.className} w-fit pb-3 flex gap-x-7 text-base lg:text-xl border-b-3 border-[#D9D9D9]`}
-                {...generateAnimationParams(isInView, 0.7)}
+                {...generateAnimationParams(isInView, 0.4)}
             >
                 {tabsList.map((item, index) => (
                     <li

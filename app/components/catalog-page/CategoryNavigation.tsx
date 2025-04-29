@@ -70,7 +70,7 @@ export default function CategoryNavigation({ isLoading, activeCategory, categori
                 </Link>
 
                 <nav className="flex flex-col items-start">
-                    {categoriesList.length ?
+                    {!isLoading ?
                         categoriesListWithIcons.map((category) => (
                             <Link
                                 key={category.id}
@@ -107,35 +107,6 @@ export default function CategoryNavigation({ isLoading, activeCategory, categori
                     }
                 </nav>
             </aside >
-
-            {/* Mobile version */}
-            <aside className="block mobile:hidden h-24 fixed z-30 bottom-0 right-0 left-0 bg-[#FAFAFA] overflow-hidden" >
-                <nav className="h-full flex items-center justify-around ">
-                    {
-                        categoriesList.length ?
-                            categoriesListWithIcons.map((category) => (
-                                <Link
-                                    key={category.id}
-                                    href={`/catalog/${category.id}/category`}
-                                    onClick={() => categoriesHandler(category.id)}
-                                    className={`group relative w-[55px] h-[52px] rounded-xl flex flex-col items-center ${activeCategory === category.id ? 'bg-white' : ''} flex items-center justify-center`}
-                                >
-                                    <span className={activeCategory === category.id ? 'absolute -top-9 inline-block w-[29px] h-[10px] rounded-xl bg-t-blue' : 'hidden'}></span>
-                                    {/* Icon TO_DO */}
-                                    <span className={`inline-block max-w-7 max-h-7 ${activeCategory === category.id ? 'opacity-100 grayscale-0' : 'opacity-35 grayscale'} duration-200`}>
-                                        <img
-                                            src={category.iconSrc}
-                                            alt="Category icon"
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </span>
-                                </Link>
-                            ))
-                            :
-                            <Loader />
-                    }
-                </nav>
-            </aside>
         </>
     )
 }

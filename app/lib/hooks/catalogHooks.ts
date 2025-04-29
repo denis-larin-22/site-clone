@@ -106,11 +106,10 @@ function getCategoriesImages(categoriesList: ICategory[]): CategoriesListWithIma
 
 export function useProductItem(productId: string | number) {
     const [productItem, setProductItem] = useState<Omit<IProductItem, 'price'> | IProductItem | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         async function getProductItem() {
-            setIsLoading(true);
             const catalogListFromSessionStorage = sessionStorage.getItem(SS_PIRAMID_CATALOG_LIST_KEY);
 
             if (catalogListFromSessionStorage === null) {
