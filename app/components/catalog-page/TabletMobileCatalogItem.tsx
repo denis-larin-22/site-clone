@@ -63,9 +63,12 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
     return (
         // <section className="relative block tablet:hidden grow"> // Default
         <section className="relative z-20 block tablet:hidden grow">
-            <Link href={`/catalog/${category.id}/category`} className="absolute z-10 left-5 mobile:left-10 top-3 mobile:top-12">
+            <button
+                className="absolute z-10 left-5 mobile:left-10 top-3 mobile:top-12"
+                onClick={() => window.history.back()}
+            >
                 <CloseArrowIcon />
-            </Link>
+            </button>
 
             {/* Default logo */}
             <Image

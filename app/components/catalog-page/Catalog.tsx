@@ -10,9 +10,9 @@ import CategoryNavigation from './CategoryNavigation';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@nextui-org/react';
-import { SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY } from '@/app/lib/data/sessionStorage';
 import { useCategoriesList, useProductList } from '@/app/lib/hooks/catalogHooks';
 import Loader from '../ui/Loader';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -33,39 +33,47 @@ export interface IActiveFilters {
 
 export default function Catalog({ activeCategoryId }: { activeCategoryId: string }) {
     const catalogContainerRef = useRef<HTMLDivElement>(null);
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const router = useRouter()
 
     // Catalog list - init and render states
-    const { productList: productListInit, isLoading: isProductListLoading } = useProductList();
+    const { productList: productListInit, isLoading: isProductListLoading } = useProductList(); // catalog list
     const [productList, setProductList] = useState<IProductList>({
-        initList: productListInit,
-        listToRender: []
+        initList: productListInit, // init catalog list
+        listToRender: [] // edited list for rendering
     });
 
     // Categories list and active category value
-    const { categoriesList, isLoading: isCategoriesListLoading } = useCategoriesList();
-    const [activeCategory, setActiveCategory] = useState<number>(Number(activeCategoryId));
+    const { categoriesList, isLoading: isCategoriesListLoading } = useCategoriesList(); // all categories
+    const [activeCategory, setActiveCategory] = useState<number>(Number(activeCategoryId)); // active category
 
     // Filters options, all and active
-    const [filterOptions, setFilterOptions] = useState<FilterOptions>([]);
-    const [activeFilters, setActiveFilters] = useState<IActiveFilters>({});
+    const [filterOptions, setFilterOptions] = useState<FilterOptions>([]); // for filters components
+    const [activeFilters, setActiveFilters] = useState<IActiveFilters>({}); // for product list filtration
+
+    // Getting filters params from url, return undefined if there in no active filters
+    function getActiveFiltersFromURL() {
+        const params = decodeURIComponent(searchParams.toString()); // pars if there is cyrilic
+        const activeFiltersParams = params.length === 0 ? undefined : parseUrlStringToActiveFiltersParams(params)
+
+        return activeFiltersParams;
+    };
 
     // GET CATALOG DATA
     useEffect(() => {
         async function getCatalogData() {
             const productListByActiveCategory = getFiltredCatalogBySelectedCategory(+activeCategoryId, productListInit); // filtered list by active category
             const optionsFilter = getFilterOptions(productListByActiveCategory); // all filters/filter values by selected products
-
             setFilterOptions(optionsFilter);
 
-            const filterParamsFromSS = sessionStorage.getItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY); // saved filter params from the session storage
+            const activeFiltersFromURL = getActiveFiltersFromURL(); // acive filters
 
-            if (filterParamsFromSS) {
-                const savedFilterParams = JSON.parse(filterParamsFromSS) as IActiveFilters;
-
-                setActiveFilters(savedFilterParams);
+            if (activeFiltersFromURL !== undefined) {
+                setActiveFilters(activeFiltersFromURL);
                 setProductList({
                     initList: productListByActiveCategory,
-                    listToRender: getFilteredItems(productListByActiveCategory, savedFilterParams, Number(activeCategoryId)) // filtered by params from session storage
+                    listToRender: getFilteredItems(productListByActiveCategory, activeFiltersFromURL, Number(activeCategoryId)) // filtered by params from session storage
                 });
             } else {
                 // init activeFilters object
@@ -82,7 +90,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                     listToRender: productListByActiveCategory
                 });
             }
-        }
+        };
 
         getCatalogData();
     }, [isProductListLoading, isCategoriesListLoading]);
@@ -90,9 +98,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
     // CATEGORY HANDLER
     function categoriesHandler(categoryId: number) {
         setActiveCategory(categoryId);
-        // remoove previous saved filter params in the session storage
-        sessionStorage.removeItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY);
-    }
+    };
 
     // FILTERS HANDLER
     function filtersHandler(filter: string, value: string, multichoice: boolean = false) {
@@ -107,25 +113,33 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
             updatedActiveFilters[filter] = [value];
         }
 
-        // Передача activeCategory с заменой null на undefined
+        // Passing activeCategory with null replaced by undefined
         const filteredItems = getFilteredItems(
             productList.initList,
             updatedActiveFilters,
             Number(activeCategoryId)
         );
 
+        const updatedUrl = parseActiveFiltersParamsToUrlString(updatedActiveFilters);
+
+        updateURL(updatedUrl); // saving active filters to url
         setActiveFilters(updatedActiveFilters);
         setProductList({ ...productList, listToRender: filteredItems });
-        // saving updated filter params to the session storage
-        sessionStorage.setItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY, JSON.stringify(updatedActiveFilters));
-    }
+    };
+    // updating url string by active filters
+    function updateURL(newParamsString: string) {
+        router.replace(`${pathname}?${newParamsString}`);
+    };
 
     // RESET FILTERS
     function resetFiltersHandler() {
+        router.replace(pathname);
         setActiveFilters({});
-        sessionStorage.removeItem(SS_PIRAMID_CATALOG_FILTERS_PARAMS_KEY);
-        window.location.reload();
-    }
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 200);
+    };
 
     return (
         <>
@@ -176,8 +190,9 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
             </div>
         </>
     );
-}
+};
 
+// filtration by category
 function getFiltredCatalogBySelectedCategory(activeCategoryId: number, catalogList: IProductItem[]) {
     let filtredList: IProductItem[];
 
@@ -192,8 +207,7 @@ function getFiltredCatalogBySelectedCategory(activeCategoryId: number, catalogLi
     return filtredList;
 }
 
-
-// Code refactoring TEST version
+// filtration by filters values
 function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilters, activeCategoryId: number) {
     const { availability, color, collection, rollWidth, tapeWidth, transparency, price, sale } = activeFilters;
 
@@ -226,4 +240,56 @@ function getFilteredItems(products: IProductItem[], activeFilters: IActiveFilter
         return matches.every(Boolean);
     });
     return result;
+};
+
+// parsing from url string to active filters object (IActiveFilters)
+function parseUrlStringToActiveFiltersParams(urlParams: string): Record<string, string[]> {
+    const requiredKeys = [
+        "availability",
+        "color",
+        "collection",
+        "rollWidth",
+        "tapeWidth",
+        "transparency",
+        "price",
+        "sale"
+    ];
+
+    const params = new URLSearchParams(urlParams);
+    const result: Record<string, string[]> = {};
+
+    // Fill in the data from the line
+    params.forEach((value, key) => {
+        if (!result[key]) {
+            result[key] = [];
+        }
+        result[key].push(value);
+    });
+
+    // Make sure that all required keys are present in the object.
+    for (const key of requiredKeys) {
+        if (!result[key]) {
+            result[key] = [];
+        }
+    }
+
+    return result;
+};
+
+// parsing from active filters object (IActiveFilters) to url string (param=value) 
+function parseActiveFiltersParamsToUrlString(activeFilters: Record<string, string[]>): string {
+    const params = new URLSearchParams();
+
+    for (const key in activeFilters) {
+        const values = activeFilters[key];
+
+        // Add each array element as a separate parameter
+        values.forEach(value => {
+            if (value) {
+                params.append(key, value);
+            }
+        });
+    }
+
+    return params.toString();
 };

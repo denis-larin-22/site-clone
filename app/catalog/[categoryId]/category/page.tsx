@@ -1,5 +1,4 @@
 import Catalog from "@/app/components/catalog-page/Catalog";
-import FeedbackForm from "@/app/components/ui/feedback/FeedbackForm";
 import { metaTagsValues } from "@/app/lib/seo/meta-tags-values";
 import { Metadata } from "next";
 

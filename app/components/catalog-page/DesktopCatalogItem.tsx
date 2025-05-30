@@ -43,7 +43,6 @@ function DesktopCatalogItem({ productItem }: IProps) {
             water_resistance
         }
     } = productItem;
-
     const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
     const { isOpen: isZoomed, onOpen: onZoomed, onOpenChange: onZoomedChange } = useDisclosure();
 
@@ -64,9 +63,13 @@ function DesktopCatalogItem({ productItem }: IProps) {
             transition={{ duration: 0.4 }}
             className="relative z-20 my-20 max-w-[1048px] h-[540px] p-10 pt-[60px] mx-auto hidden tablet:flex items-center justify-between bg-[#FAFAFA]  rounded-[26px]"
         >
-            <Link href={`/catalog/${category.id}/category`} className="w-fit h-fit absolute right-5 top-5" title="Назад до каталогу">
+            <button
+                className="w-fit h-fit absolute right-5 top-5"
+                title="Назад до каталогу"
+                onClick={() => window.history.back()}
+            >
                 <CloseIcon iconColor="#10005B" />
-            </Link >
+            </button >
             <motion.ul
                 className="w-fit flex flex-col gap-2.5"
                 initial="hidden"
