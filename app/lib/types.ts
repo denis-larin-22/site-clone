@@ -87,6 +87,6 @@ export interface ICategory {
 export interface IFilterOption {
     filter: string,
     title?: string,
-    options: string[] | { id: string; value: string; }[],
+    options: string[],
     multichoice: boolean
 }
