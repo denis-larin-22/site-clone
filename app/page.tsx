@@ -27,9 +27,6 @@ export default function Home() {
       <Header />
       <MainPage />
       <Footer />
-
-      <FeedbackForm />
-      <ChatSupport />
     </>
   );
 }

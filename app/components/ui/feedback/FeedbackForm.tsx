@@ -88,7 +88,7 @@ function FeedbackForm() {
         <>
             {/* Feedback button */}
             <button
-                className={`fixed ${isCategoryPage ? "bottom-48" : "bottom-8"} md:bottom-5 right-3 md:right-5 z-[60] flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform`}
+                className={`fixed ${isCategoryPage ? "bottom-48" : "bottom-8"} md:bottom-5 right-3 md:right-5 z-40 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-medium font-medium rounded-full shadow-lg hover:scale-105 transition-transform`}
                 onClick={() => setIsFeedbackOpen(!isFeedbackOpen)}
             >
                 {/* Mobile pulse anim */}

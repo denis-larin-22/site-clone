@@ -10,21 +10,31 @@ export function useProductList() {
 
     useEffect(() => {
         async function loadProductList() {
-            const catalogListDataFromStorage = sessionStorage.getItem(SS_PIRAMID_CATALOG_LIST_KEY);
-
-            if (catalogListDataFromStorage === null) {
-                const products = await fetchProductsList();
-                sessionStorage.setItem(SS_PIRAMID_CATALOG_LIST_KEY, JSON.stringify(products));
-                setProductList(products);
-            } else {
-                const productsFromStorage = JSON.parse(catalogListDataFromStorage) as IProductItem[];
-                setProductList(productsFromStorage);
-            }
+            const products = await fetchProductsList();
+            setProductList(products);
 
             setIsLoading(false);
         }
 
         loadProductList();
+
+        // old cash
+        // async function loadProductList() {
+        //     const catalogListDataFromStorage = sessionStorage.getItem(SS_PIRAMID_CATALOG_LIST_KEY);
+
+        //     if (catalogListDataFromStorage === null) {
+        //         const products = await fetchProductsList();
+        //         sessionStorage.setItem(SS_PIRAMID_CATALOG_LIST_KEY, JSON.stringify(products));
+        //         setProductList(products);
+        //     } else {
+        //         const productsFromStorage = JSON.parse(catalogListDataFromStorage) as IProductItem[];
+        //         setProductList(productsFromStorage);
+        //     }
+
+        //     setIsLoading(false);
+        // }
+
+        // loadProductList();
     }, []);
 
     return { productList, isLoading };
