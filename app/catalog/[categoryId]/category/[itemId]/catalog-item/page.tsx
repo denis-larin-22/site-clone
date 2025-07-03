@@ -19,12 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         };
     }
 
-    const descriptionTitle = product.category.name === null ? '' : `🛍️${product.category.name} `;
+    const descriptionTitle = product.category.name === null ? '' : `🛍️ ${product.category.name} `;
     const dimensions = product.technical_info.max_width === null || product.technical_info.max_height === null ?
         ''
         :
-        `📐${product.technical_info.max_width || ''}x${product.technical_info.max_height || ''} `;
-    const info = product.technical_info.description === null ? '' : `📄${product.technical_info.description}`;
+        ` 📐${product.technical_info.max_width || ''}x${product.technical_info.max_height || ''} `;
+    const info = product.technical_info.description === null ? '' : `📄 ${product.technical_info.description}`;
 
     return {
         title: product.name,
