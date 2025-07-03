@@ -19,20 +19,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         };
     }
 
+    const descriptionTitle = product.category.name === null ? '' : `🛍️${product.category.name} `;
+    const dimensions = product.technical_info.max_width === null || product.technical_info.max_height === null ?
+        ''
+        :
+        `📐${product.technical_info.max_width || ''}x${product.technical_info.max_height || ''} `;
+    const info = product.technical_info.description === null ? '' : `📄${product.technical_info.description}`;
+
     return {
         title: product.name,
         description: product.technical_info.description || `Товар з каталогу Piramid`,
         openGraph: {
-            title: product.name,
-            description: product.technical_info.description || '',
+            title: '✨' + product.name + '👇',
+            description: descriptionTitle + dimensions + info,
             url: `https://piramidspace.com/catalog/${params.itemId}`,
             type: 'website',
             locale: 'uk_UA',
-            siteName: 'Piramid | Пирамида ТПК ' + metaTagsValues.shop_name,
+            siteName: '🔵 Piramidspace | Пирамида ТПК ' + metaTagsValues.shop_name,
             images: [
                 {
                     url: product.images_url[0] || '',
-                    width: 1200,
+                    width: 630,
                     height: 630,
                     alt: product.name,
                 },
