@@ -1,31 +1,49 @@
 import CatalogItem from "@/app/components/catalog-page/CatalogItem";
+import { fetchProductItem } from "@/app/lib/api/apiRequests";
 import { metaTagsValues } from "@/app/lib/seo/meta-tags-values";
 import { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: 'Каталог | Piramid',
-    description: `Ці товари можна замовити через кошик або зателефонувавши на номер ${metaTagsValues.config_telephone}. Жалюзі Харків, рулонні штори  ТВК Піраміда - Зручна компанія. Київ, Харків, Львів, Полтава, Миколаїв, Дніпро, Вінниця`,
-    keywords: [metaTagsValues.shop_name, 'Піраміда', 'Портал - жалюзі', 'горизонтальні', 'жалюзі вертикальні', 'тканинні ролети', 'рулонні штори', 'комплектуючі для жалюзі', 'кабінет дилера', 'жалюзи для дилерів', 'виробник жалюзі'],
-    openGraph: {
-        title: 'Каталог | Piramid | Пирамида ТПК',
-        description: 'Жалюзі Харків, рулонні штори  ТВК Піраміда - Зручна компанія. Київ, Харків, Львів, Полтава, Миколаїв, Дніпро, Вінниця',
-        type: 'website',
-        locale: 'uk_UA',
-        url: 'https://piramidspace.com/catalog',
-        siteName: 'Piramid | Пирамида ТПК ' + metaTagsValues.shop_name,
-        phoneNumbers: metaTagsValues.config_telephone
-    }
+type Props = {
+    params: {
+        itemId: string;
+    };
 };
 
-function CatalogItemPage({ params }: { params: { itemId: string } }) {
-    const productId = params.itemId;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const product = await fetchProductItem(params.itemId);
 
-    return (
-        <>
-            <CatalogItem itemId={productId} />
-        </>
-    )
+    if (!product) {
+        return {
+            title: 'Товар не знайдено',
+            description: 'На жаль, такий товар відсутній.',
+        };
+    }
 
+    return {
+        title: product.name,
+        description: product.technical_info.description || `Товар з каталогу Piramid`,
+        openGraph: {
+            title: product.name,
+            description: product.technical_info.description || '',
+            url: `https://piramidspace.com/catalog/${params.itemId}`,
+            type: 'website',
+            locale: 'uk_UA',
+            siteName: 'Piramid | Пирамида ТПК ' + metaTagsValues.shop_name,
+            images: [
+                {
+                    url: product.images_url[0] || '',
+                    width: 1200,
+                    height: 630,
+                    alt: product.name,
+                },
+            ],
+            phoneNumbers: metaTagsValues.config_telephone,
+        },
+    };
+}
+
+function CatalogItemPage({ params }: Props) {
+    return <CatalogItem itemId={params.itemId} />;
 }
 
 export default CatalogItemPage;
