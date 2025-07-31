@@ -1,21 +1,48 @@
 import Catalog from "@/app/components/catalog-page/Catalog";
+import { fetchCategories } from "@/app/lib/api/apiRequests";
 import { metaTagsValues } from "@/app/lib/seo/meta-tags-values";
 import { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: 'Каталог | Piramid',
-    description: `Ці товари можна замовити через кошик або зателефонувавши на номер ${metaTagsValues.config_telephone}. Жалюзі Харків, рулонні штори  ТВК Піраміда - Зручна компанія. Київ, Харків, Львів, Полтава, Миколаїв, Дніпро, Вінниця`,
-    keywords: [metaTagsValues.shop_name, 'Піраміда', 'Портал - жалюзі', 'горизонтальні', 'жалюзі вертикальні', 'тканинні ролети', 'рулонні штори', 'комплектуючі для жалюзі', 'кабінет дилера', 'жалюзи для дилерів', 'виробник жалюзі'],
-    openGraph: {
-        title: 'Каталог | Piramid | Пирамида ТПК',
-        description: 'Жалюзі Харків, рулонні штори  ТВК Піраміда - Зручна компанія. Київ, Харків, Львів, Полтава, Миколаїв, Дніпро, Вінниця',
-        type: 'website',
-        locale: 'uk_UA',
-        url: 'https://piramidspace.com/catalog',
-        siteName: 'Piramid | Пирамида ТПК ' + metaTagsValues.shop_name,
-        phoneNumbers: metaTagsValues.config_telephone
-    }
+type Props = {
+    params: {
+        categoryId: string;
+    };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const categories = await fetchCategories();
+    const activeCategory = categories.find((category) => category.id === Number(params.categoryId));
+
+    if (!activeCategory) {
+        return {
+            title: 'Категорії не знайдено',
+            description: 'На жаль, такої категорії не знайдено.',
+        };
+    };
+
+    return {
+        title: activeCategory.name,
+        description: `Товари з категорії ${activeCategory.name}` || `Товари з каталогу Piramid`,
+        openGraph: {
+            title: '🛒' + activeCategory.name + '⬇️',
+            description: "Ознайомтесь з найкращими пропозиціями цієї категорії і обирайте те, що створене саме для вас. 🌟",
+            url: `https://piramidspace.com/catalog/${params.categoryId}/category`,
+            type: 'website',
+            locale: 'uk_UA',
+            siteName: '🔵 Piramidspace | Пирамида ТПК ' + metaTagsValues.shop_name,
+            // TO_DO
+            // images: [
+            //     {
+            //         url: product.images_url[0] || '',
+            //         width: 630,
+            //         height: 630,
+            //         alt: product.name,
+            //     },
+            // ],
+            phoneNumbers: metaTagsValues.config_telephone,
+        },
+    };
+}
 
 function CatalogItems({ params }: { params: { categoryId: string } }) {
     const activeCategoryId = params.categoryId;

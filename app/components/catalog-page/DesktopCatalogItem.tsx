@@ -12,6 +12,7 @@ import { motion, MotionProps } from "framer-motion"
 import { Description } from "../ui/catalog/Description"
 import TopProductIcon from "../ui/catalog/TopProductIcon"
 import { reverseDateValue } from "@/app/lib/utils/utils"
+import SaleValue from "../ui/catalog/SaleValue"
 
 interface IProps {
     productItem: Omit<IProductItem, 'price'> | IProductItem | null
@@ -40,7 +41,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
             tape_width,
             transparency,
             warranty,
-            water_resistance
+            water_resistance,
         }
     } = productItem;
     const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);

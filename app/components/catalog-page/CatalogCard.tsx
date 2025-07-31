@@ -68,10 +68,6 @@ export default function CatalogCard({ productItem }: IProps) {
                     className="min-w-full h-full object-cover group-hover:scale-105 duration-150"
                 />
 
-                {/* TO_DO!!! */}
-                {/* Price category field */}
-                {/* <PriceCategory priceCategory={priceCategory}/> */}
-
                 {/* Product info fields*/}
                 <div className={`absolute bottom-2 mobile:bottom-[11px] left-2 mobile:left-[11px] right-2 mobile:right-[11px] rounded-xl p-2 mobile:p-3 pt-1.5 mobile:pt-2  ${sort_order === 1 ? "bg-t-blue" : "bg-white"} flex flex-col items-start group-hover:shadow-xl duration-150`}>
                     {/* Collection name field*/}
@@ -91,19 +87,12 @@ export default function CatalogCard({ productItem }: IProps) {
                     {/* Product name field*/}
                     <p className={`mb-[18px] text-sm text-left mobile:text-xl font-bold  ${sort_order === 1 ? "text-white" : "text-t-blue-dark"}`}>{name}</p>
 
-                    {/* Cashback field (by condition) TO_DO*/}
-                    {/* {cashback === undefined ? null : <p className="absolute top-0 mobile:top-2 right-2 mobile:right-3">
-                        <CoinIcon />
-                    </p>} */}
-
                     {/* isInStock and label info fields*/}
                     <div className="w-full flex items-center justify-between">
                         <AvailabilityStatus
                             availability={availability}
                             blueTheme={sort_order === 1}
                         />
-                        {/* TO_DO!!! */}
-                        {/* <NewProduct label={label}/> */}
                     </div>
                 </div>
 
@@ -120,17 +109,6 @@ export default function CatalogCard({ productItem }: IProps) {
 };
 
 // UI elements
-
-// function SaleOffer({ sale }: { sale: string }) {
-//     return (
-//         <p className="absolute right-0 -top-5 mobile:-top-7 inline-flex h-[18px] mobile:h-[25px] w-[89px] mobile:w-[113px] pr-1.5 mobile:pr-[11px] rounded-[36px] bg-[#FFEFD1] text-xxs mobile:text-xs text-[#F79D15] font-bold items-center justify-end animate-bounce">
-//             <span className="absolute left-[5px] mobile:left-[7px] bottom-0.5 mobile:bottom-1">
-//                 <FireIcon />
-//             </span>
-//             Акція {parseFloat(sale)}%
-//         </p>
-//     )
-// }
 
 function AvailabilityStatus({ availability, blueTheme }: { availability: string, blueTheme: boolean }) {
     return (

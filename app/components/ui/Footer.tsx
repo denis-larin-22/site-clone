@@ -5,7 +5,7 @@ export default function Footer() {
     const linksList = [
         {
             icon: <TelegramIcon />,
-            link: 'https://t.me/pirservice_bot'
+            link: 'https://web.telegram.org/a/#6279586655'
         },
         {
             icon: <InstagramIcon />,
