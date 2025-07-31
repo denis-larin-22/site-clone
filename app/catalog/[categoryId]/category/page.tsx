@@ -20,6 +20,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         };
     };
 
+    const imageUrl = getCategoryImagePath(params.categoryId);
+
     return {
         title: activeCategory.name,
         description: `Товари з категорії ${activeCategory.name}` || `Товари з каталогу Piramid`,
@@ -30,18 +32,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             type: 'website',
             locale: 'uk_UA',
             siteName: '🔵 Piramidspace | Пирамида ТПК ' + metaTagsValues.shop_name,
-            // TO_DO
-            // images: [
-            //     {
-            //         url: product.images_url[0] || '',
-            //         width: 630,
-            //         height: 630,
-            //         alt: product.name,
-            //     },
-            // ],
+            images: [
+                {
+                    url: imageUrl || '',
+                    width: 630,
+                    height: 630,
+                    alt: activeCategory.name,
+                },
+            ],
             phoneNumbers: metaTagsValues.config_telephone,
         },
     };
+}
+
+function getCategoryImagePath(category: string) {
+    const path = 'https://piramidspace.com/assets/images/'
+
+    switch (category) {
+        case '1': return path + 'day-night.webp'
+        case '2': return path + 'roller-blinds.webp'
+        case '3': return path + 'horizontal-blinds.webp'
+        case '4': return path + 'vertical-blinds.webp'
+        case '5': return path + 'components.webp'
+        case '6': return path + 'promotional-items.webp'
+        default: return path + 'default-item.webp'
+    }
 }
 
 function CatalogItems({ params }: { params: { categoryId: string } }) {
