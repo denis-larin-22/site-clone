@@ -2,6 +2,7 @@ import Catalog from "@/app/components/catalog-page/Catalog";
 import { fetchCategories } from "@/app/lib/api/apiRequests";
 import { metaTagsValues } from "@/app/lib/seo/meta-tags-values";
 import { Metadata } from "next";
+import { Fragment } from "react";
 
 type Props = {
     params: {
@@ -65,10 +66,11 @@ function CatalogItems({ params }: { params: { categoryId: string } }) {
     const activeCategoryId = params.categoryId;
 
     return (
-        <>
+        <Fragment>
             <Catalog activeCategoryId={activeCategoryId} />
-        </>
+        </Fragment>
     )
 }
 
+// Check updates
 export default CatalogItems;
