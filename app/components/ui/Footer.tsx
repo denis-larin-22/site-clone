@@ -27,7 +27,7 @@ export default function Footer() {
     return (
         <footer className={openSansFont.className + " container mobile:px-[57px] py-5 border-t-1 border-[#A2A2A8] text-[#A2A2A8]"}>
             <div className="flex items-center justify-between">
-                <p>© 2024 ТОВ Пірамідспейс</p>
+                <p>© 2025 ТОВ Пірамідспейс</p>
                 <ul className="flex gap-x-3">
                     {
                         linksList.map((item, index) => (

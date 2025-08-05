@@ -3,8 +3,6 @@ import MainPage from "./(main)/MainPage";
 import Footer from "./components/ui/Footer";
 import Header from "./components/ui/Header";
 import { metaTagsValues } from "./lib/seo/meta-tags-values";
-import ChatSupport from "./components/ui/ChatSupport";
-import FeedbackForm from "./components/ui/feedback/FeedbackForm";
 
 export const metadata: Metadata = {
   title: 'Piramid | Пирамида ТПК | Головна ',
