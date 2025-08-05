@@ -1,5 +1,5 @@
 import Catalog from "@/app/components/catalog-page/Catalog";
-import { fetchCategories } from "@/app/lib/api/apiRequests";
+import { fetchCategories, SYSTEM_SALE_CATEGORY_ID, SYSTEM_TOP_CATEGORY_ID } from "@/app/lib/api/apiRequests";
 import { metaTagsValues } from "@/app/lib/seo/meta-tags-values";
 import { Metadata } from "next";
 
@@ -46,11 +46,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function getCategoryImagePath(category: number) {
-    const path = 'https://piramidspace.com/assets/images/'
+    const path = 'https://piramidspace.com/assets/images/categories-images/'
 
     switch (category) {
-        case 102: return path + 'top.webp'
-        case 101: return path + 'sale.webp'
+        case SYSTEM_TOP_CATEGORY_ID: return path + 'top.webp'
+        case SYSTEM_SALE_CATEGORY_ID: return path + 'sale.webp'
         case 1: return path + 'day-night.webp'
         case 2: return path + 'roller-blinds.webp'
         case 3: return path + 'horizontal-blinds.webp'
