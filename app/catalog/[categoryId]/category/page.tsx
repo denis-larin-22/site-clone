@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function getCategoryImagePath(category: number) {
-    const path = 'https://piramidspace.com/assets/images/categories-images/'
+    const path = 'https://piramidspace.com/assets/images/'
 
     switch (category) {
         case SYSTEM_TOP_CATEGORY_ID: return path + 'meta-images/category-top.webp'
