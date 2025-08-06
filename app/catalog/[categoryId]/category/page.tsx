@@ -1,9 +1,5 @@
 import Catalog from "@/app/components/catalog-page/Catalog";
-import {
-    fetchCategories,
-    SYSTEM_SALE_CATEGORY_ID,
-    SYSTEM_TOP_CATEGORY_ID
-} from "@/app/lib/api/apiRequests";
+import { fetchCategories, SYSTEM_SALE_CATEGORY_ID, SYSTEM_TOP_CATEGORY_ID } from "@/app/lib/api/apiRequests";
 import { metaTagsValues } from "@/app/lib/seo/meta-tags-values";
 import { Metadata } from "next";
 
@@ -22,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             title: 'Категорії не знайдено',
             description: 'На жаль, такої категорії не знайдено.',
         };
-    }
+    };
 
     const imageUrl = getCategoryImagePath(activeCategory.id);
 
@@ -38,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             siteName: '🔵 Piramidspace | Пирамида ТПК ' + metaTagsValues.shop_name,
             images: [
                 {
-                    url: imageUrl,
+                    url: imageUrl || '',
                     width: 630,
                     height: 630,
                     alt: activeCategory.name,
@@ -49,20 +45,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
 }
 
-function getCategoryImagePath(category: number): string {
-    const version = '1'; // меняй вручную при изменении изображений / версия - тригер на скидівание кеша и обновления изображения в Open Graph
-    const path = 'https://piramidspace.com/assets/images/meta-images/';
+function getCategoryImagePath(category: number) {
+    const path = 'https://piramidspace.com/assets/images/'
 
     switch (category) {
-        case SYSTEM_TOP_CATEGORY_ID: return path + 'top.webp?v=' + version;
-        case SYSTEM_SALE_CATEGORY_ID: return path + 'sale.webp?v=' + version;
-        case 1: return path + '../day-night.webp?v=' + version;
-        case 2: return path + '../roller-blinds.webp?v=' + version;
-        case 3: return path + '../horizontal-blinds.webp?v=' + version;
-        case 4: return path + '../vertical-blinds.webp?v=' + version;
-        case 5: return path + '../components.webp?v=' + version;
-        case 6: return path + '../promotional-items.webp?v=' + version;
-        default: return path + '../default-item.webp?v=' + version;
+        case SYSTEM_TOP_CATEGORY_ID: return path + 'meta-images/category-top.webp'
+        case SYSTEM_SALE_CATEGORY_ID: return path + 'meta-images/category-sale.webp'
+        case 1: return path + 'category-day-night.webp'
+        case 2: return path + 'category-roller-blinds.webp'
+        case 3: return path + 'category-horizontal-blinds.webp'
+        case 4: return path + 'category-vertical-blinds.webp'
+        case 5: return path + 'category-components.webp'
+        case 6: return path + 'category-promotional-items.webp'
+        default: return path + 'category-default-item.webp'
     }
 }
 
@@ -73,7 +68,7 @@ function CatalogItems({ params }: { params: { categoryId: string } }) {
         <>
             <Catalog activeCategoryId={activeCategoryId} />
         </>
-    );
+    )
 }
 
 export default CatalogItems;

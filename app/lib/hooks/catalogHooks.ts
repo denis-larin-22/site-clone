@@ -80,31 +80,31 @@ function getCategoriesImages(categoriesList: ICategory[]): CategoriesListWithIma
 
         switch (category.id) {
             case 1:
-                path = "/assets/images/day-night.webp";
+                path = "/assets/images/category-day-night.webp";
                 break;
             case 2:
-                path = "/assets/images/roller-blinds.webp";
+                path = "/assets/images/category-roller-blinds.webp";
                 break;
             case 3:
-                path = "/assets/images/horizontal-blinds.webp";
+                path = "/assets/images/category-horizontal-blinds.webp";
                 break;
             case 4:
-                path = "/assets/images/vertical-blinds.webp";
+                path = "/assets/images/category-vertical-blinds.webp";
                 break;
             case 5:
-                path = "/assets/images/components.webp";
+                path = "/assets/images/category-components.webp";
                 break;
             case 6:
-                path = "/assets/images/promotional-items.webp";
+                path = "/assets/images/category-promotional-items.webp";
                 break;
             case SYSTEM_SALE_CATEGORY_ID:
-                path = "/assets/images/sale.webp";
+                path = "/assets/images/category-sale.webp";
                 break;
             case SYSTEM_TOP_CATEGORY_ID:
-                path = "/assets/images/top.webp";
+                path = "/assets/images/category-top.webp";
                 break;
             default:
-                path = "/assets/images/default-item.webp";
+                path = "/assets/images/category-default-item.webp";
         }
 
         return {
