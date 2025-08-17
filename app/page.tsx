@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'uk_UA',
     url: 'https://piramidspace.com/',
-    siteName: 'Piramid | Пирамида ТПК ' + metaTagsValues.shop_name,
+    siteName: 'Piramidspace | Пірамідспейс ' + metaTagsValues.shop_name,
     phoneNumbers: metaTagsValues.config_telephone
   }
 };
