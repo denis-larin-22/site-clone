@@ -29,7 +29,7 @@ function CatalogMenu() {
                 <motion.h1
                     initial={{ opacity: 0, x: 150 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 1, delay: 0.5 }}
+                    transition={{ duration: 0.3, delay: 0.2 }}
                     className="max-w-[942px] mt-5 text-xl mobile-xs:text-2xl mobile:text-[38px] xl:text-5xl leading-none font-bold uppercase "
                 >
                     {replaceOWithPaintedO(pageTitle, "black", "white")}
@@ -73,27 +73,31 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
     }, []);
 
     const getAnimInView = (isInView: boolean, elementIndex: number) => {
-        const transition = "all 1s cubic-bezier(0.17, 0.55, 0.55, 1) 0.1s"
+        const transition = "all 0.4s cubic-bezier(0.17, 0.55, 0.55, 1) 0.1s"
         const styles = [
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : 45,
                 translateY: isInView ? 0 : '500px',
                 translateX: isInView ? 0 : '-100px',
                 transition,
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : -45,
                 translateY: isInView ? 0 : '200px',
                 translateX: isInView ? 0 : '600px',
                 transition
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : 50,
                 translateY: isInView ? 0 : '-450px',
                 translateX: isInView ? 0 : '200px',
                 transition
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : -15,
                 translateY: isInView ? 0 : '50px',
                 translateX: isInView ? 0 : '-500px',
@@ -159,7 +163,7 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
                                 {/* Blue glass effect */}
                                 <div style={{
                                     background: isInView ? "transparent" : "#3372F9",
-                                    transition: "all 1s 1.5s"
+                                    transition: "all 0.5s 0.4s"
                                 }}
                                     className="rounded-[14px] absolute top-0 bottom-0 left-0 right-0 overflow-hidden after:block after:w-full after:h-full after:top-0 after:left-0 after:bg-t-blue after:bg-opacity-0 group-hover:after:bg-opacity-50 after:duration-250"
                                 ></div>

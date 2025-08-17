@@ -28,7 +28,7 @@ export default function BecomeDealer() {
     const generateAnimationParams = (delay: number) => ({
         initial: { opacity: 0, y: -20, rotateX: 40 },
         animate: { opacity: 1, y: 0, rotateX: 0 },
-        transition: { duration: 1, delay },
+        transition: { duration: 0.3, delay },
     });
 
     return (

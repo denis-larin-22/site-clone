@@ -18,7 +18,7 @@ function TopProductIcon({ className = "" }: IProps) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.3, ease: "easeOut", delay: 0.6 }}
-            className={className}
+            className={"w-16 h-16 md:w-28 md:h-28 " + className}
         >
             <motion.div
                 animate={{
@@ -34,8 +34,8 @@ function TopProductIcon({ className = "" }: IProps) {
                 <Image
                     alt="Top product"
                     src="/assets/images/top-product.png"
-                    width={80}
-                    height={80}
+                    width={100}
+                    height={100}
                 />
             </motion.div>
         </motion.div>

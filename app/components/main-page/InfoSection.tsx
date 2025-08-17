@@ -47,7 +47,7 @@ function Info({ componentContent }: { componentContent: IInfoSectionContent }) {
                 className="bg-t-blue rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
                 initial={{ width: '0', height: '0' }}
                 animate={isInView && { width: '200%', height: '200%' }}
-                transition={{ duration: 0.7, delay: 0.3 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
             ></motion.div>
             <section className="container relative px-4 py-[35px] mobile:pt-[49px] mobile:pb-[43px] lg:py-[51px] xl:pt-[85px] xl:pb-[59px] min-h-fit mobile:min-h-[570px] grid grid-cols-1 lg:grid-cols-2 gap-[15px] mobile:gap-[25px] lg:gap-5 xl:gap-[14px]">
 
@@ -55,7 +55,7 @@ function Info({ componentContent }: { componentContent: IInfoSectionContent }) {
                     className="inline-block max-w-[306px] lg:m-auto text-t-pale uppercase text-[28px] mobile-xs:text-[38px] mobile:text-[48px] font-bold leading-none"
                     initial={{ opacity: 0 }}
                     animate={isInView && { opacity: 1 }}
-                    transition={{ duration: 0.4, delay: 0.7 }}
+                    transition={{ duration: 0.3, delay: 0.2 }}
                 >
                     {replaceOWithPaintedO(title, "#F6F5F8", "#3372F9")}
                 </motion.h5>
@@ -66,13 +66,13 @@ function Info({ componentContent }: { componentContent: IInfoSectionContent }) {
                         className="relative bg-white rounded-2xl h-[150px] mobile:h-[206px] overflow-hidden"
                         initial={{ opacity: 0 }}
                         animate={isInView && { opacity: 1 }}
-                        transition={{ duration: 0.4, delay: 0.4 + index * 0.3 }}
+                        transition={{ duration: 0.3, delay: 0.2 + index * 0.2 }}
                     >
                         <motion.p
                             className={`${openSansFont.className} absolute top-[9px] mobile:top-5 right-4 mobile:right-5 text-xl mobile-xs:text-2xl text-m-blue-dark`}
                             initial={{ opacity: 0, x: 50 }}
                             animate={isInView && { opacity: 1, x: 0 }}
-                            transition={{ duration: 0.4, delay: 0.6 + index * 0.2 }}
+                            transition={{ duration: 0.3, delay: 0.3 + index * 0.3 }}
                         >
                             {item.title}
                         </motion.p>
@@ -80,7 +80,7 @@ function Info({ componentContent }: { componentContent: IInfoSectionContent }) {
                             className="absolute -bottom-[18%] mobile-xs:-bottom-[14%] md:-bottom-[20%] lg:-bottom-[17%] left-[13px] text-[56px] mobile-xs:text-7xl mobile:text-[112px] md:text-[155px] lg:text-[112px] xl:text-[126px] font-bold text-t-blue uppercase"
                             initial={{ opacity: 0, y: 50, scale: 1.5 }}
                             animate={isInView && { opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.4, delay: 0.6 + index * 0.2 }}
+                            transition={{ duration: 0.3, delay: 0.4 + index * 0.2 }}
                         >
                             {item.text}
                         </motion.p>

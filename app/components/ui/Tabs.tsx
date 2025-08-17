@@ -11,9 +11,9 @@ const TAB_PAUSE_VALUE = 20; //seconds
 // Animation params for elements
 function generateAnimationParams(isInView: boolean, delay: number) {
     return {
-        initial: { opacity: 0, y: -50 },
+        initial: { opacity: 0, y: -30 },
         animate: isInView && { opacity: 1, y: 0 },
-        transition: { duration: 0.5, delay },
+        transition: { duration: 0.3, delay },
     }
 };
 
@@ -54,7 +54,7 @@ export function Tabs({ componentContent }: { componentContent: ITabsSectionConte
         <section ref={ref} className="container mt-[72px] mobile:mt-10 lg:mt-[90px] mb-10 lg:mb-14">
             <motion.h2
                 className="text-xl mobile-xs:text-2xl lg:text-[40px] mobile:text-center font-bold uppercase mb-[50px] mobile:mb-9 lg:mb-10 xl:mb-[60px]"
-                {...generateAnimationParams(isInView, 0.5)}
+                {...generateAnimationParams(isInView, 0.2)}
             >
                 {componentContent.title}
             </motion.h2>
@@ -94,7 +94,7 @@ function DesktopTabs({ tabsList, isInView, selectedTab, animationStarted, handle
         <div className="hidden md:flex flex-col items-center px-4">
             <motion.ul
                 className={`${openSansFont.className} w-fit pb-3 flex gap-x-7 text-base lg:text-xl border-b-3 border-[#D9D9D9]`}
-                {...generateAnimationParams(isInView, 0.4)}
+                {...generateAnimationParams(isInView, 0.3)}
             >
                 {tabsList.map((item, index) => (
                     <li
@@ -116,7 +116,7 @@ function DesktopTabs({ tabsList, isInView, selectedTab, animationStarted, handle
             </motion.ul>
 
             <motion.div
-                {...generateAnimationParams(isInView, 0.9)}
+                {...generateAnimationParams(isInView, 0.4)}
                 className="min-h-[1040px] lg:min-h-[650px] xl:min-h-[550px] mt-12 lg:mt-[93px]"
             >
                 <motion.article
@@ -164,7 +164,7 @@ function MobileTabs({ tabsList, isInView, selectedTab, animationStarted, handleT
         <div className="block md:hidden">
             <motion.nav
                 className="overflow-x-auto hide-scrollbar"
-                {...generateAnimationParams(isInView, 0.7)}
+                {...generateAnimationParams(isInView, 0.3)}
             >
                 <ul className={`${openSansFont.className} w-fit pb-[5px] flex gap-x-7 border-b-3 border-[#D9D9D9]`}>
                     {tabsList.map((item, index) => (
@@ -186,7 +186,7 @@ function MobileTabs({ tabsList, isInView, selectedTab, animationStarted, handleT
                     ))}
                 </ul>
             </motion.nav>
-            <motion.div {...generateAnimationParams(isInView, 0.9)} className="mt-9">
+            <motion.div {...generateAnimationParams(isInView, 0.4)} className="mt-9">
                 <motion.article
                     className="flex flex-col items-center gap-6 min-h-[780px] sm:min-h-[660px]"
                     key={selectedTab.tabTitle}

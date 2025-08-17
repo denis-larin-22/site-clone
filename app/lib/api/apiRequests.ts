@@ -31,7 +31,6 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
                     sale: item.price.sale,
                     date_on_sale: item.price.date_on_sale,
                     date_off_sale: item.price.date_off_sale,
-
                 },
                 category: {
                     id: item.category.id,
@@ -70,7 +69,7 @@ export async function fetchProductsList(): Promise<IProductItem[]> {
     }
 };
 
-export async function fetchProductItem(productId: string | number): Promise<Omit<IProductItem, 'price'> | null> {
+export async function fetchProductItem(productId: string | number): Promise<IProductItem | null> {
     try {
         const response = await fetch(`${BASE_URL}/api/cms/jaluji/products/${productId}`);
         if (!response.ok) {
@@ -112,6 +111,16 @@ export async function fetchProductItem(productId: string | number): Promise<Omit
                 max_width: data.technical_info.max_width,
                 max_height: data.technical_info.max_height,
                 max_area: data.technical_info.max_area,
+            },
+            price: {
+                price_1: data.price.price_1,
+                price_2: data.price.price_2,
+                price_3: data.price.price_3,
+                price_4: data.price.price_4,
+                price_5: data.price.price_5,
+                sale: data.price.sale,
+                date_on_sale: data.price.date_on_sale,
+                date_off_sale: data.price.date_off_sale,
             }
         }
     } catch (error) {

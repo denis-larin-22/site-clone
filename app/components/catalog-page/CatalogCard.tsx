@@ -53,8 +53,8 @@ export default function CatalogCard({ productItem }: IProps) {
                 {/* Top product icon */}
                 {(sort_order === 1) &&
                     <TopProductIcon
-                        className={`absolute left-0.5 mobile:left-1 z-10 w-12 h-12 md:w-fit md:h-fit ${sale ?
-                            "top-[52px] mobile:top-20"
+                        className={`absolute left-0.5 mobile:left-1 z-10 ${sale ?
+                            "top-[72px] mobile:top-20 md:top-28"
                             :
                             "top-1 "
                             }`}

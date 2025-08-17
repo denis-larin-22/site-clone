@@ -34,27 +34,31 @@ export function Carousel({ carouselList, isInView }: IProps) {
 function CarouselListDesktop({ carouselList, isInView }: IProps) {
     // Get spawn animation for each card
     const getAnimInViewDesktop = (isInView: boolean, elementIndex: number) => {
-        const transition = "all 1s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
+        const transition = "all 0.4s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2s"
         const styles = [
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : 45,
                 translateY: isInView ? 0 : '500px',
                 translateX: isInView ? 0 : '-100px',
                 transition,
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : -45,
                 translateY: isInView ? 0 : '200px',
                 translateX: isInView ? 0 : '600px',
                 transition
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : 50,
                 translateY: isInView ? 0 : '-450px',
                 translateX: isInView ? 0 : '200px',
                 transition
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : -15,
                 translateY: isInView ? 0 : '50px',
                 translateX: isInView ? 0 : '-500px',
@@ -124,24 +128,28 @@ function CarouselListTablet({ carouselList, isInView }: IProps) {
         const transition = "all 1s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
         const styles = [
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : -30,
                 translateY: isInView ? 0 : '-20%',
                 translateX: isInView ? 0 : '-90%',
                 transition,
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : 40,
                 translateY: isInView ? 0 : '60%',
                 translateX: isInView ? 0 : '-40%',
                 transition
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : 20,
                 translateY: isInView ? 0 : '-40%',
                 translateX: isInView ? 0 : '-70px',
                 transition
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : -45,
                 translateY: isInView ? 0 : '70%',
                 translateX: isInView ? 0 : '30%',
@@ -207,24 +215,28 @@ function CarouselListMobile({ carouselList, isInView }: IProps) {
         const transition = "all 1s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
         const styles = [
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : 30,
                 translateY: isInView ? 0 : '20px',
                 translateX: isInView ? 0 : '190px',
                 transition
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : -20,
                 translateY: isInView ? 0 : '-40px',
                 translateX: isInView ? 0 : '-190px',
                 transition,
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : -45,
                 translateY: isInView ? 0 : '50px',
                 translateX: isInView ? 0 : '200px',
                 transition
             },
             {
+                opacity: isInView ? 1 : 0,
                 rotate: isInView ? 0 : 45,
                 translateY: isInView ? 0 : '-10px',
                 translateX: isInView ? 0 : '-190px',

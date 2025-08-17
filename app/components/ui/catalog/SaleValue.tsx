@@ -14,7 +14,7 @@ export function SaleValue({ saleValue, className }: { saleValue: string, classNa
                 repeat: Infinity,
                 repeatDelay: 2
             }}
-            className={`w-9 h-9 md:w-16 md:h-16 flex justify-center items-center  bg-[#FFEFD1] rounded-full font-bold text-sm md:text-2xl text-t-orange ring-[3px] ring-t-orange ring-offset-2 border-2 border-t-orange/50 ${className || ''}`}
+            className={`w-14 h-14 md:w-[88px] md:h-[88px] flex justify-center items-center  bg-[#FFEFD1] rounded-full font-bold text-base md:text-3xl text-t-orange ring-[3px] ring-t-orange ring-offset-2 border-2 border-t-orange/50 ${className || ''}`}
         >
             {saleValue}%
         </motion.p>

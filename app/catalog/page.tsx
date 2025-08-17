@@ -3,7 +3,7 @@ import { metaTagsValues } from "../lib/seo/meta-tags-values";
 import CatalogMenu from "../components/catalog-page/CatalogMenu";
 
 export const metadata: Metadata = {
-    title: 'Каталог | Piramid',
+    title: 'Каталог | Piramidspace | Пірамідспейс',
     description: `Ці товари можна замовити через кошик або зателефонувавши на номер ${metaTagsValues.config_telephone}. Жалюзі Харків, рулонні штори  ТВК Піраміда - Зручна компанія. Київ, Харків, Львів, Полтава, Миколаїв, Дніпро, Вінниця`,
     keywords: [metaTagsValues.shop_name, 'Піраміда', 'Портал - жалюзі', 'горизонтальні', 'жалюзі вертикальні', 'тканинні ролети', 'рулонні штори', 'комплектуючі для жалюзі', 'кабінет дилера', 'жалюзи для дилерів', 'виробник жалюзі'],
     openGraph: {

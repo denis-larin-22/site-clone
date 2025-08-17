@@ -26,11 +26,10 @@ export default function VideoBanner() {
     return (
         <motion.div
             id="video"
-            // className="relative z-10 container mt-[76px] md:mt-[283px] lg:mt-[162px] xl:mt-[192px] mb-[72px] mobile:mb-10 lg:mb-[120px]" // Default
             className="relative z-20 container mt-[76px] md:mt-[283px] lg:mt-[162px] xl:mt-[192px] mb-[72px] mobile:mb-10 lg:mb-[120px]"
-            initial={{ y: 50, rotateX: 45, opacity: 0 }}
-            animate={{ y: 0, rotateX: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            initial={{ y: 70, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.3 }}
         >
             <a href="#video" className="group absolute z-20 bottom-1/2 mobile:bottom-[75%] lg:bottom-[85%] -right-[10%] mobile:right-16">
                 {/* Desktop decor circle */}

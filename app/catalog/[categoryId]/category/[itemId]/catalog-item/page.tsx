@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             url: `https://piramidspace.com/catalog/${params.itemId}`,
             type: 'website',
             locale: 'uk_UA',
-            siteName: '🔵 Piramidspace | Пирамида ТПК ' + metaTagsValues.shop_name,
+            siteName: '🔵 Piramidspace | Пірамідспейс ' + metaTagsValues.shop_name,
             images: [
                 {
                     url: product.images_url[0] || '',

@@ -15,7 +15,7 @@ import { reverseDateValue } from "@/app/lib/utils/utils"
 import SaleValue from "../ui/catalog/SaleValue"
 
 interface IProps {
-    productItem: Omit<IProductItem, 'price'> | IProductItem | null
+    productItem: IProductItem | null
 }
 
 function DesktopCatalogItem({ productItem }: IProps) {
@@ -42,6 +42,11 @@ function DesktopCatalogItem({ productItem }: IProps) {
             transparency,
             warranty,
             water_resistance,
+        },
+        price: {
+            date_off_sale,
+            date_on_sale,
+            sale
         }
     } = productItem;
     const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
@@ -131,6 +136,7 @@ function DesktopCatalogItem({ productItem }: IProps) {
                 />
 
                 {/* Top product icon */}
+                {sale === null ? null : <SaleValue saleValue={sale} className="absolute top-24 -right-3" />}
                 {sort_order === 1 && <TopProductIcon className="absolute -top-5 -right-5" />}
 
                 <button onClick={onZoomed} className="w-[65px] h-[65px] absolute bottom-[30px] right-[30px] rounded-full bg-white flex items-center justify-center">

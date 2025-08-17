@@ -34,7 +34,7 @@ export default function HeroSection() {
                 <motion.div
                     initial={{ y: -15, opacity: 0, scale: 0.95 }}
                     animate={{ y: 0, opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.7 }}
+                    transition={{ duration: 0.3 }}
                     className="min-h-[320px] mobile-xs:min-h-[420px] md:min-h-40 font-bold text-[28px] mobile-xs:text-[38px] mobile:text-[40px] leading-[117%] mobile:leading-tight uppercase"
                 >
                     <h1 className="">{componentContent.staticText} <TypewriterEffect strings={componentContent.typewritingText} /></h1>
@@ -44,14 +44,14 @@ export default function HeroSection() {
                     <motion.span className="inline-block"
                         initial={{ rotateX: 90, opacity: 0 }}
                         animate={{ rotateX: 0, opacity: 1 }}
-                        transition={{ duration: 0.3, delay: 0.3 }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
                     >
                         <OrderDemoLink />
                     </motion.span>
                     <motion.span className="inline-block"
                         initial={{ x: 90, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.3, delay: 0.5 }}
+                        transition={{ duration: 0.3, delay: 0.3 }}
                     >
                         <ArrowLink />
                     </motion.span>

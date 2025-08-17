@@ -5,8 +5,8 @@ import BecomeDealer from "./BecomeDealer";
 import { metaTagsValues } from "../lib/seo/meta-tags-values";
 
 export const metadata: Metadata = {
-    title: 'Стати дилером | Piramid | ' + metaTagsValues.shop_name,
-    description: 'Стати дилером, ' + metaTagsValues.shop_name,
+    title: 'Стати дилером | Piramidspace | Пірамідспейс | ' + metaTagsValues.shop_name,
+    description: 'Стати дилером, ' + metaTagsValues.shop_name + ' 🔵 Автоматизуй продажі жалюзі — працюй із виробником. Дізнайся більше просто зараз. 🔽',
     openGraph: {
         title: 'Стати дилером | Piramid',
         description: 'Стати дилером, Пирамида ТПК',

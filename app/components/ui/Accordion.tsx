@@ -12,7 +12,7 @@ const ITEM_DELAY_VALUE = 15; // Seconds
 const generateAnimationParams = (isInView: boolean, delay: number) => ({
     initial: { opacity: 0, scale: 1.05 },
     animate: isInView && { opacity: 1, scale: 1 },
-    transition: { duration: 0.5, delay },
+    transition: { duration: 0.3, delay },
 });
 
 export function Accordion({ componentContent }: { componentContent: IAccordionSectionContent }) {
@@ -70,19 +70,19 @@ export function Accordion({ componentContent }: { componentContent: IAccordionSe
                 className="bg-m-blue-dark"
                 initial={{ height: 0 }}
                 animate={isInView && { height: 'fit-content' }}
-                transition={{ duration: 1, delay: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
             >
                 <div className="container px-4 py-[35px] mobile:pt-[76px] lg:pt-[53px] xl:pt-[69px] mobile:pb-[57px] flex flex-col items-center mobile:items-stretch gap-3">
                     <article className="flex justify-between">
                         <motion.h3
                             className="max-w-[460px] text-[28px] mobile-xs:text-[38px] mobile:text-[48px] lg:text-[52px] leading-tight font-bold uppercase"
-                            {...generateAnimationParams(isInView, 1.2)}
+                            {...generateAnimationParams(isInView, 0.5)}
                         >
                             {replaceOWithPaintedO(title, "white", "#2B2548")}
                         </motion.h3>
                         <motion.h4
                             className={`${openSansFont.className} max-w-[596px] text-xl hidden lg:inline`}
-                            {...generateAnimationParams(isInView, 1.4)}
+                            {...generateAnimationParams(isInView, 0.6)}
                         >
                             {text}
                         </motion.h4>
@@ -103,7 +103,7 @@ export function Accordion({ componentContent }: { componentContent: IAccordionSe
 
                     <motion.div
                         className="w-full flex justify-center min-[1025px]:justify-start gap-x-10"
-                        {...generateAnimationParams(isInView, 1.6)}
+                        {...generateAnimationParams(isInView, 0.7)}
                     >
                         <button
                             className="group"
@@ -139,7 +139,7 @@ function DesktopAccordion({ isInView, accordionList, activeItem, setActiveItem, 
     return (
         <motion.div
             className="hidden min-[1025px]:block min-h-[500px] xl:min-h-[550px] mt-[72px]"
-            {...generateAnimationParams(isInView, 1.6)}
+            {...generateAnimationParams(isInView, 0.7)}
         >
             <div className="flex items-center gap-8 h-fit">
                 <motion.ul layout className="max-w-[533px] xl:max-w-[634px] w-fit self-start">
@@ -201,14 +201,14 @@ function TabletAndMobileAccordion({ isInView, activeItem }: IMobileAccordionProp
     return (
         <motion.div
             className="flex min-[1025px]:hidden flex-col items-center justify-normal mobile:justify-around min-h-[560px] mobile:min-h-[800px]"
-            {...generateAnimationParams(isInView, 1.6)}
+            {...generateAnimationParams(isInView, 0.7)}
         >
             <div className="h-[350px] mobile:h-[530px] max-w-full mobile:max-w-[750px] flex items-center justify-center">
                 <motion.img
                     key={activeItem.title}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.3 }}
                     src={activeItem.image.src}
                     alt={activeItem.image.alt}
                     title={activeItem.image.alt}

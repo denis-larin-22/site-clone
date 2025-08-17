@@ -11,9 +11,10 @@ import { Description } from "../ui/catalog/Description";
 import { motion, MotionProps } from "framer-motion";
 import TopProductIcon from "../ui/catalog/TopProductIcon";
 import { reverseDateValue } from "@/app/lib/utils/utils";
+import SaleValue from "../ui/catalog/SaleValue";
 
 interface IProps {
-    productItem: Omit<IProductItem, 'price'> | IProductItem | null
+    productItem: IProductItem | null
 }
 
 function TabletMobileCatalogItem({ productItem }: IProps) {
@@ -41,6 +42,9 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
             transparency,
             warranty,
             water_resistance
+        },
+        price: {
+            sale
         }
     } = productItem;
 
@@ -93,7 +97,9 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
 
             <div className={`wrap absolute ${isHide ? 'bottom-12' : 'bottom-0'} left-0 right-0 p-0 mobile:p-9 duration-200`}>
                 {/* Top product icon */}
-                {sort_order === 1 && <TopProductIcon className="absolute -top-7 right-0" />}
+                {sort_order === 1 && <TopProductIcon className="absolute top-4 right-20 md:-top-16 md:-right-3 z-50" />}
+                {sale === null ? null : <SaleValue saleValue={sale} className="absolute top-5 right-2 md:top-14 md:right-2 z-50" />}
+
 
                 <ul className="flex gap-2.5 pl-5 mobile:pl-0">
                     {images_url.map((url, index) => {

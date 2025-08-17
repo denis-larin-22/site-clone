@@ -5,8 +5,8 @@ import OrderDemo from "./OrderDemo";
 import { metaTagsValues } from "../lib/seo/meta-tags-values";
 
 export const metadata: Metadata = {
-    title: 'Замовити демо | Piramid | ' + metaTagsValues.shop_name,
-    description: 'Замовити демо, ' + metaTagsValues.shop_name,
+    title: 'Замовити демо | Piramidspace | Пірамідспейс | ' + metaTagsValues.shop_name,
+    description: 'Замовити демо, ' + metaTagsValues.shop_name + ' 🔵 Автоматизуй продажі жалюзі — працюй із виробником. Дізнайся більше просто зараз. 🔽',
     openGraph: {
         title: 'Замовити демо | Piramid',
         description: 'Замовити демо, Пирамида ТПК',
