@@ -1,5 +1,10 @@
+'use client'
+
 import Link from "next/link";
 import Logo from "./logo/Logo";
+import Image from "next/image";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Header() {
     return (
@@ -24,7 +29,7 @@ export default function Header() {
                     <Logo />
 
                     <div className="flex items-center gap-x-3.5 font-semibold">
-                        <Link href={"/catalog"} className="group flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pr-3 hover:text-white">
+                        {/* <Link href={"/catalog"} className="group flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pr-3 hover:text-white">
                             <span
                                 className="-rotate-[33deg] opacity-0 group-hover:opacity-100 group-hover:rotate-[58deg] duration-250 inline-flex items-center justify-center h-10 w-10 rounded-full cursor-pointer pointer-events-none"
                             >
@@ -33,8 +38,28 @@ export default function Header() {
                                 </svg>
                             </span>
                             Каталог
-                        </Link>
-                        <Link href={"/become-dealer"} className="hidden md:inline text-m-blue-dark">Стати дилером</Link>
+                        </Link> */}
+
+                        <HeaderLink
+                            href="/catalog"
+                            text="Каталог"
+                            iconSrc="/assets/images/header/catalog-svg.svg"
+                        />
+
+                        <HeaderLink
+                            href="https://piramidspace.blogspot.com/"
+                            text="Блог"
+                            iconSrc="/assets/images/header/blog-svg.svg"
+                            iconSize={21}
+                        />
+
+                        <HeaderLink
+                            href="/become-dealer"
+                            text="Стати дилером"
+                            iconSrc="/assets/images/header/new-user-svg.svg"
+                            iconSize={21}
+                        />
+
                         <Link href={"/order-demo"} className="hidden md:inline bg-m-blue-green-gradient py-[7px] px-[18px] rounded-3xl text-white">Замовити демо</Link>
                     </div>
                 </nav>
@@ -53,3 +78,47 @@ function LoginLink() {
         </a>
     )
 }
+
+
+function HeaderLink({ href, text, iconSrc, iconSize = 32 }: { href: string, text: string, iconSrc: string, iconSize?: number }) {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <Link href={href}>
+            <div
+                className="hidden md:flex items-center text-m-blue-dark"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
+                <Image
+                    src={iconSrc}
+                    alt="Catalog logo"
+                    width={iconSize}
+                    height={iconSize}
+                />
+
+                <motion.div
+                    className="overflow-hidden ml-2"
+                    animate={{ width: isHovered ? "auto" : 0 }}
+                    initial={{ width: 0 }}
+                    transition={{ duration: 0.15 }}
+                >
+                    <AnimatePresence>
+                        {isHovered && (
+                            <motion.span
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ duration: 0.2 }}
+                                className="whitespace-nowrap text-t-blue"
+                            >
+                                {text}
+                            </motion.span>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
+            </div>
+        </Link>
+    );
+}
+

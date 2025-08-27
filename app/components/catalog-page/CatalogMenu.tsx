@@ -163,7 +163,7 @@ function CategoriesList({ categoriesList, productList }: { categoriesList: Categ
                                 {/* Blue glass effect */}
                                 <div style={{
                                     background: isInView ? "transparent" : "#3372F9",
-                                    transition: "all 0.5s 0.4s"
+                                    transition: "all 0.2s 0.3s"
                                 }}
                                     className="rounded-[14px] absolute top-0 bottom-0 left-0 right-0 overflow-hidden after:block after:w-full after:h-full after:top-0 after:left-0 after:bg-t-blue after:bg-opacity-0 group-hover:after:bg-opacity-50 after:duration-250"
                                 ></div>

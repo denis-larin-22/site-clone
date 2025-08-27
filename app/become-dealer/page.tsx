@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         type: 'website',
         locale: 'uk_UA',
         url: 'https://piramidspace.com/',
-        siteName: 'Piramid | Пирамида ТПК',
+        siteName: 'Piramidspace | Пірамідспейс',
         phoneNumbers: metaTagsValues.config_telephone
     }
 };
