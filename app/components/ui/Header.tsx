@@ -3,24 +3,15 @@
 import Link from "next/link";
 import Logo from "./logo/Logo";
 import Image from "next/image";
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Header() {
     return (
         <>
             <div id="header" className="relative z-40 bg-m-blue-dark mb-[18px] text-xs mobile:text-sm">
                 <nav className="max-w-[1272px] mx-auto px-4 py-[7px] text-white flex items-center">
-                    {/* Optional */}
-                    {/* <button className="flex items-center gap-x-2.5 py-1 px-[11px] bg-white rounded-3xl mr-2.5 text-m-blue-dark font-semibold">
-                        Дізнатись
-                        <FullArrowIcon />
-                    </button> */}
-                    <div className="w-full flex items-center justify-end">
-                        {/* Optional */}
-                        {/* <p className={`${openSansFont.className} hidden mobile-xs:inline`}>Нова колекція тканин <span className="hidden mobile:inline">на літо</span></p> */}
-                        <LoginLink />
-                    </div>
+                    <p className="text-xs text-center w-full">© 2025 ТОВ Пірамідспейс</p>
+                    {/* <LoginLink /> */}
                 </nav>
             </div>
 
@@ -28,39 +19,38 @@ export default function Header() {
                 <nav className="relative py-[13px] mobile:py-4 px-5 mobile:px-6 backdrop-blur-lg bg-white/40 rounded-[34px] flex items-center justify-between">
                     <Logo />
 
-                    <div className="flex items-center gap-x-3.5 font-semibold">
-                        {/* <Link href={"/catalog"} className="group flex items-center gap-2  hover:bg-t-blue duration-150 rounded-3xl pr-3 hover:text-white">
-                            <span
-                                className="-rotate-[33deg] opacity-0 group-hover:opacity-100 group-hover:rotate-[58deg] duration-250 inline-flex items-center justify-center h-10 w-10 rounded-full cursor-pointer pointer-events-none"
-                            >
-                                <svg width="16" height="21" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.4565 19.7035L13.2742 1.14709M13.2742 1.14709L4.45319 3.82839M13.2742 1.14709L14.9966 10.543" stroke="#F6F5F8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </span>
-                            Каталог
-                        </Link> */}
-
+                    <div className="flex items-center gap-x-1 md:gap-x-3.5 font-semibold relative -right-4 md:right-0">
                         <HeaderLink
                             href="/catalog"
                             text="Каталог"
                             iconSrc="/assets/images/header/catalog-svg.svg"
+                            iconSize={25}
                         />
 
                         <HeaderLink
                             href="https://piramidspace.blogspot.com/"
+                            linkTarget="_blank"
                             text="Блог"
                             iconSrc="/assets/images/header/blog-svg.svg"
-                            iconSize={21}
+                            iconSize={25}
                         />
 
                         <HeaderLink
                             href="/become-dealer"
                             text="Стати дилером"
                             iconSrc="/assets/images/header/new-user-svg.svg"
-                            iconSize={21}
+                            iconSize={25}
                         />
 
-                        <Link href={"/order-demo"} className="hidden md:inline bg-m-blue-green-gradient py-[7px] px-[18px] rounded-3xl text-white">Замовити демо</Link>
+                        <HeaderLink
+                            href="https://piramid.com.ua/formazakazajaluzy.html"
+                            linkTarget="_blank"
+                            text="Увійти в кабінет"
+                            iconSrc="/assets/images/header/log-in-svg.svg"
+                            iconSize={25}
+                        />
+
+                        {/* <Link href={"/order-demo"} className="hidden md:inline bg-m-blue-green-gradient py-[7px] px-[18px] rounded-3xl text-white">Замовити демо</Link> */}
                     </div>
                 </nav>
             </header>
@@ -80,44 +70,33 @@ function LoginLink() {
 }
 
 
-function HeaderLink({ href, text, iconSrc, iconSize = 32 }: { href: string, text: string, iconSrc: string, iconSize?: number }) {
-    const [isHovered, setIsHovered] = useState(false);
+function HeaderLink({ href, linkTarget = '_parent', text, iconSrc }: { href: string, linkTarget?: '_blank' | '_parent', text: string, iconSrc: string, iconSize?: number }) {
 
     return (
-        <Link href={href}>
-            <div
-                className="hidden md:flex items-center text-m-blue-dark"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-            >
-                <Image
-                    src={iconSrc}
-                    alt="Catalog logo"
-                    width={iconSize}
-                    height={iconSize}
-                />
+        <Link
+            href={href}
+            target={linkTarget}
+            className="group flex items-center gap-1 hover:bg-t-blue duration-150 p-1  rounded-xl"
+        >
 
-                <motion.div
-                    className="overflow-hidden ml-2"
-                    animate={{ width: isHovered ? "auto" : 0 }}
-                    initial={{ width: 0 }}
-                    transition={{ duration: 0.15 }}
-                >
-                    <AnimatePresence>
-                        {isHovered && (
-                            <motion.span
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 20 }}
-                                transition={{ duration: 0.2 }}
-                                className="whitespace-nowrap text-t-blue"
-                            >
-                                {text}
-                            </motion.span>
-                        )}
-                    </AnimatePresence>
-                </motion.div>
-            </div>
+            <Image
+                src={iconSrc}
+                alt="Catalog logo"
+                width={25}
+                height={25}
+                className="bg-transparent group-hover:bg-white p-1 rounded-lg duration-150"
+            />
+
+
+            <motion.span
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="hidden md:inline whitespace-nowrap text-t-blue group-hover:text-white relative top-[1px] duration-150"
+            >
+                {text}
+            </motion.span>
         </Link>
     );
 }
