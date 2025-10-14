@@ -46,7 +46,7 @@ export default function Header() {
                             <HeaderLink
                                 href="https://piramid.com.ua/formazakazajaluzy.html"
                                 linkTarget="_blank"
-                                text="Увійти в кабінет"
+                                text="Кабінет дилера"
                                 iconSrc="/assets/images/header/log-in-svg.svg"
                                 iconSize={25}
                             />
@@ -56,7 +56,7 @@ export default function Header() {
                             href={"https://piramid.com.ua/formazakazajaluzy.html"}
                             className="hidden md:inline bg-m-blue-green-gradient py-[7px] px-[18px] rounded-3xl text-white"
                         >
-                            Увійти в кабінет
+                            Кабінет дилера
                         </Link>
                     </div>
                 </nav>

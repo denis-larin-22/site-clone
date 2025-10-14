@@ -196,6 +196,9 @@ export async function sendFeedbackMail(userName: string, message: string, rating
     }
 }
 
+// Getting dollar rate
+
+
 //////////// UTILS /////////////////////
 function getAvailabilityStatus(availabilityValue: string) {
     let resultValue = availabilityValue;

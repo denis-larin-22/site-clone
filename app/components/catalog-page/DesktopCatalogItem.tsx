@@ -7,7 +7,6 @@ import { CloseIcon, ZoomIcon } from "../assets/icons"
 import Image from "next/image"
 import ImageWithLoader from "../ui/ImageWithLoader"
 import { openSansFont } from "../ui/fonts"
-import Link from "next/link"
 import { motion, MotionProps } from "framer-motion"
 import { Description } from "../ui/catalog/Description"
 import TopProductIcon from "../ui/catalog/TopProductIcon"
@@ -15,10 +14,11 @@ import { reverseDateValue } from "@/app/lib/utils/utils"
 import SaleValue from "../ui/catalog/SaleValue"
 
 interface IProps {
-    productItem: IProductItem | null
+    productItem: IProductItem | null,
+    priceValue: number | null
 }
 
-function DesktopCatalogItem({ productItem }: IProps) {
+function DesktopCatalogItem({ productItem, priceValue }: IProps) {
     if (productItem === null) return null;
 
     const DEFAULT_IMAGE = "https://api.piramidspace.com/storage/default.jpg";
@@ -46,9 +46,11 @@ function DesktopCatalogItem({ productItem }: IProps) {
         price: {
             date_off_sale,
             date_on_sale,
-            sale
-        }
+            sale,
+            price_5
+        },
     } = productItem;
+
     const [selectedImage, setSelectedImage] = useState<string | null>(images_url[0]);
     const { isOpen: isZoomed, onOpen: onZoomed, onOpenChange: onZoomedChange } = useDisclosure();
 
@@ -69,6 +71,8 @@ function DesktopCatalogItem({ productItem }: IProps) {
             transition={{ duration: 0.4 }}
             className="relative z-20 my-20 max-w-[1048px] h-[540px] p-10 pt-[60px] mx-auto hidden tablet:flex items-center justify-between bg-[#FAFAFA]  rounded-[26px]"
         >
+            <BackButton className="absolute -top-[65px] left-0" />
+
             <button
                 className="w-fit h-fit absolute right-5 top-5"
                 title="Назад до каталогу"
@@ -194,10 +198,17 @@ function DesktopCatalogItem({ productItem }: IProps) {
                     {/* Product name */}
                     <motion.h5
                         {...getMotionAttributes(0.2)}
-                        className="text-[32px] mt-3 mb-8"
+                        className="text-[32px] mt-3 mb-8 "
                     >
                         {name}
                     </motion.h5>
+
+
+                    <PriceString
+                        category={category.id}
+                        price5={price_5}
+                        priceValue={priceValue}
+                    />
 
                     {availability === "Закінчується" &&
                         low_stock_meters &&
@@ -318,3 +329,80 @@ function RemainderStockMeters({ lowStockMeters }: { lowStockMeters: string }) {
     )
 }
 
+function BackButton({ className = "" }: { className?: string }) {
+    return (
+        <button
+            className={`
+            group
+        flex items-center justify-center 
+        h-12 w-[100px] 
+        bg-white hover:bg-t-blue rounded-[26px] 
+        border-none cursor-pointer 
+        transition-all duration-75 ease-linear 
+        hover:-translate-y-[2px] 
+        hover:shadow-[9px_9px_33px_#d1d1d1,-9px_-9px_33px_#ffffff]
+        text-black hover:text-white text-sm ${className}`}
+            onClick={() => window.history.back()}
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                viewBox="0 0 1024 1024"
+                height="20"
+                width="20"
+                className="
+          mx-1 text-[20px] 
+          transition-all duration-200 ease-in 
+          group-hover:-translate-x-[5px] group-hover:text-[1.2em]
+          fill-black group-hover:fill-white
+        "
+            >
+                <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path>
+            </svg>
+            <span className="tracking-[1px]">Назад</span>
+        </button>
+    );
+};
+
+function PriceString({
+    category,
+    priceValue,
+    price5,
+}: {
+    category: number;
+    priceValue: number | null;
+    price5: string | null;
+}) {
+    let unitText = "";
+
+    if (category === 1 || category === 2) {
+        unitText = "за розмір (400 × 1400мм)";
+    } else if (category === 3 || category === 4) {
+        unitText = "за 1 м²";
+    }
+
+    return (
+        <motion.p
+            {...getMotionAttributes(0.2)}
+            className={`${openSansFont.className} text-lg mb-3 flex items-center gap-2`}
+        >
+            <span className="flex flex-col">
+                <span className="border-b-2 border-t-pale">
+                    <span className="opacity-50">₴</span> {priceValue} грн.
+                </span>
+                <span>
+                    <span className="opacity-50">$</span> {price5} у.од.
+                </span>
+            </span>
+
+            {unitText && (
+                <>
+                    <span className="text-3xl text-t-gray-text">/</span>
+                    <span className={`${openSansFont.className} text-base text-t-gray-text`}>
+                        {unitText}
+                    </span>
+                </>
+            )}
+        </motion.p>
+    );
+}

@@ -115,7 +115,7 @@ function getCategoriesImages(categoriesList: ICategory[]): CategoriesListWithIma
 };
 
 export function useProductItem(productId: string | number) {
-    const [productItem, setProductItem] = useState<IProductItem | IProductItem | null>(null);
+    const [productItem, setProductItem] = useState<IProductItem | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
