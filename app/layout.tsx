@@ -4,6 +4,7 @@ import { Providers } from "./providers";
 import { comfortaaFont } from "./components/ui/fonts";
 import FeedbackForm from "./components/ui/feedback/FeedbackForm";
 import ChatSupport from "./components/ui/ChatSupport";
+import SnowfallWrap from "./components/ui/themes/SnowfallWrap";
 
 export default function RootLayout({
   children,
@@ -70,6 +71,8 @@ export default function RootLayout({
           {children}
           <ChatSupport />
           <FeedbackForm />
+
+          {/* <SnowfallWrap /> */}
         </Providers>
       </body>
     </html>

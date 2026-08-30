@@ -60,8 +60,17 @@ function Instructions() {
           <p className={`${openSansFont.className} mb-5`}>
             Детальна покрокова інструкція для легкого встановлення ваших штор День-Ніч.
           </p>
-          <div className='mb-5 max-w-[650px] w-full min-h-[350px] rounded-2xl bg-white border-2 border-transparent hover:border-t-blue duration-250 flex items-center justify-center shadow-none hover:shadow-xl cursor-wait '>
-            <p className="text-t-gray-text font-medium">🎬 Відео готується...</p>
+          <div className='mb-5 max-w-[650px] w-full min-h-[350px] rounded-2xl bg-white border-2 border-transparent hover:border-t-blue duration-250 flex items-center justify-center shadow-none hover:shadow-xl cursor-pointer transition-all'>
+            <iframe
+              width="100%"
+              height="350"
+              src="https://www.youtube.com/embed/zWxw7oaeoj4"
+              title="Встановлення День-Ніч"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="rounded-2xl"
+            ></iframe>
           </div>
         </div>
 

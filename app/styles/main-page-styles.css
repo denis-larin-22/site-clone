@@ -1,0 +1,936 @@
+/* @import "tailwindcss"; */
+/* @import "tw-animate-css"; */
+/* @import "../vendor/shadcn-tailwind-4.13.0.css"; */
+
+:root {
+    --ink: #101d42;
+    --blue: #2768ff;
+    --mint: #08c8b0;
+    --soft: #f4f7fb;
+    --line: #dfe6f1
+}
+
+* {
+    box-sizing: border-box
+}
+
+html {
+    scroll-behavior: smooth
+}
+
+body {
+    margin: 0;
+    background: #fff;
+    color: var(--ink);
+    font-family: "Nunito Sans", "Segoe UI", Arial, sans-serif
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+.wrap {
+    width: min(1180px, calc(100% - 40px));
+    margin-inline: auto
+}
+
+.hero {
+    background: radial-gradient(circle at 72% 12%, #dfe8f7 0, transparent 32%), linear-gradient(135deg, #f9fbff, #eef3f9 60%, #fff);
+    padding-top: 18px;
+    overflow: hidden
+}
+
+.site-header {
+    height: 76px;
+    padding: 0 26px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    background: #fffffff2;
+    border: 1px solid #fff;
+    border-radius: 26px;
+    box-shadow: 0 18px 55px #1d2d4f1f;
+    position: relative;
+    z-index: 3
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 150px
+}
+
+.brand>span:last-child {
+    display: flex;
+    flex-direction: column;
+    line-height: 1
+}
+
+.brand b {
+    font-size: 20px;
+    letter-spacing: .04em
+}
+
+.brand small {
+    font-size: 8px;
+    letter-spacing: .48em;
+    margin-top: 4px;
+    color: #4d5b7d
+}
+
+.brand-mark {
+    width: 35px;
+    height: 30px;
+    position: relative;
+    display: block
+}
+
+.brand-mark i {
+    position: absolute;
+    width: 28px;
+    height: 9px;
+    border-radius: 9px 2px;
+    transform: skewX(-30deg)
+}
+
+.brand-mark i:nth-child(1) {
+    top: 2px;
+    left: 5px;
+    background: #236bff
+}
+
+.brand-mark i:nth-child(2) {
+    top: 10px;
+    left: 0;
+    background: #00cbb4
+}
+
+.brand-mark i:nth-child(3) {
+    top: 18px;
+    left: 7px;
+    background: #7357ff
+}
+
+.site-header nav {
+    display: flex;
+    justify-content: center;
+    gap: 29px;
+    flex: 1;
+    font-size: 13px;
+    font-weight: 700
+}
+
+.site-header nav a:hover {
+    color: var(--blue)
+}
+
+.dealer-button,
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    background: linear-gradient(100deg, var(--mint), var(--blue));
+    color: #fff;
+    border-radius: 14px;
+    padding: 13px 19px;
+    font-weight: 800;
+    font-size: 13px;
+    box-shadow: 0 10px 24px #2768ff2e
+}
+
+.menu-button {
+    display: none;
+    border: 0;
+    background: transparent;
+    color: var(--ink)
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    min-height: 485px;
+    align-items: center;
+    gap: 35px
+}
+
+.hero-copy {
+    padding: 70px 0 50px
+}
+
+.eyebrow {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--blue);
+    margin-bottom: 15px
+}
+
+.hero h1 {
+    font-size: 52px;
+    line-height: 1.02;
+    letter-spacing: -.045em;
+    margin: 0 0 20px
+}
+
+.hero h1 em {
+    font-style: normal;
+    color: var(--blue)
+}
+
+.hero-copy>p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: #53617f;
+    max-width: 570px
+}
+
+.hero-actions {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-top: 30px
+}
+
+.text-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 800
+}
+
+.hero-visual {
+    height: 410px;
+    position: relative;
+    border-radius: 44px 0 0 44px;
+    background: url('/hero-living-room.png') center/cover;
+    overflow: hidden;
+    box-shadow: 0 30px 80px #101d4229
+}
+
+.visual-note {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    padding: 12px 16px;
+    background: #ffffffe6;
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    font-size: 11px
+}
+
+.benefit-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    background: #fff;
+    border-radius: 26px 26px 0 0;
+    padding: 25px 28px;
+    position: relative;
+    z-index: 4;
+    box-shadow: 0 -8px 35px #101d420f
+}
+
+.benefit-strip>div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    color: #64708a
+}
+
+.benefit-strip svg {
+    width: 27px;
+    color: var(--blue)
+}
+
+.benefit-strip b {
+    color: var(--ink)
+}
+
+.content-section,
+.dealer-section {
+    padding-block: 88px
+}
+
+.section-heading {
+    margin-bottom: 34px
+}
+
+.section-heading h2 {
+    font-size: 34px;
+    letter-spacing: -.035em;
+    margin: 0 0 7px
+}
+
+.section-heading p {
+    margin: 0;
+    color: #6f7890
+}
+
+.section-heading.split {
+    display: flex;
+    align-items: end;
+    justify-content: space-between
+}
+
+.solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px
+}
+
+.solution-card {
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 14px 40px #1f2f5312;
+    transition: .25s
+}
+
+.solution-card:hover {
+    transform: translateY(-5px)
+}
+
+.solution-card .card-icon {
+    width: 42px;
+    height: 42px;
+    padding: 9px;
+    border-radius: 13px;
+    background: #e8fff9;
+    color: var(--mint)
+}
+
+.solution-card.blue .card-icon {
+    background: #eaf1ff;
+    color: var(--blue)
+}
+
+.solution-card.violet .card-icon {
+    background: #f0edff;
+    color: #7257ff
+}
+
+.solution-card h3 {
+    text-transform: uppercase;
+    font-size: 16px;
+    margin: 18px 0
+}
+
+.solution-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 22px;
+    display: grid;
+    gap: 9px;
+    color: #59647c;
+    font-size: 13px
+}
+
+.solution-card li {
+    display: flex;
+    gap: 8px
+}
+
+.solution-card li svg {
+    width: 15px;
+    flex: 0 0 15px;
+    color: #9aa6bd
+}
+
+.solution-card>a {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    gap: 8px
+}
+
+.solution-card>a svg {
+    width: 15px
+}
+
+.products-section {
+    padding-block: 78px;
+    background: var(--soft)
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px
+}
+
+.product-card {
+    background: #fff;
+    padding: 12px 12px 18px;
+    border-radius: 20px;
+    box-shadow: 0 12px 35px #1e315812
+}
+
+.product-card h3 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 12px;
+    margin: 14px 0 0
+}
+
+.product-art {
+    height: 170px;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    background: #dce3e8
+}
+
+.product-art span {
+    position: absolute;
+    inset: 12px 23px;
+    background: #626a72;
+    box-shadow: 0 10px 15px #0002
+}
+
+.product-art.alternating span {
+    background: repeating-linear-gradient(0deg, #565d64 0 19px, #e8ecee 20px 39px)
+}
+
+.product-art.solid span {
+    background: linear-gradient(110deg, #3e4750, #87919a)
+}
+
+.product-art.horizontal span {
+    background: repeating-linear-gradient(0deg, #67727d 0 4px, #c3cbd1 5px 9px)
+}
+
+.product-art.vertical span {
+    background: repeating-linear-gradient(90deg, #746b61 0 12px, #c2b8aa 13px 24px)
+}
+
+.product-art.pack span {
+    inset: 38px 28px;
+    background: #c29a67;
+    transform: perspective(120px) rotateX(4deg) rotateY(-8deg)
+}
+
+.dealer-section {
+    display: grid;
+    grid-template-columns: .85fr 1.15fr;
+    gap: 65px;
+    align-items: center
+}
+
+.dealer-copy h2 {
+    font-size: 39px;
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    margin: 0 0 20px
+}
+
+.dealer-copy p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: #64708a;
+    margin: 0 0 28px
+}
+
+.dashboard-card {
+    background: #fff;
+    border: 1px solid #dfe7f2;
+    border-radius: 28px;
+    padding: 18px;
+    box-shadow: 0 30px 70px #19305f24;
+    transform: rotate(1deg)
+}
+
+.dash-top {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid #e9edf3
+}
+
+.dash-top span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ccd4e1
+}
+
+.dash-top b {
+    margin-left: 12px;
+    font-size: 12px
+}
+
+.dash-body {
+    height: 270px;
+    display: flex
+}
+
+.dash-body aside {
+    width: 25%;
+    border-right: 1px solid #e9edf3;
+    padding: 22px 13px;
+    display: grid;
+    align-content: start;
+    gap: 13px
+}
+
+.dash-body aside i {
+    height: 8px;
+    border-radius: 9px;
+    background: #e5eaf2
+}
+
+.dash-main {
+    flex: 1;
+    padding: 25px
+}
+
+.dash-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 18px 0
+}
+
+.dash-stats span {
+    height: 57px;
+    border-radius: 10px;
+    background: linear-gradient(130deg, #eaf1ff, #f5f8ff)
+}
+
+.dash-table {
+    display: grid;
+    gap: 9px
+}
+
+.dash-table i {
+    height: 18px;
+    border-radius: 6px;
+    background: #eef2f7
+}
+
+.facts-section {
+    border-top: 1px solid var(--line);
+    padding: 35px 0
+}
+
+.facts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr)
+}
+
+.facts-grid>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border-right: 1px solid var(--line)
+}
+
+.facts-grid>div:last-child {
+    border: 0
+}
+
+.facts-grid b {
+    font-size: 25px;
+    color: var(--blue)
+}
+
+.facts-grid span {
+    font-size: 12px;
+    color: #6c7690
+}
+
+.cta-section {
+    background: linear-gradient(100deg, #06cbb1, #2869ff 61%, #7357ff);
+    color: #fff
+}
+
+.cta-inner {
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px
+}
+
+.cta-inner span {
+    font-size: 26px;
+    font-weight: 900
+}
+
+.cta-inner p {
+    margin: 7px 0 0;
+    opacity: .82;
+    font-size: 13px
+}
+
+.white-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    color: var(--blue);
+    font-weight: 900;
+    padding: 15px 22px;
+    border-radius: 14px;
+    white-space: nowrap
+}
+
+.footer {
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    gap: 30px
+}
+
+.footer p {
+    flex: 1;
+    color: #6e7890;
+    font-size: 13px
+}
+
+.footer>a {
+    font-weight: 800;
+    color: var(--blue)
+}
+
+@media(max-width:980px) {
+    .site-header nav {
+        display: none
+    }
+
+    .menu-button {
+        display: block
+    }
+
+    .site-header {
+        gap: 12px
+    }
+
+    .dealer-button {
+        margin-left: auto
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr
+    }
+
+    .hero-copy {
+        padding: 70px 0 10px
+    }
+
+    .hero-visual {
+        height: 360px;
+        border-radius: 32px
+    }
+
+    .benefit-strip {
+        grid-template-columns: repeat(3, 1fr)
+    }
+
+    .solutions-grid {
+        grid-template-columns: 1fr
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr)
+    }
+
+    .dealer-section {
+        grid-template-columns: 1fr
+    }
+
+    .facts-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px
+    }
+
+    .facts-grid>div:nth-child(2) {
+        border: 0
+    }
+}
+
+@media(max-width:620px) {
+    .wrap {
+        width: min(100% - 28px, 1180px)
+    }
+
+    .hero {
+        padding-top: 10px
+    }
+
+    .site-header {
+        height: 64px;
+        padding: 0 14px;
+        border-radius: 20px
+    }
+
+    .brand {
+        min-width: 0
+    }
+
+    .brand b {
+        font-size: 16px
+    }
+
+    .brand-mark {
+        transform: scale(.85)
+    }
+
+    .dealer-button {
+        font-size: 0;
+        padding: 11px
+    }
+
+    .hero-grid {
+        min-height: auto
+    }
+
+    .hero-copy {
+        padding: 55px 0 24px
+    }
+
+    .eyebrow {
+        font-size: 9px
+    }
+
+    .hero h1 {
+        font-size: 38px
+    }
+
+    .hero-copy>p {
+        font-size: 15px
+    }
+
+    .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 16px
+    }
+
+    .primary-button {
+        width: 100%;
+        padding: 15px
+    }
+
+    .text-button {
+        justify-content: center
+    }
+
+    .hero-visual {
+        height: 270px;
+        margin-right: -14px
+    }
+
+    .benefit-strip {
+        grid-template-columns: 1fr 1fr;
+        padding: 20px 16px
+    }
+
+    .benefit-strip>div:last-child {
+        grid-column: 1/-1
+    }
+
+    .content-section,
+    .dealer-section {
+        padding-block: 62px
+    }
+
+    .section-heading h2,
+    .dealer-copy h2 {
+        font-size: 30px
+    }
+
+    .section-heading.split {
+        align-items: flex-start;
+        gap: 22px;
+        flex-direction: column
+    }
+
+    .products-grid {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 14px
+    }
+
+    .product-card {
+        min-width: 210px
+    }
+
+    .dashboard-card {
+        transform: none
+    }
+
+    .facts-grid {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .facts-grid>div {
+        flex-direction: column;
+        text-align: center;
+        border: 0
+    }
+
+    .cta-inner {
+        padding-block: 32px;
+        flex-direction: column;
+        align-items: flex-start
+    }
+
+    .cta-inner span {
+        font-size: 23px
+    }
+
+    .white-button {
+        width: 100%;
+        justify-content: center
+    }
+
+    .footer {
+        padding-block: 30px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px
+    }
+
+    .footer p {
+        margin: 0
+    }
+}
+
+/* Щільніший ритм сторінки та більша читабельність тексту */
+body {
+    font-size: 16px
+}
+
+.site-header nav {
+    font-size: 14px
+}
+
+.hero-copy>p {
+    font-size: 18px
+}
+
+.benefit-strip>div {
+    font-size: 12px
+}
+
+.solution-card ul {
+    font-size: 14px
+}
+
+.product-card h3 {
+    font-size: 13px
+}
+
+.facts-grid span {
+    font-size: 13px
+}
+
+.cta-inner p {
+    font-size: 14px
+}
+
+@media(min-width:981px) {
+    .hero h1 {
+        font-size: 56px
+    }
+
+    .content-section,
+    .dealer-section {
+        padding-block: 72px
+    }
+
+    .products-section {
+        padding-block: 66px
+    }
+
+    .section-heading h2 {
+        font-size: 38px
+    }
+
+    .dealer-copy h2 {
+        font-size: 42px
+    }
+}
+
+@media(max-width:620px) {
+    .hero h1 {
+        font-size: 41px
+    }
+
+    .hero-copy>p {
+        font-size: 17px
+    }
+
+    .content-section,
+    .dealer-section {
+        padding-block: 52px
+    }
+
+    .products-section {
+        padding-block: 54px
+    }
+
+    .section-heading h2,
+    .dealer-copy h2 {
+        font-size: 33px
+    }
+
+    .solution-card ul {
+        font-size: 14px
+    }
+
+    .benefit-strip>div {
+        font-size: 12px
+    }
+}
+
+/* Узгодження нового макета з чинним проєктом Piramid Space */
+body {
+    font-family: "Comfortaa", "Segoe UI", Arial, sans-serif
+}
+
+.brand>img {
+    width: 57px;
+    height: 36px;
+    object-fit: contain
+}
+
+.brand-mark {
+    display: none
+}
+
+.footer-contacts {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue)
+}
+
+@media(max-width:620px) {
+    .brand>img {
+        width: 48px;
+        height: auto
+    }
+
+    .footer-contacts {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px
+    }
+}

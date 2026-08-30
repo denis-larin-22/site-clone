@@ -38,7 +38,6 @@ function FeedbackForm() {
     const [errors, setErrors] = useState({
         name: false,
         rating: false,
-        message: false
     });
 
     async function sendFeedback() {
@@ -61,7 +60,7 @@ function FeedbackForm() {
             setTimeout(() => { setSendingStatus({ ...sendingStatus, isVissible: false }) }, 3000)
         } else if (!hasErrors) {
             setSendingProcess(true);
-            const responseResult = await sendFeedbackMail(nameValue, messageValue, ratingValue, "piramidspace.com" + currentPath);
+            const responseResult = await sendFeedbackMail(nameValue, messageValue, ratingValue);
 
             // Check sending status
             if (responseResult?.success) {
@@ -152,7 +151,7 @@ function FeedbackForm() {
 
                         {/* <!-- Rating --> */}
                         <div
-                            className={`${errors.message ? "animate-appearance-in" : "animate-none"} flex justify-between mb-8`}
+                            className={`flex justify-between mb-8`}
                             onMouseLeave={() => setHoveredStar(formState.rating)}
                         >
                             {[1, 2, 3, 4, 5].map((ratingValue) => (
@@ -192,7 +191,7 @@ function FeedbackForm() {
                             <label htmlFor="messageText" className="text-base font-bold text-gray-900 ml-3">Що вас зацікавило найбільше?</label>
                             <textarea
                                 id="messageText"
-                                className={`${openSansFont.className} ${errors.message ? "ring-1 ring-t-red" : ""} w-full h-24 mt-2 bg-gray-200 text-gray-600 p-3 rounded-lg focus:outline-blue-600 placeholder-gray-400 mb-4 resize-none`}
+                                className={`${openSansFont.className} w-full h-24 mt-2 bg-gray-200 text-gray-600 p-3 rounded-lg focus:outline-blue-600 placeholder-gray-400 mb-4 resize-none`}
                                 placeholder="Допоможіть нам стати краще"
                                 value={formState.message}
                                 onChange={(e) => {
@@ -200,11 +199,10 @@ function FeedbackForm() {
                                         ...formState,
                                         message: e.target.value
                                     })
-                                    setErrors({ ...errors, message: false })
                                 }}
                             ></textarea>
                             {/* ERRORS MESSAGE */}
-                            {(errors.message || errors.name || errors.rating) && <p className={errorLabelStyles}><WarningIcon /> Заповніть усі поля та оберіть рейтинг</p>}
+                            {(errors.name || errors.rating) && <p className={errorLabelStyles}><WarningIcon /> Заповніть поле та оберіть рейтинг</p>}
                         </div>
 
                         {/* <!-- Buttons --> */}

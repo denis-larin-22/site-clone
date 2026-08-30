@@ -11,12 +11,13 @@ interface IProps {
     isLoading: boolean,
     activeCategory: number | null,
     categoriesList: ICategory[],
-    categoriesHandler: (categoryId: number) => void
+    categoriesHandler: (categoryId: number) => void,
+    isSaleCategoryVissible: boolean
 }
 
 type CategoriesListWithIcons = Array<ICategory & { iconSrc: string }>;
 
-export default function CategoryNavigation({ isLoading, activeCategory, categoriesList, categoriesHandler }: IProps) {
+export default function CategoryNavigation({ isLoading, activeCategory, categoriesList, categoriesHandler, isSaleCategoryVissible }: IProps) {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
     // Get icons for each category
@@ -49,9 +50,9 @@ export default function CategoryNavigation({ isLoading, activeCategory, categori
                 onMouseOver={() => setIsCollapsed(false)}
                 onMouseOut={() => setIsCollapsed(true)}
             >
-                <Link href={"/"}>
+                <Link href={"/"} className="absolute top-10">
                     {/* Default logo */}
-                    <span className="inline-block h-9 absolute top-7">
+                    <span className="inline-block h-9">
                         <Image
                             alt="Piramid logo"
                             src={"/assets/images/logo.svg"}
@@ -61,47 +62,77 @@ export default function CategoryNavigation({ isLoading, activeCategory, categori
                         />
                         <Image
                             alt="Piramid logo"
-                            src={"/assets/images/full_logo.png"}
+                            src={"/assets/images/full_logo.svg"}
                             width={203}
                             height={36}
                             className={`${isCollapsed ? 'hidden' : 'hidden tablet:inline ml-[18px] self-start'}`}
                         />
                     </span>
+
+                    {/* Christmas logo */}
+                    {/* <Image
+                        alt="Piramid logo"
+                        src={"/assets/images/themes/christmas-logo.png"}
+                        width={57}
+                        height={36}
+                        className={`${isCollapsed ? 'inline' : 'inline tablet:hidden'}`}
+                    />
+                    <span
+                        className={`${isCollapsed ? 'hidden' : 'hidden tablet:flex ml-[18px] self-start items-center'}`}
+                    >
+                        <Image
+                            alt="Piramid logo"
+                            src={"/assets/images/themes/christmas-logo.png"}
+                            width={57}
+                            height={36}
+                        />
+                        <Image
+                            src="/assets/images/logo-text.png"
+                            alt="Logo-text"
+                            width={112}
+                            height={30}
+                            className="w-fit mobile:w-[113px] h-[22px] mobile:h-[30px]"
+                        />
+                    </span> */}
                 </Link>
 
                 <nav className="flex flex-col items-start">
                     {!isLoading ?
-                        categoriesListWithIcons.map((category) => (
-                            <Link
-                                key={category.id}
-                                href={`/catalog/${category.id}/category`}
-                                onClick={() => categoriesHandler(category.id)}
-                                className={`group relative h-[60px] w-full p-[15px] rounded-xl text-lg font-bold ${activeCategory === category.id ? 'text-t-blue bg-white' : 'text-t-gray-text hover:text-t-blue'} flex items-center gap-x-[14px] hover:bg-white duration-150`}
-                            >
-                                <span className={activeCategory === category.id ? 'absolute top-1/2 -left-10 -translate-y-1/2 inline-block w-[22px] h-[39px] rounded-xl bg-t-blue' : 'hidden'}></span>
+                        categoriesListWithIcons.map((category) => {
+                            if (!isSaleCategoryVissible && category.name === "Акція") return null;
 
-                                {/* Icon TO_DO */}
-                                <span className={`inline-block max-w-7 max-h-7 ${activeCategory === category.id ? 'opacity-100 grayscale-0' : 'opacity-35 grayscale group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110'} duration-200`}>
-                                    <img
-                                        src={category.iconSrc}
-                                        alt="Category icon"
-                                        className="w-full h-full object-cover"
-                                    />
-                                </span>
-                                <AnimatePresence>
-                                    {!isCollapsed &&
-                                        <motion.span
-                                            initial={{ opacity: 0, x: '-25px' }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            exit={{ opacity: 0, x: '-10px' }}
-                                            transition={{ duration: 0.15 }}
-                                            className="hidden tablet:inline whitespace-nowrap"
-                                        >
-                                            {category.name}
-                                        </motion.span>}
-                                </AnimatePresence>
-                            </Link>
-                        ))
+                            return (
+                                <Link
+                                    key={category.id}
+                                    href={`/catalog/${category.id}/category`}
+                                    onClick={() => categoriesHandler(category.id)}
+                                    className={`group relative h-[60px] w-full p-[15px] rounded-xl text-lg font-bold ${activeCategory === category.id ? 'text-t-blue bg-white' : 'text-t-gray-text hover:text-t-blue'} flex items-center gap-x-[14px] hover:bg-white duration-150`}
+                                >
+                                    <span className={activeCategory === category.id ? 'absolute top-1/2 -left-10 -translate-y-1/2 inline-block w-[22px] h-[39px] rounded-xl bg-t-blue' : 'hidden'}></span>
+
+                                    {/* Icon TO_DO */}
+                                    <span className={`inline-block max-w-7 max-h-7 ${activeCategory === category.id ? 'opacity-100 grayscale-0' : 'opacity-35 grayscale group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110'} duration-200`}>
+                                        <img
+                                            src={category.iconSrc}
+                                            alt="Category icon"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </span>
+                                    <AnimatePresence>
+                                        {!isCollapsed &&
+                                            <motion.span
+                                                initial={{ opacity: 0, x: '-25px' }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                exit={{ opacity: 0, x: '-10px' }}
+                                                transition={{ duration: 0.15 }}
+                                                className="hidden tablet:inline whitespace-nowrap"
+                                            >
+                                                {category.name}
+                                            </motion.span>}
+                                    </AnimatePresence>
+                                </Link>
+                            )
+                        })
                         :
                         <Loader />
                     }

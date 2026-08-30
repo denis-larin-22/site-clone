@@ -13,6 +13,7 @@ import { Button } from '@nextui-org/react';
 import { useCategoriesList, useProductList } from '@/app/lib/hooks/catalogHooks';
 import Loader from '../ui/Loader';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import LogoChristmas from '../ui/themes/LogoChristmas';
 
 export interface IProductList {
     initList: IProductItem[],
@@ -43,6 +44,9 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
         initList: productListInit, // init catalog list
         listToRender: [] // edited list for rendering
     });
+
+    // Sale category vissible
+    const isSaleCategoryVissible = Boolean(productListInit.filter((product) => product.price.sale !== null).length);
 
     // Categories list and active category value
     const { categoriesList, isLoading: isCategoriesListLoading } = useCategoriesList(); // all categories
@@ -148,6 +152,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                 activeCategory={activeCategory}
                 categoriesList={categoriesList}
                 categoriesHandler={categoriesHandler}
+                isSaleCategoryVissible={isSaleCategoryVissible}
             />
 
             <div ref={catalogContainerRef} className="flex flex-col items-center flex-grow overflow-y-auto overflow-x-hidden ml-0 mobile:ml-24 p-3 mobile:py-[60px]">
@@ -160,6 +165,7 @@ export default function Catalog({ activeCategoryId }: { activeCategoryId: string
                             width={129}
                             height={25}
                         />
+                        {/* <LogoChristmas /> */}
                     </Link>
 
                     <Button

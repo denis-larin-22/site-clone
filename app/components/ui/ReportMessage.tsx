@@ -10,7 +10,7 @@ export function ReportMessage({ isSuccess, successMessage, errorMessage }: IProp
             <span className="text-2xl text-t-green mr-2">
                 {
                     isSuccess ?
-                        '✔'
+                        '✓'
                         :
                         '❌'
                 }

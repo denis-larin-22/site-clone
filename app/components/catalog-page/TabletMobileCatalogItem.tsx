@@ -12,6 +12,7 @@ import { motion, MotionProps } from "framer-motion";
 import TopProductIcon from "../ui/catalog/TopProductIcon";
 import { reverseDateValue } from "@/app/lib/utils/utils";
 import SaleValue from "../ui/catalog/SaleValue";
+import LogoChristmas from "../ui/themes/LogoChristmas";
 
 interface IProps {
     productItem: IProductItem | null
@@ -82,6 +83,9 @@ function TabletMobileCatalogItem({ productItem }: IProps) {
                 height={25}
                 className="inline mobile:hidden absolute z-10 top-[15px] right-5"
             />
+            {/* Christmas */}
+            {/* <LogoChristmas className="inline mobile:hidden absolute z-10 top-[15px] right-5" /> */}
+
 
             <div onClick={() => setIsHide(!isHide)}>
                 <ImageWithLoader

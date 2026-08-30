@@ -1,15 +1,16 @@
 'use client'
 
-import { validateEmail, validateTelNumber } from "@/app/lib/utils/utils";
+import { validateTelNumber } from "@/app/lib/utils/utils";
 import { FormEvent, useState } from "react";
 import { openSansFont } from "../fonts";
 import { AnimatePresence, motion } from "framer-motion";
 import { CircleDecoreIcon, WarningIcon } from "../../assets/icons";
-import emailjs from "@emailjs/browser";
 import { ReportMessage } from "../ReportMessage";
+import { IOrderDemoForm, sendOrderDealerRequest } from "@/app/lib/api/apiRequests";
+import Loader from "../Loader";
 
 export default function FormOrderDemo() {
-    const initFormState = {
+    const initFormState: IOrderDemoForm = {
         userName: "",
         userSurname: "",
         userEmail: "",
@@ -21,23 +22,20 @@ export default function FormOrderDemo() {
     const [formState, setFormState] = useState(initFormState);
     const [errors, setErrors] = useState({
         userName: false,
-        userSurname: false,
-        userEmail: false,
         userTelNumber: false,
     });
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     // Sending status message
     const [sendingStatus, setSendingStatus] = useState({
         isVissible: false,
         status: true
     });
 
-    const sendHandler = (e: FormEvent) => {
+    async function sendHandler(e: FormEvent) {
         e.preventDefault();
-        const { userName, userSurname, userEmail, userTelNumber } = formState;
+        const { userName, userTelNumber } = formState;
         const newErrors = {
             userName: !userName,
-            userSurname: !userSurname,
-            userEmail: !validateEmail(userEmail),
             userTelNumber: !validateTelNumber(userTelNumber),
         };
         setErrors(newErrors);
@@ -46,34 +44,28 @@ export default function FormOrderDemo() {
         if (hasErrors) {
             return;
         } else {
-            const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-            const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ORDER_DEMO_ID;
-            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+            setIsLoading(true);
 
-            if (serviceID && templateID && publicKey) {
-                emailjs.send(serviceID, templateID, formState, { publicKey: publicKey })
-                    .then(() => {
-                        setSendingStatus({ isVissible: true, status: true });
-                        setTimeout(() => {
-                            // Sending status pop-up
-                            setSendingStatus({ isVissible: false, status: true });
-                            // Clear form inputs
-                            setFormState(initFormState);
-                        }, 3000)
-                    })
-                    .catch((err) => {
-                        console.log('FAILED...', err);
-                        setSendingStatus({ isVissible: true, status: false });
-                        setTimeout(() => {
-                            setSendingStatus({ isVissible: false, status: true });
-                        }, 3000)
-                    })
-            } else {
-                console.log('No keys found for the request!');
+            try {
+                const response = await sendOrderDealerRequest(formState);
+
+                if (response?.success) {
+                    setSendingStatus({ isVissible: true, status: true });
+
+                    setTimeout(() => {
+                        setSendingStatus({ isVissible: false, status: true });
+                        setFormState(initFormState);
+                    }, 2500);
+                } else {
+                    setSendingStatus({ isVissible: true, status: false });
+                    setTimeout(() => setSendingStatus({ isVissible: false, status: true }), 3000);
+                }
+            } catch (err) {
+                console.error('FAILED sending Order demo form:', err);
                 setSendingStatus({ isVissible: true, status: false });
-                setTimeout(() => {
-                    setSendingStatus({ isVissible: false, status: true });
-                }, 3000)
+                setTimeout(() => setSendingStatus({ isVissible: false, status: true }), 3000);
+            } finally {
+                setIsLoading(false);
             }
         }
     }
@@ -109,6 +101,13 @@ export default function FormOrderDemo() {
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1, transition: { duration: 0.5, delay: 0.5 } }}
             >
+                {isLoading ?
+                    <motion.div className="absolute z-50 w-full h-full bg-[#00000030] rounded-[15px] flex items-center justify-center">
+                        <Loader />
+                    </motion.div>
+                    :
+                    null
+                }
                 <form className="relative z-10 bg-white py-[30px] px-4 md:p-[45px] lg:py-[22px] lg:px-[24px] xl:p-[22px] rounded-[15px] flex flex-col gap-y-[30px]" >
                     <div className="flex flex-col md:flex-row gap-y-6 gap-x-[5px]">
                         <div className="relative flex flex-col">
@@ -134,14 +133,12 @@ export default function FormOrderDemo() {
                                 required
                                 type="text"
                                 placeholder="Введіть своє прізвище"
-                                className={`${inputStyles} ${errors.userSurname ? errorStyles : ''}`}
+                                className={`${inputStyles}`}
                                 value={formState.userSurname}
                                 onChange={(e) => {
                                     setFormState({ ...formState, userSurname: e.target.value })
-                                    setErrors({ ...errors, userSurname: false })
                                 }}
                             />
-                            {errors.userSurname && <p className={errorLabelStyles}><WarningIcon /> Це поле є обов’язковим</p>}
                         </div>
                     </div>
                     <div className="relative flex flex-col">
@@ -151,14 +148,12 @@ export default function FormOrderDemo() {
                             required
                             type="email"
                             placeholder="Введіть свою пошту"
-                            className={`${inputStyles} ${errors.userEmail ? errorStyles : ''}`}
+                            className={`${inputStyles}`}
                             value={formState.userEmail}
                             onChange={(e) => {
                                 setFormState({ ...formState, userEmail: e.target.value })
-                                setErrors({ ...errors, userEmail: false })
                             }}
                         />
-                        {errors.userEmail && <p className={errorLabelStyles}><WarningIcon /> Введіть дійсну електронну адресу</p>}
                     </div>
                     <div className="relative flex flex-col">
                         <label htmlFor="userTelNumber" className={labelStyles}>Номер телефону</label>

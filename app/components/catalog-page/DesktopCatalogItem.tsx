@@ -388,10 +388,10 @@ function PriceString({
         >
             <span className="flex flex-col">
                 <span className="border-b-2 border-t-pale">
-                    <span className="opacity-50">₴</span> {priceValue} грн.
+                    <span className="opacity-50">₴</span> {priceValue ? priceValue.toFixed(2) : "-"} грн.
                 </span>
                 <span>
-                    <span className="opacity-50">$</span> {price5} у.од.
+                    <span className="opacity-50">$</span> {price5 ? Number(price5).toFixed(2) : "-"} у.од.
                 </span>
             </span>
 

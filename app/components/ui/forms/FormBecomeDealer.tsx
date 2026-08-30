@@ -6,23 +6,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import FirstFormBecomeDealer from "./FirstFormBecomeDealer";
 import SecondFormBecomeDealer from "./SecondFormBecomeDealer";
 import { CircleDecoreIcon } from "../../assets/icons";
-
-export interface IFormState {
-    userName: string;
-    userSurname: string;
-    companyName: string;
-    position: string;
-    userEmail: string;
-    userTelNumber: string;
-    cityActivity: string;
-    EDRPOUcode: string;
-    salePointsCount: string;
-    webSite: string;
-    userMessage: string;
-};
+import { IBecomeDealerForm } from "@/app/lib/api/apiRequests";
 
 export default function FormBecomeDealer() {
-    const initFormState: IFormState = {
+    const initFormState: IBecomeDealerForm = {
         userName: "",
         userSurname: "",
         companyName: "",

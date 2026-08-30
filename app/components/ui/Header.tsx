@@ -4,6 +4,7 @@ import Link from "next/link";
 import Logo from "./logo/Logo";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import LogoChristmas from "./themes/LogoChristmas";
 
 export default function Header() {
     return (
@@ -18,10 +19,11 @@ export default function Header() {
             <header className="container sticky z-50 top-2">
                 <nav className="relative py-[13px] mobile:py-4 px-5 mobile:px-6 backdrop-blur-lg bg-white/40 rounded-[34px] flex items-center justify-between">
                     <Logo />
+                    {/* <LogoChristmas /> */}
 
                     <div className="flex items-center gap-x-1 md:gap-x-3.5 font-semibold relative -right-4 md:right-0">
                         <HeaderLink
-                            href="/catalog"
+                            href="/catalog/102/category"
                             text="Каталог"
                             iconSrc="/assets/images/header/catalog-svg.svg"
                             iconSize={25}

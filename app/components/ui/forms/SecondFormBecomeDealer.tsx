@@ -1,20 +1,21 @@
 'use client'
 
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import { FormDecorations, IFormState } from "./FormBecomeDealer";
+import { FormDecorations } from "./FormBecomeDealer";
 import { openSansFont } from "../fonts";
-import emailjs from "@emailjs/browser";
 import { ReportMessage } from "../ReportMessage";
 import { AnimatePresence, motion } from "framer-motion";
+import { IBecomeDealerForm, sendDealerRequest } from "@/app/lib/api/apiRequests";
+import Loader from "../Loader";
 
 interface IFormProps {
     inputStyles: string,
     labelStyles: string,
     errorLabelStyles: string,
     errorStyles: string,
-    formState: IFormState,
-    initFormState: IFormState;
-    setFormState: Dispatch<SetStateAction<IFormState>>,
+    formState: IBecomeDealerForm,
+    initFormState: IBecomeDealerForm;
+    setFormState: Dispatch<SetStateAction<IBecomeDealerForm>>,
     isHovered: boolean,
     setIsHovered: Dispatch<SetStateAction<boolean>>;
     setToggleForm: Dispatch<SetStateAction<boolean>>
@@ -35,15 +36,12 @@ export default function SecondFormBecomeDealer({
         isVissible: false,
         status: true
     });
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const btnHandler = (e: FormEvent) => {
+    async function btnHandler(e: FormEvent) {
         e.preventDefault();
 
-        const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-        const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_BECOME_DEALER_ID;
-        const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-        const formData = {
+        const formData: IBecomeDealerForm = {
             userName: formState.userName,
             userSurname: formState.userSurname,
             companyName: formState.companyName,
@@ -57,34 +55,30 @@ export default function SecondFormBecomeDealer({
             userMessage: formState.userMessage
         }
 
-        if (serviceID && templateID && publicKey) {
-            emailjs.send(serviceID, templateID, formData, { publicKey: publicKey })
-                .then(() => {
-                    setSendingStatus({ isVissible: true, status: true });
-                    setTimeout(() => {
-                        // Sending status pop-up
-                        setSendingStatus({ isVissible: false, status: true });
-                        // Clear form inputs
-                        setFormState(initFormState);
-                        // Switch to first form
-                        setToggleForm(false);
-                    }, 3000)
-                })
-                .catch((err) => {
-                    console.log('FAILED...', err);
-                    setSendingStatus({ isVissible: true, status: false });
-                    setTimeout(() => {
-                        setSendingStatus({ isVissible: false, status: true });
-                    }, 3000)
-                })
-        } else {
-            console.log('No keys found for the request!');
+        setIsLoading(true);
+        try {
+            const response = await sendDealerRequest(formData);
+
+            if (response?.success) {
+                setSendingStatus({ isVissible: true, status: true });
+
+                setTimeout(() => {
+                    setSendingStatus({ isVissible: false, status: true });
+                    setFormState(initFormState);
+                    setToggleForm(false);
+                }, 2500);
+            } else {
+                setSendingStatus({ isVissible: true, status: false });
+                setTimeout(() => setSendingStatus({ isVissible: false, status: true }), 3000);
+            }
+        } catch (err) {
+            console.error('FAILED sending Become dealer form:', err);
             setSendingStatus({ isVissible: true, status: false });
-            setTimeout(() => {
-                setSendingStatus({ isVissible: false, status: true });
-            }, 3000)
+            setTimeout(() => setSendingStatus({ isVissible: false, status: true }), 3000);
+        } finally {
+            setIsLoading(false);
         }
-    };
+    }
 
     return (
         <>
@@ -108,6 +102,13 @@ export default function SecondFormBecomeDealer({
             </AnimatePresence>
             {/* Form */}
             <div className="relative w-full lg:w-[503px]">
+                {isLoading ?
+                    <motion.div className="absolute z-50 w-full h-full bg-[#00000030] rounded-[15px] flex items-center justify-center">
+                        <Loader />
+                    </motion.div>
+                    :
+                    null
+                }
                 <form className="relative z-10 bg-white py-[30px] px-4 md:p-[45px] lg:py-[22px] lg:px-[24px] xl:p-[22px] rounded-[15px] flex flex-col gap-y-[30px]" >
                     {/* City activity */}
                     <div className="relative flex flex-col">

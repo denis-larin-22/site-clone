@@ -3,6 +3,8 @@ import MainPage from "./(main)/MainPage";
 import Footer from "./components/ui/Footer";
 import Header from "./components/ui/Header";
 import { metaTagsValues } from "./lib/seo/meta-tags-values";
+import AppSection from "./(main)/AppSection";
+import AppLink from "./components/ui/appLink/AppLink";
 
 export const metadata: Metadata = {
   title: 'Piramidspace | Пірамідспейс | Головна ',
@@ -22,9 +24,11 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <MainPage />
-      <Footer />
+      <AppLink />
+      {/* <AppSection /> */}
+      {/* <Footer /> */}
     </>
   );
 }

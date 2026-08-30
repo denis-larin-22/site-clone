@@ -1,18 +1,19 @@
 'use client'
 
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import { FormDecorations, IFormState } from "./FormBecomeDealer";
-import { validateEmail, validateTelNumber } from "@/app/lib/utils/utils";
+import { FormDecorations } from "./FormBecomeDealer";
+import { validateTelNumber } from "@/app/lib/utils/utils";
 import { WarningIcon } from "../../assets/icons";
+import { IBecomeDealerForm } from "@/app/lib/api/apiRequests";
 
 interface IFormProps {
     inputStyles: string,
     labelStyles: string,
     errorLabelStyles: string,
     errorStyles: string,
-    formState: IFormState,
-    initFormState: IFormState;
-    setFormState: Dispatch<SetStateAction<IFormState>>,
+    formState: IBecomeDealerForm,
+    initFormState: IBecomeDealerForm;
+    setFormState: Dispatch<SetStateAction<IBecomeDealerForm>>,
     isHovered: boolean,
     setIsHovered: Dispatch<SetStateAction<boolean>>;
     setToggleForm: Dispatch<SetStateAction<boolean>>
@@ -31,8 +32,6 @@ export default function FirstFormBecomeDealer({
 }: IFormProps) {
     const [errors, setErrors] = useState({
         userName: false,
-        userSurname: false,
-        userEmail: false,
         userTelNumber: false,
     });
 
@@ -41,8 +40,6 @@ export default function FirstFormBecomeDealer({
         const { userName, userSurname, companyName, position, userEmail, userTelNumber, cityActivity, EDRPOUcode, salePointsCount, webSite, userMessage } = formState;
         const newErrors = {
             userName: !userName,
-            userSurname: !userSurname,
-            userEmail: !validateEmail(userEmail),
             userTelNumber: !validateTelNumber(userTelNumber),
         };
         setErrors(newErrors);
@@ -84,14 +81,12 @@ export default function FirstFormBecomeDealer({
                             id="userSurname"
                             type="text"
                             placeholder="Введіть своє прізвище"
-                            className={`${inputStyles} ${errors.userSurname ? errorStyles : ''}`}
+                            className={`${inputStyles}`}
                             value={formState.userSurname}
                             onChange={(e) => {
                                 setFormState({ ...formState, userSurname: e.target.value })
-                                setErrors({ ...errors, userSurname: false })
                             }}
                         />
-                        {errors.userSurname && defaultErrorMessage}
                     </div>
                 </div>
                 {/* Company name */}
@@ -128,14 +123,12 @@ export default function FirstFormBecomeDealer({
                         required
                         type="email"
                         placeholder="Введіть свою пошту"
-                        className={`${inputStyles} ${errors.userEmail ? errorStyles : ''}`}
+                        className={`${inputStyles}`}
                         value={formState.userEmail}
                         onChange={(e) => {
                             setFormState({ ...formState, userEmail: e.target.value })
-                            setErrors({ ...errors, userEmail: false })
                         }}
                     />
-                    {errors.userEmail && <p className={errorLabelStyles}><WarningIcon /> Введіть дійсну електронну адресу</p>}
                 </div>
                 {/* User tel. number */}
                 <div className="relative flex flex-col">

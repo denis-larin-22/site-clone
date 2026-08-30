@@ -170,34 +170,123 @@ export async function fetchCategories(): Promise<ICategory[]> {
 // FEEDBACK
 
 // Send mail
-export async function sendFeedbackMail(userName: string, message: string, rating: number, location: string) {
+export async function sendFeedbackMail(
+    userName: string,
+    message: string,
+    rating: number
+) {
     try {
-        const response = await fetch(`${BASE_URL}/api/cms/review`, {
+        const fullMessage = `Name: ${userName}\nMessage: ${message}`;
+
+        const url = new URL(`${BASE_URL}/api/cms/review`);
+        url.searchParams.append('message', fullMessage);
+        url.searchParams.append('rating', rating.toString());
+
+        const response = await fetch(url.toString(), {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Accept': 'application/json',
                 'Authorization': `Bearer ${process.env.NEXT_PUBLIC_FEEDBACK_MAIL_TOKEN}`,
             },
-            body: JSON.stringify({
-                message: "User name: " + userName + " Location: " + location + " /// Feedback text: " + message,
-                rating
-            }),
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(`HTTP ${response.status}: ${errorText}`);
         }
 
         const data = await response.json();
-        return data as { success: boolean }
+        return data as { success: boolean };
+
     } catch (error) {
-        console.error('Error sending feedback mail:', error);
+        console.error('Error sending feedback:', error);
         return null;
     }
 }
 
-// Getting dollar rate
+// BECOME DEALER
+export interface IBecomeDealerForm {
+    userName: string;
+    userSurname: string;
+    companyName: string;
+    position: string;
+    userEmail: string;
+    userTelNumber: string;
+    cityActivity: string;
+    EDRPOUcode: string;
+    salePointsCount: string;
+    webSite?: string;
+    userMessage: string;
+}
 
+type DealerResponse = { success: true } | null;
+
+export async function sendDealerRequest(data: IBecomeDealerForm): Promise<DealerResponse> {
+    try {
+        const response = await fetch(`${BASE_URL}/api/cms/dealer-request`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            return null;
+        }
+
+        const result = await response.json();
+
+        // Проверка структуру 
+        if (result && typeof result.success === 'boolean' && result.success) {
+            return { success: true };
+        }
+
+        return null;
+    } catch (error) {
+        console.error('Error sendig Become dealer form:', error);
+        return null;
+    }
+}
+
+// ORDER DEMO
+export interface IOrderDemoForm {
+    userName: string,
+    userSurname: string,
+    userEmail: string,
+    userTelNumber: string,
+    userMessage: string
+}
+
+type OrderDemoResponse = { success: true } | null;
+
+export async function sendOrderDealerRequest(data: IOrderDemoForm): Promise<OrderDemoResponse> {
+    try {
+        const response = await fetch(`${BASE_URL}/api/cms/demo-request`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            return null;
+        }
+
+        const result = await response.json();
+
+        // Проверка структуру 
+        if (result && typeof result.success === 'boolean' && result.success) {
+            return { success: true };
+        }
+
+        return null;
+    } catch (error) {
+        console.error('Error sendig Order demo:', error);
+        return null;
+    }
+}
 
 //////////// UTILS /////////////////////
 function getAvailabilityStatus(availabilityValue: string) {
